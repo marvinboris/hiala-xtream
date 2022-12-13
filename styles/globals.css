@@ -1,0 +1,8 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+
+@import './frontend/ui';
+@import './frontend/home';
+@import './frontend/video';
+
+@import 'tailwindcss/utilities';

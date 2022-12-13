@@ -1,0 +1,35 @@
+/* Publications */
+section#publications {
+    background-image: url('/images/bruno-van-der-kraan-v2HgNzRDfII-unsplash.jpg');
+    @apply relative bg-no-repeat bg-cover z-10 after:bg-primary-600/50 after:backdrop-blur-sm after:backdrop-filter after:absolute after:inset-0 after:-z-10;
+}
+
+section#publications .section-header-title {
+    @apply text-secondary-100;
+}
+
+section#publications .section-header-subtitle {
+    @apply text-secondary-50;
+}
+
+section#testimonials .section-header {
+    @apply lg:text-left;
+}
+
+/* Newsletter */
+section#newsletter {
+    background-image: url('/images/cathy-mu-UWFjqxYWAmA-unsplash.jpg');
+    @apply bg-cover bg-center relative z-10 after:absolute after:inset-0 after:bg-primary-50/80 after:backdrop-filter after:backdrop-blur-sm dark:after:bg-secondary-800/80 after:-z-10;
+}
+
+section#newsletter .section-header {
+    @apply lg:text-left text-primary-900 dark:text-inherit;
+}
+
+section#newsletter .section-header-title {
+    @apply text-primary-900 dark:text-white;
+}
+
+section#newsletter .section-body {
+    @apply lg:mt-0;
+}

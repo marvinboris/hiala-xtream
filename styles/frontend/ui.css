@@ -1,0 +1,141 @@
+html {
+    @apply scroll-smooth;
+}
+
+body {
+    @apply bg-white dark:bg-secondary-900 text-secondary-500 dark:text-secondary-400;
+}
+
+header, footer, main, section {
+    @apply transition-all duration-200;
+}
+
+.main-wrapper {
+    @apply flex-grow flex flex-col;
+}
+
+main.page-main>header {
+    @apply relative flex flex-col justify-end z-10 h-[314px] md:h-[330px] pb-6 after:absolute after:inset-0 after:bg-gradient-to-t after:from-primary-600 after:to-transparent after:-z-10;
+}
+
+main.page-main>header .bg-img {
+    @apply absolute inset-0 z-0 after:absolute after:inset-0 after:bg-gradient-to-t after:from-primary-600 after:to-transparent;
+}
+
+.section {
+    @apply py-20 sm:py-32;
+}
+
+main.page-main section {
+    @apply py-12 sm:py-20 !important;
+}
+
+.container {
+    @apply mx-auto px-4 sm:px-6 lg:px-8 max-w-none !important;
+}
+
+.page-title {
+    @apply text-3xl mt-10 mb-8 sm:text-4xl font-extrabold text-secondary-900 tracking-tight dark:text-secondary-200;
+}
+
+.app-section {
+    @apply mt-8 md:mt-10 xl:mt-12;
+}
+
+.app-section .app-section-title {
+    @apply text-secondary-900 text-xl tracking-tight font-bold mb-3 dark:text-secondary-200;
+}
+
+.carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.carousel {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    @apply px-3 sm:px-5 lg:px-7 whitespace-nowrap overflow-x-visible overflow-y-hidden mt-5 pb-5;
+}
+
+.landing-layer {
+    @apply mt-8 md:mt-10 xl:mt-12 pb-32;
+}
+
+.container .section-header {
+    @apply mx-auto md:text-center;
+}
+
+.container .section-header .section-header-title {
+    @apply text-3xl sm:text-4xl text-secondary-900 font-extrabold tracking-tight dark:text-secondary-50 transition-all duration-200;
+}
+
+.container .section-header .section-header-subtitle {
+    @apply mt-4 max-w-3xl mx-auto;
+}
+
+.container .section-body {
+    @apply mx-auto mt-16;
+}
+
+.container .section-subtitle {
+    @apply whitespace-pre-wrap font-bold text-2xl text-secondary-900 tracking-tight dark:text-secondary-50 mb-4;
+}
+
+.image-cover{
+    @apply w-full h-full object-cover;
+}
+
+.btn {
+    @apply inline-flex items-center justify-center rounded-full py-2 px-4 text-sm font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 transition-all duration-200;
+}
+
+.btn-block {
+    @apply block w-full text-center;
+}
+
+.btn-primary {
+    @apply bg-primary-600 text-white hover:text-secondary-100 hover:bg-primary-500 active:bg-primary-800 active:text-primary-100 focus-visible:outline-primary-600;
+}
+
+.btn-secondary {
+    @apply bg-secondary-600 text-white hover:text-secondary-100 hover:bg-secondary-500 active:bg-secondary-800 active:text-secondary-100 focus-visible:outline-secondary-600;
+}
+
+.form-group {
+    @apply mb-4;
+}
+
+.form-group label {
+    @apply block font-medium mb-2;
+}
+
+.form-group input {
+    @apply block w-full appearance-none rounded-md border border-secondary-200 bg-secondary-50 px-3 py-2 text-secondary-900 placeholder-secondary-400 focus:border-primary-600 focus:bg-white focus:outline-none focus:ring-primary-600 sm:text-sm;
+}
+
+.ratio {
+    @apply w-full relative before:block;
+}
+
+.ratio-1by1 {
+    @apply ratio before:pt-[100%];
+}
+
+.ratio-4by3 {
+    @apply ratio before:pt-[75%];
+}
+
+.ratio-16by9 {
+    @apply ratio before:pt-[56.25%];
+}
+
+.ratio-3by4 {
+    @apply ratio before:pt-[133.33%];
+}
+
+.ratio-5by7 {
+    @apply ratio before:pt-[140%];
+}
+
+.ratio-9by16 {
+    @apply ratio before:pt-[177.77%];
+}
