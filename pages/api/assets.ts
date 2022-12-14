@@ -1,5 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { createReadStream, createWriteStream, existsSync } from 'fs'
+import { createReadStream, createWriteStream, existsSync, mkdirSync } from 'fs'
 import stream from 'stream'
 import { promisify } from 'util'
 
@@ -18,14 +18,20 @@ export default async function handler(
         const pipeline = promisify(stream.pipeline)
 
         const parsedSrc = src.split('/')
-        const fileName = path.join(__dirname, 'public', 'files', parsedSrc[2], parsedSrc.filter((_, i) => i > 3).join('-'))
 
-        // if (!existsSync(fileName)) {
-        const downloadStream = got.stream(src)
-        const fileWriterStream = createWriteStream(fileName)
-        await pipeline(downloadStream, fileWriterStream)
-        // }
-        const readStream = createReadStream(fileName)
+        const directory = path.join(process.cwd(), 'public', 'files', parsedSrc[3])
+        const fileName = parsedSrc.filter((_, i) => i > 3).join('-')
+
+        const filePath = path.join(directory, fileName)
+
+        if (!existsSync(directory)) mkdirSync(directory)
+
+        if (!existsSync(filePath)) {
+            const downloadStream = got.stream(src)
+            const fileWriterStream = createWriteStream(filePath)
+            await pipeline(downloadStream, fileWriterStream)
+        }
+        const readStream = createReadStream(filePath)
 
         readStream.pipe(res)
     } catch (error) {
