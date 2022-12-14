@@ -4,21 +4,27 @@ import Link from 'next/link'
 import { ReactElement, useEffect } from 'react'
 
 import { NextPageWithLayout } from './_app'
-import { classNames } from '../app/helpers/utils'
-import { useAppDispatch, useAppSelector } from '../app/hooks'
+
 import { useCategoriesContext } from '../app/contexts/categories'
+
+import { classNames } from '../app/helpers/utils'
+
+import { useAppDispatch, useAppSelector } from '../app/hooks'
+
 import SeriesStreamType from '../app/types/series/stream'
 import Status from '../app/types/status'
 import StreamType from '../app/types/stream'
+
 import Layout, { Head } from '../components/frontend/navigation/Layout'
 import SeriesStream from '../components/frontend/ui/blocks/player/series/stream'
 import VodStream from '../components/frontend/ui/blocks/player/vod/stream'
 import View from '../components/frontend/ui/blocks/player/ui/view'
 import PageError from '../components/frontend/ui/page/error'
 import PageLoader from '../components/frontend/ui/page/loader'
+import LiveStream from '../components/frontend/ui/blocks/player/live/stream'
+
 import { selectAuth } from '../features/auth/authSlice'
 import { liveStreams, selectPlayer, seriesStreams, vodStreams } from '../features/player/playerSlice'
-import LiveStream from '../components/frontend/ui/blocks/player/live/stream'
 
 const params = {
   link: '/',
@@ -86,18 +92,18 @@ interface OnlineSectionProps {
 const Section = ({ title, content, wrapped, href }: OnlineSectionProps) => <section className={wrapped ? '' : "py-5"}>
   <div className="container flex items-center">
     <div className='relative pr-2.5 mr-2.5'>
-      <FilmIcon className='w-7 text-primary-600' />
-      <div className="bg-white/20 w-1.5 h-1.5 rounded-full absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2" />
+      <FilmIcon className='w-5 lg:w-7 text-primary-600' />
+      <div className="bg-white/20 w-1 lg:w-1.5 h-1 lg:h-1.5 rounded-full absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2" />
     </div>
     <div>
-      <h2 className="text-white font-bold text-[30px]">{title}</h2>
+      <h2 className="text-white font-bold text-xl lg:text-[30px]">{title}</h2>
     </div>
     <div className="ml-auto">
       <Link href={href}>
         <a className='inline-flex items-center group'>
-          <div className='text-white/30 mr-2.5 group-hover:text-white transition-all duration-200'>View All</div>
-          <div className='mr-1.5'><div className="rounded-full w-1.5 h-1.5 bg-white/40 group-hover:bg-white transition-all duration-200" /></div>
-          <div><ArrowRightIcon className='w-5 text-white' /></div>
+          <div className='text-white/30 mr-2.5 group-hover:text-white transition-all duration-200 text-sm lg:text-base'>View All</div>
+          <div className='mr-1.5'><div className="rounded-full w-1 lg:w-1.5 h-1 lg:h-1.5 bg-white/40 group-hover:bg-white transition-all duration-200" /></div>
+          <div><ArrowRightIcon className='w-3 lg:w-5 text-white' /></div>
         </a>
       </Link>
     </div>
@@ -128,7 +134,7 @@ const HomePage: NextPageWithLayout = () => {
   if (account) {
     // const renderVodStreamHeader = (vodStream: StreamType, index: number) => <VodStreamHeader key={`vod-stream-header-${vodStream.added}-${index}`} {...vodStream} />
     // const renderLiveCategory = (liveCategory: StreamCategoryType, index: number) => <LiveCategory key={`liveCategory-${liveCategory.id}-${index}`} {...liveCategory} />
-    const renderLiveStream = (liveStream: StreamType, index: number) => <div key={`live-stream-${liveStream.added}-${index}`} className='inline-block xl:w-[12.5%] xl:px-2'><LiveStream {...liveStream} /></div>
+    const renderLiveStream = (liveStream: StreamType, index: number) => <div key={`live-stream-${liveStream.added}-${index}`} className='inline-block w-1/3 sm:w-1/4 md:w-1/5 lg:1/6 xl:w-[12.5%] px-1 lg:px-2'><LiveStream {...liveStream} /></div>
     const renderVodStream = (vodStream: StreamType, index: number) => <VodStream key={`vod-stream-${vodStream.added}-${index}`} {...vodStream} />
     const renderSeriesStream = (seriesStream: SeriesStreamType, index: number) => <SeriesStream key={`series-stream-${seriesStream.id}-${index}`} {...seriesStream} />
 

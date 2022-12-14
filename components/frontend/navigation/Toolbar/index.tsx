@@ -1,24 +1,27 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Popover, Transition } from '@headlessui/react'
-import { BellIcon, ChatBubbleOvalLeftEllipsisIcon, HeartIcon, HomeIcon, MagnifyingGlassIcon, TvIcon } from '@heroicons/react/24/outline'
+import { Popover } from '@headlessui/react'
+import { BellIcon, HeartIcon, HomeIcon, MagnifyingGlassIcon, TvIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
-
-import Logo from '../../../ui/Logo'
-
-import NavItem from './NavItem'
-import Account from './Account'
 
 import { useThemeContext } from '../../../../app/contexts/theme'
 import { useAppSelector } from '../../../../app/hooks'
+import NavItemType from '../../../../app/types/nav-item'
 import Theme from '../../../../app/types/theme'
 
 import { selectAuth } from '../../../../features/auth/authSlice'
+
+import Logo from '../../../ui/Logo'
 import Input from '../../../ui/input'
 
-const navItemsContent = <>
-    <NavItem icon={HomeIcon} href="/" exact>Accueil</NavItem>
-    <NavItem icon={TvIcon} href="/chaines">Chaînes</NavItem>
-</>
+import Account from './Account'
+import NavItem from './NavItem'
+
+const navItems: NavItemType[] = [
+    { icon: HomeIcon, href: '/', exact: true, children: "Accueil" },
+    { icon: TvIcon, href: '/chaines', children: "Chaînes" },
+]
+
+const navItemsContent = navItems.map(item => <NavItem key={`nav-item-${item.href}`} {...item} />)
 
 export default function Toolbar() {
     const { setTheme } = useThemeContext()
@@ -39,7 +42,7 @@ export default function Toolbar() {
         <Popover className="sticky w-full top-0 z-30 bg-white dark:bg-secondary-900 backdrop-blur backdrop-filter">
             {({ close }) => <>
                 <div className="container">
-                    <div className="py-2 md:py-11">
+                    <div className="py-2 lg:py-11">
                         <div className='flex items-center justify-between'>
                             <div className="flex items-center">
                                 <Link href="/">
@@ -49,18 +52,18 @@ export default function Toolbar() {
                                     </a>
                                 </Link>
 
-                                <div className='ml-8'>
+                                <div className='hidden md:block ml-8'>
                                     <Input icon={MagnifyingGlassIcon} placeholder='Rechercher des films, séries et chaînes de télévision...' />
                                 </div>
                             </div>
 
                             <div className="flex items-center">
-                                <Popover.Group as="nav" className="hidden space-x-4 md:flex">
+                                <Popover.Group as="nav" className="hidden space-x-4 lg:flex">
                                     {navItemsContent}
                                 </Popover.Group>
                             </div>
 
-                            <div className='flex items-center space-x-[54px]'>
+                            <div className='flex items-center space-x-4 lg:space-x-[54px]'>
                                 {(((account !== null) && !account.bouquet) || (account === null)) && <div>
                                     <Link href="/bouquets">
                                         <a className="group inline-flex items-center justify-center rounded-full py-2 px-4 text-sm font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 bg-primary-600 text-white hover:text-secondary-100 hover:bg-primary-500 active:bg-primary-900 active:text-primary-100 focus-visible:outline-primary-600">
@@ -83,7 +86,7 @@ export default function Toolbar() {
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div className="cursor-pointer relative z-0 group after:block after:absolute after:w-[12.72px] after:h-[12.72px] after:rounded-full after:bg-primary-600 after:top-0 after:right-0">
                                         <BellIcon className="w-[31px]" />
 
@@ -117,12 +120,10 @@ export default function Toolbar() {
                                         </span>
                                     </button>
 
-                                    <Account />
+                                    <Account navItems={navItems} />
                                 </div>
                             </div>
                         </div>
-
-                        <div className="flex md:hidden mt-2 space-x-4">{navItemsContent}</div>
                     </div>
                 </div>
             </>}
