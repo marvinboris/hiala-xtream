@@ -14,13 +14,18 @@ interface ViewSeriesProps {
     series: SeriesStreamType
 }
 
+interface Plot {
+    episodes: SeriesEpisodeType[]
+    info: SeriesStreamType
+}
+
 const classNames = (...c: string[]) => c.join(' ')
 
-const EpisodePlot = ({ episodes }: { episodes: SeriesEpisodeType[] }) => <div className='space-y-4'>
+const EpisodePlot = ({ episodes, info }: Plot) => <div className='space-y-4'>
     {episodes.map(episode => <div key={`series-info-episode-${episode.id}`} className='flex'>
         <div className='mr-2 w-1/4 hidden md:block'>
             <div className="ratio-16by9 bg-secondary-800">
-                <img src={episode.stream.movie_propeties.movie_image} alt={episode.stream.stream_display_name} className="image-cover absolute inset-0" />
+                <img src={`/api/assets?src=${episode.stream.movie_propeties.movie_image || info.cover}`} alt={episode.stream.stream_display_name} className="image-cover absolute inset-0" />
             </div>
         </div>
 
@@ -36,10 +41,10 @@ const EpisodePlot = ({ episodes }: { episodes: SeriesEpisodeType[] }) => <div cl
     </div>)}
 </div>
 
-const NoEpisodePlot = ({ episodes }: { episodes: SeriesEpisodeType[] }) => <div className='grid gap-x-2 gap-y-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+const NoEpisodePlot = ({ episodes, info }: Plot) => <div className='grid gap-x-2 gap-y-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
     {episodes.map(episode => <div key={`series-info-episode-${episode.id}`}>
         <div className="ratio-16by9 bg-secondary-800">
-            <img src={episode.stream.movie_propeties.movie_image} alt={episode.stream.stream_display_name} className="image-cover absolute inset-0" />
+            <img src={`/api/assets?src=${episode.stream.movie_propeties.movie_image || info.cover}`} alt={episode.stream.stream_display_name} className="image-cover absolute inset-0" />
         </div>
 
         <div className="mt-2 text-white text-sm md:text-lg">Épisode {episode.sort}</div>
@@ -107,7 +112,7 @@ export default function ViewSeries({ series: info }: ViewSeriesProps) {
                 </div>
             </div>
 
-            {episodePlot ? <EpisodePlot episodes={episodes} /> : <NoEpisodePlot episodes={episodes} />}
+            {episodePlot ? <EpisodePlot episodes={episodes} info={info} /> : <NoEpisodePlot episodes={episodes} info={info} />}
         </div>
     </>
 }

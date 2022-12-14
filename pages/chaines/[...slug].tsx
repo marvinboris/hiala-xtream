@@ -140,7 +140,7 @@ const LiveStreamsPage: NextPageWithLayout = () => {
                         <div className="text-xl font-bold text-white">{info.stream_display_name}</div>
                         <div className="text-sm">{category_name}</div>
                     </div>
-                    <div className="ml-auto"><img src={info.stream_icon} alt="Stream Icon" className="h-12 object-center" /></div>
+                    <div className="ml-auto"><img src={`/api/assets?src=${info.stream_icon}`} alt="Stream Icon" className="h-12 object-center" /></div>
                 </header>
 
                 <div data-vjs-player>

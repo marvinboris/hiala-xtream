@@ -44,7 +44,7 @@ export default function View({ stream, action }: ViewProps) {
                             </nav>
                             <Dialog.Panel className="mx-auto max-w-5xl w-full relative bg-secondary-900">
                                 <div className="ratio-16by9 bg-secondary-800">
-                                    <img src={"cover" in stream ? stream.cover : stream.movie_propeties.cover_big} alt={name} className="image-cover absolute inset-0 z-0" />
+                                    <img src={`/api/assets?src=${"cover" in stream ? stream.cover : stream.movie_propeties.cover_big}`} alt={name} className="image-cover absolute inset-0 z-0" />
 
                                     <div className="absolute inset-0 flex items-center justify-center flex-col z-10 px-5 lg:px-10 text-center bg-secondary-900/50 text-secondary-100">
                                         <div className="hidden md:block text-3xl font-bold mb-6">Envie de regarder {name}?</div>
