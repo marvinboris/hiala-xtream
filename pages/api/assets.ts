@@ -20,13 +20,13 @@ export default async function handler(
         const parsedSrc = src.split('/')
         const fileName = path.join(__dirname, 'public', 'files', parsedSrc[2], parsedSrc.filter((_, i) => i > 3).join('-'))
 
-        if (!existsSync(fileName)) {
-            const downloadStream = got.stream(src)
-            const fileWriterStream = createWriteStream(fileName)
-            await pipeline(downloadStream, fileWriterStream)
-        }
+        // if (!existsSync(fileName)) {
+        const downloadStream = got.stream(src)
+        const fileWriterStream = createWriteStream(fileName)
+        await pipeline(downloadStream, fileWriterStream)
+        // }
         const readStream = createReadStream(fileName)
-        
+
         readStream.pipe(res)
     } catch (error) {
         handleError(res, error)
