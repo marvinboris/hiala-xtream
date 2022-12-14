@@ -40,7 +40,7 @@ const BorderedSection = ({ title, subtitle, description, more, href, data }: Off
   const dataContent = data?.map((item, index) => <div key={`section-${title}-stream-${item.id}`} className={index % 2 === 0 ? classNames('row-span-2', index === 0 ? 'order-2 md:order-4' : index === 2 ? "order-4 md:order-5" : index === 4 ? "order-6 md:order-8" : index === 6 ? "order-8 md:order-9" : "") : classNames(index === 1 ? "order-3 md:order-2" : index === 3 ? "order-5 md:order-3" : index === 5 ? "order-7 md:order-6" : index === 7 ? "order-9 md:order-7" : "")}>
     <div className={classNames(index % 2 === 0 ? "aspect-[3/4]" : "aspect-video", 'rounded relative overflow-hidden cursor-pointer')}>
       <View stream={item} action={<>
-        <img src={"cover" in item ? item.cover : item.movie_propeties.cover_big} alt="Stream image" className="image-cover absolute inset-0" />
+        <img src={`/api/assets?src=${"cover" in item ? item.cover : item.movie_propeties.cover_big}`} alt="Stream image" className="image-cover absolute inset-0" />
       </>} />
     </div>
   </div>)
@@ -163,7 +163,7 @@ const HomePage: NextPageWithLayout = () => {
   } else {
     content = <>
       <header className="h-[500px] relative bg-secondary-800 flex flex-col justify-end">
-        {series.streams.data && <img src={series.streams.data[0].cover} alt="BG Home" className='image-cover absolute inset-0' />}
+        {series.streams.data && <img src={`/api/assets?src=${series.streams.data[0].cover}`} alt="BG Home" className='image-cover absolute inset-0' />}
         <div className="container z-20 after:absolute after:inset-0 after:bg-gradient-to-t after:from-black after:to-transparent after:-z-10">
           <h2 className="mb-1 text-2xl text-white font-bold">Ne cherchez pas, vous ne trouverez pas + ailleurs</h2>
 

@@ -73,7 +73,13 @@ User.init({
         defaultValue: 1,
         key: "enabled",
     },
-    admin_notes: DataTypes.TEXT('medium'),
+    admin_notes: {
+        type: DataTypes.TEXT('medium'),
+        get() {
+            const rawValue = this.getDataValue('admin_notes') as string
+            return rawValue ? JSON.parse(rawValue) : null
+        },
+    },
     reseller_notes: DataTypes.TEXT('medium'),
     bouquet: {
         type: DataTypes.TEXT('medium'),

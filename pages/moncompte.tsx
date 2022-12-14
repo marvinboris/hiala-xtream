@@ -71,7 +71,9 @@ const MonComptePage: NextPageWithLayout = () => {
 
                     <Section title='Mes informations personnelles'>
                         <List>
-                            <ListItem label='Nom' value={data.username} />
+                            <ListItem label='Nom' value={data.admin_notes ? `${data.admin_notes.first_name} ${data.admin_notes.last_name}` : data.username} />
+                            {data.admin_notes ? <ListItem label='E-mail' value={data.admin_notes.email} /> : null}
+                            {data.admin_notes ? <ListItem label='Téléphone' value={data.admin_notes.phone} /> : null}
                         </List>
                     </Section>
 
@@ -80,6 +82,13 @@ const MonComptePage: NextPageWithLayout = () => {
                             {data.bouquet && <ListItem label='Bouquet' value={data.bouquet.map(b => b.bouquet_name).join(', ')} />}
                         </List>
                     </Section>
+
+                    {data.admin_notes ? <Section title='Mon compte'>
+                        <List>
+                            <ListItem label="Nom d'utilisateur" value={data.username} />
+                            <ListItem label="Mot de passe" value="Modifier" />
+                        </List>
+                    </Section> : null}
 
                     <div className="mt-5 mx-auto max-w-xs">
                         <button onClick={disconnect} className="btn btn-secondary btn-block">Déconnecter</button>

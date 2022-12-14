@@ -103,10 +103,11 @@ const LiveStreamsPage: NextPageWithLayout = () => {
         const player = playerRef.current;
 
         return () => {
-            if (player) {
+            if (player && !player.isDisposed()) {
                 player.dispose();
                 playerRef.current = null;
                 videoRef.current = null
+                videojs.log('player disposed')
             }
         };
     }, [playerRef]);

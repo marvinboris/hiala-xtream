@@ -41,7 +41,7 @@ const BouquetPage: NextPageWithLayout = () => {
 
     const channelsContent = data && liveCategories && liveCategories.map(category => {
         const category_channels = data.channels.filter(channel => channel.category_id === category.id).map(channel => <div key={`channel-${channel.id}`} className='rounded-sm bg-secondary-900 shadow-sm flex items-center space-x-2 p-2'>
-            <div><img src={channel.stream_icon} alt={channel.stream_display_name} className="w-10 h-10 object-contain" /></div>
+            <div><img src={`/api/assets?src=${channel.stream_icon}`} alt={channel.stream_display_name} className="w-10 h-10 object-contain" /></div>
 
             <div>{channel.stream_display_name}</div>
         </div>)

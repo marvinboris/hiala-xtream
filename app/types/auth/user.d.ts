@@ -8,7 +8,7 @@ export default interface UserType {
     exp_date: number | null
     admin_enabled: number
     enabled: number
-    admin_notes: string
+    admin_notes: { first_name: string, last_name: string, email: string, phone: string } | null
     reseller_notes: string
     bouquet: BouquetType[] | null
     max_connections: number
