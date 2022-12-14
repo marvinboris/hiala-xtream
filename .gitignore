@@ -14,7 +14,7 @@
 
 # production
 /build
-/public/files/*
+/public/files
 
 # misc
 .DS_Store
