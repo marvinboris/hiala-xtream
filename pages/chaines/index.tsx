@@ -37,8 +37,8 @@ const LivesPage: NextPageWithLayout = () => {
     <Head {...params} />
     {status === Status.LOADING ? <PageLoader /> : <main>
       <PageTitle icon={TvIcon} title="Chaînes" subtitle="Retrouvez toutes vos chaînes préférées.">
-        <div className='flex items-center space-x-9'>
-          <div>
+        <div className='flex items-center space-x-3 lg:space-x-9'>
+          <div className='hidden lg:block'>
             <Input type='search' name='search' icon={MagnifyingGlassIcon} onChange={e => setSearch(e.target.value)} value={search} className="bg-secondary-900" placeholder='Rechercher une chaîne...' />
           </div>
 

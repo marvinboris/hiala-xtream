@@ -155,7 +155,7 @@ const HomePage: NextPageWithLayout = () => {
         </div>
       </section> */}
 
-      <Section title="Activités récentes" content={vodStreamsContent} href='/historique' />
+      <Section title="Activités récentes" content={vodStreamsContent} href='/films' />
       <div className="container py-5">
         <div className="rounded-[25px] bg-secondary-800 py-6">
           <Section wrapped title="Chaînes populaires" content={liveStreamsContent} href='/chaines' />
