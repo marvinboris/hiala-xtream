@@ -187,7 +187,7 @@ const HomePage: NextPageWithLayout = () => {
         description='Les meilleures séries novelas et africaines et de grandes séries internationales à succès.'
         more='Toutes les séries TV+'
         href='/series'
-        data={series.streams.data.concat(...series.streams.data, ...series.streams.data, ...series.streams.data)}
+        data={series.streams.data}
       />}
 
       {vod.streams.data && <BorderedSection

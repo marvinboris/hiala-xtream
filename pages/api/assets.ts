@@ -1,5 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { createReadStream, createWriteStream, existsSync, mkdirSync } from 'fs'
+import { createReadStream, createWriteStream, existsSync, mkdirSync, rmSync } from 'fs'
+import path from 'path'
 import stream from 'stream'
 import { promisify } from 'util'
 
@@ -7,14 +8,15 @@ import got from 'got'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { handleError } from '../../app/helpers/utils'
-import path from 'path'
 
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<unknown | { error: string }>
 ) {
-    const src = req.query.src as string
     try {
+        if (!req.query.src) return res.end()
+
+        const src = req.query.src as string
         const pipeline = promisify(stream.pipeline)
 
         const parsedSrc = src.split('/')
@@ -30,6 +32,10 @@ export default async function handler(
             const downloadStream = got.stream(src)
             const fileWriterStream = createWriteStream(filePath)
             await pipeline(downloadStream, fileWriterStream)
+
+            if (parsedSrc[3] === 'hls') setTimeout(() => {
+                rmSync(filePath)
+            }, 60 * 1000);
         }
         const readStream = createReadStream(filePath)
 

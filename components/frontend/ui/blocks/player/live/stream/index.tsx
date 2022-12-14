@@ -2,8 +2,8 @@ import Link from "next/link";
 import slugify from "slugify";
 
 import { useCategoriesContext } from "../../../../../../../app/contexts/categories";
-
 import StreamType from "../../../../../../../app/types/stream";
+
 import Subscribe from "../../ui/subscribe";
 
 export default function LiveStream({ category_id, stream_display_name, stream_icon, id }: StreamType) {
