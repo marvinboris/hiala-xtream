@@ -2,10 +2,13 @@ import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { useState, Fragment, useEffect, ReactNode } from 'react'
+import slugify from 'slugify'
 import { useCategoriesContext } from '../../../../../../../app/contexts/categories'
+import { useAppSelector } from '../../../../../../../app/hooks'
 
 import type SeriesStreamType from '../../../../../../../app/types/series/stream'
 import type StreamType from '../../../../../../../app/types/vod/stream'
+import { selectAuth } from '../../../../../../../features/auth/authSlice'
 
 import ViewSeries from './series'
 
@@ -20,6 +23,10 @@ export default function View({ stream, action }: ViewProps) {
 
     const name = "cover" in stream ? stream.title : stream.stream_display_name
     const categories = "cover" in stream ? seriesCategories : vodCategories
+    const type = "cover" in stream ? 'serie' : 'stream'
+
+    const { data: account } = useAppSelector(selectAuth)
+    const condition = account === null || !account.bouquet || !account.bouquet.find(bouquet => (type === 'stream' && bouquet.bouquet_channels.find(item => item === stream.id)) || (type === 'serie' && bouquet.bouquet_series.find(item => item === stream.id)))
 
     const category = categories?.find(c => +c.id === +stream.category_id)
 
@@ -47,15 +54,21 @@ export default function View({ stream, action }: ViewProps) {
                                     <img src={`/api/assets?src=${"cover" in stream ? stream.cover : stream.movie_propeties.cover_big}`} alt={name} className="image-cover absolute inset-0 z-0" />
 
                                     <div className="absolute inset-0 flex items-center justify-center flex-col z-10 px-5 lg:px-10 text-center bg-secondary-900/50 text-secondary-100">
-                                        <div className="hidden md:block text-3xl font-bold mb-6">Envie de regarder {name}?</div>
+                                        {condition ? <>
+                                            <div className="hidden md:block text-3xl font-bold mb-6">Envie de regarder {name}?</div>
 
-                                        <div className="text-sm md:text-lg font-bold mb-8">Découvrez nos bouquets du moment.</div>
+                                            <div className="text-sm md:text-lg font-bold mb-8">Découvrez nos bouquets du moment.</div>
 
-                                        <div>
-                                            <Link href='/bouquets'>
-                                                <a className='btn btn-primary'>Découvrir nos bouquets</a>
+                                            <div>
+                                                <Link href='/bouquets'>
+                                                    <a className='btn btn-primary'>Découvrir nos bouquets</a>
+                                                </Link>
+                                            </div>
+                                        </> : <div>
+                                            <Link href={`/${type === 'serie' ? 'series' : 'films'}/${slugify(category!.category_name)}/${slugify(name)}`}>
+                                                <a className='btn btn-primary'>Regarder maintenant</a>
                                             </Link>
-                                        </div>
+                                        </div>}
                                     </div>
                                 </div>
 

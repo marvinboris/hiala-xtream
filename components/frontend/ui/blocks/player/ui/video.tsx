@@ -1,57 +1,46 @@
-import { useRouter } from "next/router";
-import { ReactElement, useEffect, useRef, useState } from "react";
-import slugify from "slugify";
-import videojs, { VideoJsPlayer } from 'video.js';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline'
+import { AsyncThunk } from '@reduxjs/toolkit'
+import { ReactNode, useEffect, useRef } from 'react'
+import { useRouter } from "next/router"
+import slugify from 'slugify'
+import videojs, { VideoJsPlayer, VideoJsPlayerOptions, VideoJsPlayerPluginOptions } from 'video.js'
+
+import { useAppDispatch } from '../../../../../../app/hooks'
+
+import LiveStreamType from '../../../../../../app/types/live/stream'
+import Status from "../../../../../../app/types/status"
+import StreamType from '../../../../../../app/types/stream'
+import StreamCategoryType from '../../../../../../app/types/stream_category'
+import VodStreamType from '../../../../../../app/types/vod/stream'
+
 import 'video.js/dist/video-js.css';
 
-import { NextPageWithLayout } from "../_app";
-import { useCategoriesContext } from "../../app/contexts/categories";
-import Layout, { Head } from "../../components/frontend/navigation/Layout";
-import VodStream from "../../components/frontend/ui/blocks/player/vod/stream";
-import PageError from "../../components/frontend/ui/page/error";
-import PageLoader from "../../components/frontend/ui/page/loader";
-
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import Status from "../../app/types/status";
-import StreamCategoryType from "../../app/types/stream_category";
-import StreamType from "../../app/types/stream";
-
-import { vodStreams, selectPlayer } from "../../features/player/playerSlice";
-import { ArrowLeftIcon, HeartIcon } from "@heroicons/react/24/outline";
-
-const params = {
-    link: '/films',
-    title: "Films | TV+",
-    description: "TV+: TV, sports, séries, films en streaming en direct live ou replay | TV+ Cameroun."
+type VideoProps = {
+    title: ReactNode
+    live?: boolean
+    data: StreamType[] | null
+    status: Status
+    categories: StreamCategoryType[] | null
+    streams: AsyncThunk<LiveStreamType[], number | undefined, {}>
+    render: (stream: StreamType, index: number) => JSX.Element
 }
 
-const renderVodStream = (vodStream: StreamType, index: number) => <VodStream key={`vodStream-${vodStream.id}-${index}`} {...vodStream} />
-
-const VodStreamsPage: NextPageWithLayout = () => {
-    const { vodCategories } = useCategoriesContext()
-    const { query: { slug }, back } = useRouter()
-
+export default function Video({ title, live, data, status, categories, streams, render }: VideoProps) {
     const dispatch = useAppDispatch()
-    const { vod: { streams: { data, status } } } = useAppSelector(selectPlayer)
+
+    const { query: { slug }, back } = useRouter()
 
     useEffect(() => {
         if (slug !== undefined) {
-            const { id } = vodCategories?.find(c => slugify(c.category_name) === slug[0]) as StreamCategoryType
+            const { id } = categories?.find(c => slugify(c.category_name) === slug[0]) as StreamCategoryType
 
-            if (status === Status.IDLE) dispatch(vodStreams(id))
+            if (status === Status.IDLE) dispatch(streams(id))
         }
     }, [])
 
     const videoRef = useRef(null);
     const playerRef = useRef<VideoJsPlayer | null>(null);
-    const options = {
-        mpegtsjs: {
-            mediaDataSource: {
-                isVod: true,
-                cors: false,
-                withCredentials: false,
-            },
-        },
+    const options: VideoJsPlayerPluginOptions = {
         autoplay: true,
         controls: true,
         responsive: true,
@@ -61,6 +50,14 @@ const VodStreamsPage: NextPageWithLayout = () => {
             type: 'video/mp4'
         }]
     }
+    if (live) options.mpegtsjs = {
+        mediaDataSource: {
+            isLive: true,
+            cors: false,
+            withCredentials: false,
+        },
+    }
+
     const onReady = (player: VideoJsPlayer) => {
         playerRef.current = player;
 
@@ -77,12 +74,11 @@ const VodStreamsPage: NextPageWithLayout = () => {
     useEffect(() => {
         if (slug !== undefined && slug.length > 1 && data) {
             const info = data.find(l => slugify(l.stream_display_name) === slug[1])!
-            options.sources = info.stream_source.map(src => ({ src, type: 'application/x-mpegURL' }))
+            options.sources = info.stream_source.map(src => ({ src, type: live ? 'application/x-mpegURL' : `video/${info.target_container[0]}` }))
 
             // Make sure Video.js player is only initialized once
             if (!playerRef.current) {
                 const videoElement = videoRef.current;
-
                 if (!videoElement) return;
 
                 const player = playerRef.current = videojs(videoElement, options, () => {
@@ -103,7 +99,9 @@ const VodStreamsPage: NextPageWithLayout = () => {
         const player = playerRef.current;
 
         return () => {
-            if (player) {
+            if (player && !player.isDisposed()) {
+                videojs.log('player disposed');
+
                 player.dispose();
                 playerRef.current = null;
                 videoRef.current = null
@@ -111,36 +109,36 @@ const VodStreamsPage: NextPageWithLayout = () => {
         };
     }, [playerRef]);
 
-    let content
+    let content = null
     if (slug !== undefined) {
         if (slug.length === 1) {
-            const vodStreamsContent = data !== null && data.map(renderVodStream)
+            const streamsContent = data !== null && data.map(render)
 
             content = <main>
                 <header className="container">
-                    <h1 className="page-title">Séries</h1>
+                    <h1 className="page-title">{title}</h1>
                 </header>
 
-                <section id="vods" aria-label='Vods' className='landing-layer'>
+                <section id="streams" aria-label='Streams' className='landing-layer'>
                     <div className="container">
                         <div className="grid gap-x-1 gap-y-6 grid-cols-3 md:gap-x-2.5 md:grid-cols-5 lg:gap-y-2.5 lg:grid-cols-6 xl:grid-cols-7">
-                            {vodStreamsContent}
+                            {streamsContent}
                         </div>
                     </div>
                 </section>
             </main>
         } else if (data) {
             const info = data.find(l => slugify(l.stream_display_name) === slug[1])!
-            const { category_name } = vodCategories?.find(c => slugify(c.category_name) === slug[0]) as StreamCategoryType
+            const { category_name } = categories?.find(c => slugify(c.category_name) === slug[0]) as StreamCategoryType
 
-            const vodStream = <div className="h-screen flex flex-col">
-                <header className="container flex items-center h-[133px]">
+            const stream = <div className="h-screen flex flex-col">
+                <header className="container flex items-center h-20 lg:h-[133px]">
                     <div className="mr-6 md:mr-12"><div onClick={back} className="cursor-pointer w-12 h-12 rounded-full flex items-center justify-center bg-white/30 text-white"><ArrowLeftIcon className="w-6" /></div></div>
                     <div>
                         <div className="text-xl font-bold text-white">{info.stream_display_name}</div>
                         <div className="text-sm">{category_name}</div>
                     </div>
-                    <div className="ml-auto"><HeartIcon className="w-14 text-white" /></div>
+                    {live ? <div className="ml-auto"><img src={`/api/assets?src=${info.stream_icon}`} alt="Stream Icon" className="h-12 object-center" /></div> : null}
                 </header>
 
                 <div data-vjs-player>
@@ -149,19 +147,10 @@ const VodStreamsPage: NextPageWithLayout = () => {
             </div>
 
             content = <main>
-                {vodStream}
+                {stream}
             </main>
         } else content = <></>
     }
 
-    return <>
-        <Head {...params} />
-        {status === Status.LOADING ? <PageLoader /> : status === Status.FAILED ? <PageError /> : content}
-    </>
+    return content
 }
-
-VodStreamsPage.getLayout = function getLayout(page: ReactElement) {
-    return <Layout>{page}</Layout>
-}
-
-export default VodStreamsPage

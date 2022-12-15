@@ -13,8 +13,8 @@ export default function Document() {
 
                 <meta name="apple-mobile-web-app-capable" content="yes" />
                 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-                <meta name="apple-mobile-web-app-title" content="TV+" />
-                <meta name="application-name" content="TV+" />
+                <meta name="apple-mobile-web-app-title" content="Hiala TV" />
+                <meta name="application-name" content="Hiala TV" />
 
                 <link rel="manifest" href="/manifest.json" />
                 <link rel="apple-touch-icon" sizes="57x57" href="/icons/apple-icon-57x57.png" />
@@ -36,7 +36,7 @@ export default function Document() {
 
                 <meta property="og:locale" content="fr_FR" />
                 <meta property="og:type" content="article" />
-                <meta property="og:site_name" content="TV+" />
+                <meta property="og:site_name" content="Hiala TV" />
 
                 <meta name="twitter:card" content="summary" />
             </Head>

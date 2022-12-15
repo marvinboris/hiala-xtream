@@ -18,12 +18,13 @@ export default async function handler(
 
         const { id } = req.query
         const { username, password } = user
+        
         const source = await axios.get<string>(`${process.env.XTREAM_HOSTNAME!}/live/${username}/${password}/${id}.m3u8`)
-        const expression1 = new RegExp(`/hls/${username}/${password}`, "g")
-        const result1 = source.data.replace(expression1, `/api/assets?src=${process.env.XTREAM_HOSTNAME!}/hls/${username}/${password}`)
-        // const expression2 = new RegExp(`.ts`, "g")
-        // const result2 = result1.replace(expression2, '')
-        res.send(result1)
+
+        const expression = new RegExp(`/hls/${username}/${password}`, "g")
+        const result = source.data.replace(expression, `/api/assets?src=${process.env.XTREAM_HOSTNAME!}/hls/${username}/${password}`)
+        
+        res.send(result)
     } catch (error) {
         handleError(res, error)
     }

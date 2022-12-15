@@ -48,7 +48,7 @@ export default function Toolbar() {
                             <div className="flex items-center">
                                 <Link href="/">
                                     <a className='block'>
-                                        <span className="sr-only">TV+</span>
+                                        <span className="sr-only">Hiala TV</span>
                                         <Logo />
                                     </a>
                                 </Link>
@@ -59,7 +59,7 @@ export default function Toolbar() {
                             </div>
 
                             <div className="flex items-center">
-                                <Popover.Group as="nav" className="hidden space-x-4 lg:flex">
+                                <Popover.Group as="nav" className="hidden space-x-4 xl:flex">
                                     {navItemsContent}
                                 </Popover.Group>
                             </div>

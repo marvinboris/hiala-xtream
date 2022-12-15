@@ -20,7 +20,7 @@ export default interface StreamType {
     }
     movie_subtitles: string
     read_native: number
-    target_container: string
+    target_container: string[]
     stream_all: number
     remove_subtitles: number
     custom_sid: string

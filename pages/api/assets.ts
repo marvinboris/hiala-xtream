@@ -44,3 +44,9 @@ export default async function handler(
         handleError(res, error)
     }
 }
+
+export const config = {
+    api: {
+        responseLimit: false,
+    },
+}

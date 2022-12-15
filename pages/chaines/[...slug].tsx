@@ -1,3 +1,4 @@
+import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
 import { ReactElement, useEffect, useRef, useState } from "react";
 import slugify from "slugify";
@@ -17,7 +18,6 @@ import StreamCategoryType from "../../app/types/stream_category";
 import StreamType from "../../app/types/stream";
 
 import { liveStreams, selectPlayer } from "../../features/player/playerSlice";
-import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 
 const params = {
     link: '/chaines',
@@ -135,7 +135,7 @@ const LiveStreamsPage: NextPageWithLayout = () => {
             const { category_name } = liveCategories?.find(c => slugify(c.category_name) === slug[0]) as StreamCategoryType
 
             const liveStream = <div className="h-screen flex flex-col">
-                <header className="container flex items-center h-[133px]">
+                <header className="container flex items-center h-20 lg:h-[133px]">
                     <div className="mr-6 md:mr-12"><div onClick={back} className="cursor-pointer w-12 h-12 rounded-full flex items-center justify-center bg-white/30 text-white"><ArrowLeftIcon className="w-6" /></div></div>
                     <div>
                         <div className="text-xl font-bold text-white">{info.stream_display_name}</div>

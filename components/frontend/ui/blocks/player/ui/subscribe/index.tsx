@@ -15,5 +15,5 @@ export default function Subscribe({ type, id }: SubscribeProps) {
 
     return condition ? <div>
         <a className="absolute py-0.5 px-1.5 top-[5px] right-[5px] bg-primary-600 rounded-sm text-white text-sm z-10">S'abonner</a>
-    </div> : <></>
+    </div> : null
 }

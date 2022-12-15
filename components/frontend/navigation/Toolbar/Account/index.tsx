@@ -62,7 +62,7 @@ export default function Account({ navItems }: AccountProps) {
                         <Link href='/auth/login'>
                             <a className="btn btn-primary btn-block mt-2">Se connecter</a>
                         </Link>
-                    </div> : (width && width < 1024) ? <div className="py-4 text-white">
+                    </div> : (width && width < 1280) ? <div className="py-4 text-white">
                         {navItemsContent}
                     </div> : null}
 
