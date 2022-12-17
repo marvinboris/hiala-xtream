@@ -1,6 +1,6 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Popover } from '@headlessui/react'
-import { BellIcon, FilmIcon, HeartIcon, HomeIcon, MagnifyingGlassIcon, TvIcon } from '@heroicons/react/24/outline'
+import { BellIcon, CameraIcon, FilmIcon, HeartIcon, HomeIcon, MagnifyingGlassIcon, TvIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 
 import { useThemeContext } from '../../../../app/contexts/theme'
@@ -20,6 +20,7 @@ const navItems: NavItemType[] = [
     { icon: HomeIcon, href: '/', exact: true, children: "Accueil" },
     { icon: TvIcon, href: '/chaines', children: "Chaînes" },
     { icon: FilmIcon, href: '/films', children: "Films" },
+    { icon: CameraIcon, href: '/series', children: "Séries" },
 ]
 
 const navItemsContent = navItems.map(item => <NavItem key={`nav-item-${item.href}`} {...item} />)
