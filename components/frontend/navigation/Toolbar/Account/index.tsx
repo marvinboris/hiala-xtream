@@ -55,7 +55,7 @@ export default function Account({ navItems }: AccountProps) {
             <div className="pt-4">
                 <div className="rounded-xl shadow-xl bg-secondary-700 divide-y divide-secondary-100/20">
                     {account === null ? <div className="p-4 text-white">
-                        <div className="text-xl font-bold mb-1">Compte TV+</div>
+                        <div className="text-xl font-bold mb-1">Compte Hiala TV</div>
 
                         <div className="text-lg">Connectez-vous pour accéder à vos programmes et services</div>
 

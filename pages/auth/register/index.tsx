@@ -10,8 +10,8 @@ import Alert from "../../../components/ui/alert";
 
 const params = {
     link: '/auth/register',
-    title: "S'inscrire | TV+",
-    description: "S'inscrire à TV+"
+    title: "S'inscrire | Hiala TV",
+    description: "S'inscrire à Hiala TV"
 }
 
 const RegisterPage = () => {

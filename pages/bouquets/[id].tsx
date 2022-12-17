@@ -56,8 +56,8 @@ const BouquetPage: NextPageWithLayout = () => {
     return <>
         <Head {...{
             link: `/bouquets/${data && data.id}`,
-            title: `${data && (`${data.bouquet_name} | `)}Les bouquets TV+`,
-            description: "TV+: TV, sports, séries, films en streaming en direct live ou replay | TV+ Cameroun."
+            title: `${data && (`${data.bouquet_name} | `)}Les bouquets Hiala TV`,
+            description: "Hiala TV: TV, sports, séries, films en streaming en direct live | Hiala TV Cameroun."
         }} />
         {status === Status.LOADING ? <PageLoader /> : <main>
             <header className="container flex items-center space-x-5">

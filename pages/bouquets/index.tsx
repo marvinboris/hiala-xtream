@@ -13,8 +13,8 @@ import BouquetType from '../../app/types/bouquet'
 
 const params = {
   link: '/bouquets',
-  title: "Les bouquets TV+",
-  description: "TV+: TV, sports, séries, films en streaming en direct live ou replay | TV+ Cameroun."
+  title: "Les bouquets Hiala TV",
+  description: "Hiala TV: TV, sports, séries, films en streaming en direct live | Hiala TV Cameroun."
 }
 
 const BouquetsPage: NextPageWithLayout = () => {

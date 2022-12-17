@@ -12,8 +12,8 @@ import { logout, selectAuth } from '../features/auth/authSlice'
 
 const params = {
     link: '/moncompte',
-    title: "Mon compte | TV+",
-    description: "TV+: TV, sports, séries, films en streaming en direct live ou replay | TV+ Cameroun."
+    title: "Mon compte | Hiala TV",
+    description: "Hiala TV: TV, sports, séries, films en streaming en direct live | Hiala TV Cameroun."
 }
 
 interface SectionProps {

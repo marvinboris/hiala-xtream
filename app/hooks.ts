@@ -1,6 +1,7 @@
 import { ChangeEvent, useState } from 'react'
 import { useEffect, useRef } from 'react'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import videojs, { VideoJsPlayer, VideoJsPlayerOptions } from 'video.js'
 
 import type { AppDispatch, AppState } from './store'
 
@@ -41,6 +42,33 @@ export const useInterval = (callback: Function, delay: number) => {
     }
   }, [delay])
 }
+
+export const usePlayer = (options: VideoJsPlayerOptions) => {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [player, setPlayer] = useState<VideoJsPlayer | null>(null);
+
+  useEffect(() => {
+    const vjsPlayer = videojs(videoRef.current!, options);
+    setPlayer(vjsPlayer);
+
+    return () => {
+      if (player !== null) {
+        player.dispose();
+      }
+    };
+  }, []);
+  useEffect(() => {
+    if (player !== null) {
+      player.autoplay(options.autoplay!)
+      player.controls(options.controls!)
+      player.fluid(options.fluid!)
+      player.responsive(options.responsive!)
+      player.src(options.sources!)
+    }
+  }, [options.src]);
+
+  return videoRef;
+};
 
 export const useWindowSize = () => {
   // Initialize state with undefined width/height so server and client renders match

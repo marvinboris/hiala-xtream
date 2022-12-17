@@ -28,7 +28,7 @@ export default function View({ stream, action }: ViewProps) {
     const { data: account } = useAppSelector(selectAuth)
     const condition = account === null || !account.bouquet || !account.bouquet.find(bouquet => (type === 'stream' && bouquet.bouquet_channels.find(item => item === stream.id)) || (type === 'serie' && bouquet.bouquet_series.find(item => item === stream.id)))
 
-    const category = categories?.find(c => +c.id === +stream.category_id)
+    const category = categories?.find(c => +c.id === +stream.category_id)!
 
     return <div>
         <div onClick={() => setIsOpen(true)}>
@@ -65,7 +65,7 @@ export default function View({ stream, action }: ViewProps) {
                                                 </Link>
                                             </div>
                                         </> : <div>
-                                            <Link href={`/${type === 'serie' ? 'series' : 'films'}/${slugify(category!.category_name)}/${slugify(name)}`}>
+                                            <Link href={`/${type === 'serie' ? 'series' : 'films'}/${slugify(category!.category_name, { lower: true })}/${slugify(name, { lower: true })}`}>
                                                 <a className='btn btn-primary'>Regarder maintenant</a>
                                             </Link>
                                         </div>}
@@ -79,7 +79,7 @@ export default function View({ stream, action }: ViewProps) {
                                         </Link>
                                     </div>
 
-                                    {stream !== null && ("seasons" in stream ? <ViewSeries series={stream} /> : <div>
+                                    {stream !== null && ("seasons" in stream ? <ViewSeries series={stream} category={category} /> : <div>
                                         <div className="mb-5 capitalize">{stream.movie_propeties.genre}, {stream.movie_propeties.releasedate}</div>
 
                                         <div>{stream.movie_propeties.plot}</div>

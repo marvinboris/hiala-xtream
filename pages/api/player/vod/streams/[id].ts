@@ -16,8 +16,6 @@ export default async function handler(
 ) {
     ffmpeg.setFfmpegPath(ffmpegPath)
 
-    const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
-
     try {
         const decrypted = decryptPayload(req.cookies.user!)
         if (!decrypted) return res.status(401).json({ error: "Not authorized!" })

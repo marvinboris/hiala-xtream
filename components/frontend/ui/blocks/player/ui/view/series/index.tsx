@@ -1,10 +1,13 @@
+import Link from 'next/link';
 import { useEffect, useState } from 'react'
+import slugify from 'slugify';
 
 import { useAppDispatch, useAppSelector } from '../../../../../../../../app/hooks';
 
-import Status from '../../../../../../../../app/types/status';
-import SeriesStreamType from "../../../../../../../../app/types/series/stream";
 import SeriesEpisodeType from '../../../../../../../../app/types/series/episode';
+import SeriesStreamType from "../../../../../../../../app/types/series/stream";
+import Status from '../../../../../../../../app/types/status';
+import StreamCategoryType from '../../../../../../../../app/types/stream_category';
 
 import { selectPlayer, seriesInfo } from '../../../../../../../../features/player/playerSlice';
 
@@ -12,48 +15,54 @@ import Switch from './switch';
 
 interface ViewSeriesProps {
     series: SeriesStreamType
+    category: StreamCategoryType
 }
 
 interface Plot {
     episodes: SeriesEpisodeType[]
     info: SeriesStreamType
+    category: StreamCategoryType
 }
 
 const classNames = (...c: string[]) => c.join(' ')
 
-const EpisodePlot = ({ episodes, info }: Plot) => <div className='space-y-4'>
-    {episodes.map(episode => <div key={`series-info-episode-${episode.id}`} className='flex'>
-        <div className='mr-2 w-1/4 hidden md:block'>
+const EpisodePlot = ({ episodes, info, category }: Plot) => <div className='space-y-4'>
+    {episodes.map(episode => <Link key={`series-info-episode-${episode.id}`} href={`/series/${slugify(category.category_name, { lower: true })}/${slugify(info.title, { lower: true })}/${slugify(episode.stream.stream_display_name, { lower: true })}`}>
+        <a className='flex'>
+            <div className='mr-2 w-1/4 hidden md:block'>
+                <div className="ratio-16by9 bg-secondary-800">
+                    <img src={`/api/assets?src=${episode.stream.movie_propeties.movie_image || info.cover}`} alt={episode.stream.stream_display_name} className="image-cover absolute inset-0" />
+                </div>
+            </div>
+
+            <div className='flex-1'>
+                <div className='text-white mb-4'>
+                    <div className="mt-2 font-semibold md:font-normal text-base md:text-lg">Épisode {episode.sort}</div>
+
+                    <div className='text-base'>{episode.stream.stream_display_name}</div>
+                </div>
+
+                <div className='text-base'>{episode.stream.movie_propeties.plot}</div>
+            </div>
+        </a>
+    </Link>)}
+</div>
+
+const NoEpisodePlot = ({ episodes, info, category }: Plot) => <div className='grid gap-x-2 gap-y-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+    {episodes.map(episode => <Link key={`series-info-episode-${episode.id}`} href={`/series/${slugify(category.category_name, { lower: true })}/${slugify(info.title, { lower: true })}/${slugify(episode.stream.stream_display_name, { lower: true })}`}>
+        <a className="block">
             <div className="ratio-16by9 bg-secondary-800">
                 <img src={`/api/assets?src=${episode.stream.movie_propeties.movie_image || info.cover}`} alt={episode.stream.stream_display_name} className="image-cover absolute inset-0" />
             </div>
-        </div>
 
-        <div className='flex-1'>
-            <div className='text-white mb-4'>
-                <div className="mt-2 font-semibold md:font-normal text-base md:text-lg">Épisode {episode.sort}</div>
+            <div className="mt-2 text-white text-sm md:text-lg">Épisode {episode.sort}</div>
 
-                <div className='text-base'>{episode.stream.stream_display_name}</div>
-            </div>
-
-            <div className='text-base'>{episode.stream.movie_propeties.plot}</div>
-        </div>
-    </div>)}
+            <div className="mt-1 text-sm md:text-base">{episode.stream.stream_display_name}</div>
+        </a>
+    </Link>)}
 </div>
 
-const NoEpisodePlot = ({ episodes, info }: Plot) => <div className='grid gap-x-2 gap-y-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-    {episodes.map(episode => <div key={`series-info-episode-${episode.id}`}>
-        <div className="ratio-16by9 bg-secondary-800">
-            <img src={`/api/assets?src=${episode.stream.movie_propeties.movie_image || info.cover}`} alt={episode.stream.stream_display_name} className="image-cover absolute inset-0" />
-        </div>
-
-        <div className="mt-2 text-white text-sm md:text-lg">Épisode {episode.sort}</div>
-
-        <div className="mt-1 text-sm md:text-base">{episode.stream.stream_display_name}</div>
-    </div>)}
-</div>
-
-export default function ViewSeries({ series: info }: ViewSeriesProps) {
+export default function ViewSeries({ series: info, category }: ViewSeriesProps) {
     const dispatch = useAppDispatch()
     const { series } = useAppSelector(selectPlayer)
 
@@ -112,7 +121,7 @@ export default function ViewSeries({ series: info }: ViewSeriesProps) {
                 </div>
             </div>
 
-            {episodePlot ? <EpisodePlot episodes={episodes} info={info} /> : <NoEpisodePlot episodes={episodes} info={info} />}
+            {episodePlot ? <EpisodePlot episodes={episodes} info={info} category={category} /> : <NoEpisodePlot episodes={episodes} info={info} category={category} />}
         </div>
     </>
 }

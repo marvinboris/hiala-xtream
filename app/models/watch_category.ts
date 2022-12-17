@@ -53,7 +53,7 @@ WatchCategory.init({
     slug: {
         type: DataTypes.VIRTUAL,
         get() {
-            return slugify(this.getDataValue('genre'));
+            return slugify(this.getDataValue('genre'), { lower: true });
         },
         set(value) {
             throw new Error('Do not try to set the `slug` value!');

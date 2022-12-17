@@ -32,7 +32,7 @@ export default function Footer({ liveCategories = [], seriesCategories = [] }: F
                 </div>
             </div>
 
-            <div>© {new Date().getFullYear()} Copyright - <span className="font-semibold">TV+</span></div>
+            <div>© {new Date().getFullYear()} Copyright - <span className="font-semibold">Hiala TV</span></div>
         </div>
     </footer>
 }

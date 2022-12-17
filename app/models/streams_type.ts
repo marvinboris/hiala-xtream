@@ -43,7 +43,7 @@ StreamsType.init({
     slug: {
         type: DataTypes.VIRTUAL,
         get() {
-            return slugify(this.getDataValue('type_name'));
+            return slugify(this.getDataValue('type_name'), { lower: true });
         },
         set(value) {
             throw new Error('Do not try to set the `slug` value!');

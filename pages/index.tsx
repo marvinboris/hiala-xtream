@@ -28,8 +28,8 @@ import { liveStreams, selectPlayer, seriesStreams, vodStreams } from '../feature
 
 const params = {
   link: '/',
-  title: "TV+",
-  description: "TV+: TV, sports, séries, films en streaming en direct live ou replay | TV+ Cameroun."
+  title: "Hiala TV",
+  description: "Hiala TV: TV, sports, séries, films en streaming en direct live | Hiala TV Cameroun."
 }
 
 interface OfflineSectionProps {
@@ -191,7 +191,7 @@ const HomePage: NextPageWithLayout = () => {
         title='Séries'
         subtitle='Des séries à consommer sans modération'
         description='Les meilleures séries novelas et africaines et de grandes séries internationales à succès.'
-        more='Toutes les séries TV+'
+        more='Toutes les séries Hiala TV'
         href='/series'
         data={series.streams.data}
       />}
@@ -200,14 +200,14 @@ const HomePage: NextPageWithLayout = () => {
         title='Films'
         subtitle='Des films à consommer sans modération'
         description='Les meilleurs films africains et de grands films internationaux à succès.'
-        more='Tous les films TV+'
+        more='Tous les films Hiala TV'
         href='/films'
         data={vod.streams.data.filter((s, i) => i < (vod.streams.data!.length - vod.streams.data!.length % 4))}
       />}
 
       {<BorderlessSection
-        subtitle='PLUS QUE TV+ DANS TV+'
-        description='TV+ rassemble les meilleurs contenus. Des milliers de programmes en live et à la demande, partout et quand vous voulez'
+        subtitle='PLUS QUE Hiala TV DANS Hiala TV'
+        description='Hiala TV rassemble les meilleurs contenus. Des milliers de programmes en live et à la demande, partout et quand vous voulez'
       >
         <div className="grid grid-cols-4"></div>
       </BorderlessSection>}

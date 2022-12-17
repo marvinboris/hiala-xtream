@@ -11,7 +11,7 @@ export default function LiveStream({ category_id, stream_display_name, stream_ic
     const c = liveCategories?.find(l => l.id === category_id)
 
     return c ? <div>
-        <Link href={`/chaines/${slugify(c.category_name)}/${slugify(stream_display_name)}`}>
+        <Link href={`/chaines/${slugify(c.category_name, { lower: true })}/${slugify(stream_display_name, { lower: true })}`}>
             <a className="block relative p-2 lg:p-4 rounded-[20px] bg-white hover:bg-secondary-100 cursor-pointer space-y-2 lg:space-y-4 transition-all duration-200">
                 <div className="aspect-square rounded-2xl relative p-4 flex items-center justify-center overflow-hidden z-0">
                     <img src={`/api/assets?src=${stream_icon}`} alt={stream_display_name} className="w-full h-full object-contain" />

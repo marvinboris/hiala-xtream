@@ -1,7 +1,7 @@
 {
-    "name": "TV+",
-    "short_name": "TV+",
-    "theme_color": "#2563eb",
+    "name": "Hiala TV",
+    "short_name": "Hiala TV",
+    "theme_color": "#62B332",
     "background_color": "#262626",
     "display": "fullscreen",
     "orientation": "portrait",
