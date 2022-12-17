@@ -65,9 +65,9 @@ export default function View({ stream, action }: ViewProps) {
                                                 </Link>
                                             </div>
                                         </> : <div>
-                                            <Link href={`/${type === 'serie' ? 'series' : 'films'}/${slugify(category!.category_name, { lower: true })}/${slugify(name, { lower: true })}`}>
+                                            {type === 'stream' ? <Link href={`/films/${slugify(category!.category_name, { lower: true })}/${slugify(name, { lower: true })}`}>
                                                 <a className='btn btn-primary'>Regarder maintenant</a>
-                                            </Link>
+                                            </Link> : null}
                                         </div>}
                                     </div>
                                 </div>
