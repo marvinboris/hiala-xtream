@@ -6,15 +6,16 @@ import BouquetType from "../../../../../../app/types/bouquet";
 
 type BouquetProps = BouquetType & {
     favorite?: boolean
+    price: number
 }
 
-export default function Bouquet({ id, bouquet_name, bouquet_channels, bouquet_series, favorite }: BouquetProps) {
+export default function Bouquet({ id, bouquet_name, bouquet_channels, bouquet_series, favorite, price }: BouquetProps) {
     return <section className={classNames(favorite ? "flex flex-col rounded-3xl px-6 sm:px-8 order-first bg-primary-600 py-8 lg:order-none" : "flex flex-col rounded-3xl px-6 sm:px-8 lg:py-8")}>
         <p className="order-first font-display text-5xl tracking-tight text-white">{bouquet_name}</p>
         {/* <h3 className="mt-4 font-display text-lg text-white">{bouquet_name}</h3> */}
-        {/* <p className="order-first font-display text-5xl font-light tracking-tight text-white">$9</p> */}
+        <p className="order-first font-display text-3xl font-light tracking-tight text-white mt-4">{price} <span className="text-base">XAF</span></p>
         {/* <p className={classNames("mt-4 text-base", favorite ? "text-white" : "text-secondary-400")}>{bouquet_channels.length} chaînes, radios et services.</p> */}
-        <ul role="list" className="order-last mt-4 flex flex-col gap-y-3 text-sm text-secondary-200">
+        <ul role="list" className={classNames("order-last mt-4 flex flex-col gap-y-3 text-sm", favorite ? "text-white" : "text-secondary-200")}>
             <li className="flex">
                 <CheckCircleIcon className="h-6 w-6 flex-none text-white" />
                 <span className="ml-4">{bouquet_channels.length} chaînes et radios.</span>

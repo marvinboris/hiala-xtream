@@ -1,5 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { createReadStream, createWriteStream, existsSync, mkdirSync, rmSync } from 'fs'
+import { createReadStream, createWriteStream, existsSync, mkdirSync, readFileSync, rmSync, statSync } from 'fs'
 import path from 'path'
 import stream from 'stream'
 import { promisify } from 'util'
@@ -9,14 +9,22 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { handleError } from '../../app/helpers/utils'
 
+const send = (res: NextApiResponse) => {
+    const readStream = createReadStream(path.join(process.cwd(), 'public', 'images', 'favicon.svg'))
+
+    res.setHeader("Content-Type", "image/svg+xml")
+    readStream.pipe(res)
+}
+
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<unknown | { error: string }>
 ) {
     try {
-        if (!req.query.src) return res.end()
-
         const src = req.query.src as string
+
+        if (!src) return send(res)
+
         const pipeline = promisify(stream.pipeline)
 
         const parsedSrc = src.split('/')
@@ -38,8 +46,10 @@ export default async function handler(
             }, 60 * 1000);
         }
         const readStream = createReadStream(filePath)
+        const stat = statSync(filePath)
 
-        readStream.pipe(res)
+        if (stat.size > 0) return readStream.pipe(res)
+        else send(res)
     } catch (error) {
         handleError(res, error)
     }

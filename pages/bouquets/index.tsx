@@ -29,11 +29,18 @@ const BouquetsPage: NextPageWithLayout = () => {
     }
   }, [])
 
-  const maxBouquetNumber = data !== null && Math.max(...(data as BouquetType[]).map(bouquet => bouquet.bouquet_channels.length))
+  const maxBouquetNumber = data !== null && 'length' in data && Math.max(...data.map(bouquet => bouquet.bouquet_channels.length))
 
-  const renderBouquet = (bouquet: BouquetType, index: number) => <Bouquet key={`bouquet-${bouquet.id}-${index}`} {...bouquet} favorite={maxBouquetNumber === bouquet.bouquet_channels.length} />
+  const renderBouquet = (bouquet: BouquetType, index: number) => {
+    const bouquet_name = bouquet.bouquet_name.toLocaleLowerCase()
+    return <Bouquet
+      {...bouquet}
+      key={`bouquet-${bouquet.id}-${index}`}
+      favorite={maxBouquetNumber === bouquet.bouquet_channels.length}
+      price={bouquet_name === 'passion' ? 3000 : bouquet_name === 'magic' ? 5000 : bouquet_name === 'charme' ? 2000 : bouquet_name === 'canal+' ? 12000 : 1} />
+  }
 
-  const bouquetsContent = data !== null && (data as BouquetType[]).map(renderBouquet)
+  const bouquetsContent = data !== null && 'length' in data && data.map(renderBouquet)
 
   return <>
     <Head {...params} />
