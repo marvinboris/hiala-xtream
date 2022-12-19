@@ -7,7 +7,6 @@ export default function Document() {
         <Html>
             <Head>
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xz/fonts@1/serve/plus-jakarta-display.min.css" />
-                <link rel="icon" href="/images/logo-512x512.png" />
 
                 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
 
@@ -27,9 +26,7 @@ export default function Document() {
                 <link rel="apple-touch-icon" sizes="152x152" href="/icons/apple-icon-152x152.png" />
                 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-icon-180x180.png" />
                 <link rel="icon" type="image/png" sizes="192x192" href="/icons/android-icon-192x192.png" />
-                <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
-                <link rel="icon" type="image/png" sizes="96x96" href="/icons/favicon-96x96.png" />
-                <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
+                <link rel="icon" href="/images/favicon.svg" />
                 <meta name="msapplication-TileColor" content={tailwindConfig.theme.extend.colors.primary[600]} />
 
                 <base href="/" />
