@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import slugify from 'slugify';
 
 import { useAppDispatch, useAppSelector } from '../../../../../../../../app/hooks';
-
 import SeriesEpisodeType from '../../../../../../../../app/types/series/episode';
 import SeriesStreamType from "../../../../../../../../app/types/series/stream";
 import Status from '../../../../../../../../app/types/status';

@@ -1,11 +1,11 @@
 import { ArchiveBoxIcon, UserCircleIcon, UserIcon } from "@heroicons/react/20/solid"
 import Link from "next/link"
 
-import { useAppDispatch, useAppSelector, useWindowSize } from "../../../../../app/hooks"
+import { useAppDispatch, useAppSelector, useWindowSize } from "../../../../app/hooks"
 
-import NavItemType from "../../../../../app/types/nav-item"
+import NavItemType from "../../../../app/types/nav-item"
 
-import { logout, selectAuth } from "../../../../../features/auth/authSlice"
+import { logout, selectAuth } from "../../../../features/auth/authSlice"
 
 type AccountProps = { navItems: NavItemType[] }
 
@@ -49,7 +49,7 @@ export default function Account({ navItems }: AccountProps) {
     </Link>)
 
     return <div className="relative group">
-        <UserCircleIcon className="w-10 h-10 text-white hover:scale-110 transition-all duration-200" />
+        <UserCircleIcon className="w-10 h-10 text-white group-hover:scale-110 transition-all duration-200" />
 
         <div className="absolute w-72 origin-top-right opacity-0 scale-0 top-full right-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-200">
             <div className="pt-4">

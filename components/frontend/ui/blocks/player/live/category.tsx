@@ -1,7 +1,7 @@
 import Link from "next/link";
 import slugify from "slugify";
 
-import StreamCategoryType from "../../../../../../../app/types/stream_category";
+import StreamCategoryType from "../../../../../../app/types/stream_category";
 
 export default function LiveCategory({ id, category_name }: StreamCategoryType) {
     const data: { color: string, photo: string }[] = [

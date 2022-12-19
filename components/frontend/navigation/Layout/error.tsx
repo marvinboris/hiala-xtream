@@ -1,7 +1,8 @@
 import { useRouter } from "next/router"
 
-import { Head } from ".."
-import Logo from "../../../../ui/Logo"
+import { Head } from "."
+
+import Logo from "../../../ui/logo"
 
 export default function LayoutError() {
     const router = useRouter()

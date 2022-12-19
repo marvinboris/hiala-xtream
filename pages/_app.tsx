@@ -7,7 +7,7 @@ import store from '../app/store'
 
 import '../styles/globals.css'
 
-import ErrorBoundary from '../components/ErrorBoundary'
+import ErrorBoundary from '../components/error-boundary'
 
 import Wrapper from '../hoc/wrapper'
 

@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect } from 'react'
 
 import { NextPageWithLayout } from './_app'
-import Layout, { Head } from '../components/frontend/navigation/Layout'
+import Layout, { Head } from '../components/frontend/navigation/layout'
 import PageError from '../components/frontend/ui/page/error'
 import PageLoader from '../components/frontend/ui/page/loader'
 

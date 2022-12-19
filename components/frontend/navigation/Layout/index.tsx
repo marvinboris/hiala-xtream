@@ -2,16 +2,14 @@ import { ReactNode, useEffect, useState } from 'react'
 import NextHead from 'next/head'
 import { useRouter } from 'next/router'
 
+import CategoriesContext from '../../../../app/contexts/categories'
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks'
-
 import Status from '../../../../app/types/status'
 
-import Toolbar from '../Toolbar'
-import Footer from '../Footer'
+import Toolbar from '../toolbar'
+import Footer from '../footer'
 import LayoutError from './error'
 import LayoutLoader from './loader'
-
-import CategoriesContext from '../../../../app/contexts/categories'
 
 import { liveCategories, selectPlayer, seriesCategories, vodCategories } from '../../../../features/player/playerSlice'
 
@@ -36,7 +34,7 @@ export default function Layout({ children }: LayoutProps) {
 
     const videoPage = /\/chaines\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+/.test(router.asPath) || /\/films\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+/.test(router.asPath) || /\/series\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+/.test(router.asPath)
 
-    return loading ? <LayoutLoader /> : failed ? <LayoutError /> : <CategoriesContext.Provider value={{ liveCategories: live.categories.data, seriesCategories: series.categories.data, vodCategories: vod.categories.data }}>
+    return loading ? <LayoutLoader /> : failed ? <LayoutError /> : (live.categories.data && series.categories.data && vod.categories.data) ? <CategoriesContext.Provider value={{ liveCategories: live.categories.data, seriesCategories: series.categories.data, vodCategories: vod.categories.data }}>
         {videoPage ? children : <div className='min-h-screen flex flex-col'>
             <Toolbar />
 
@@ -46,7 +44,7 @@ export default function Layout({ children }: LayoutProps) {
 
             {/* <Footer liveCategories={live.categories.data || []} seriesCategories={series.categories.data || []} /> */}
         </div>}
-    </CategoriesContext.Provider>
+    </CategoriesContext.Provider> : null
 }
 
 export interface PageParams {

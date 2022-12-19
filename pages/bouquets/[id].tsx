@@ -1,19 +1,22 @@
+import { capitalize } from 'lodash'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect } from 'react'
 
 import { NextPageWithLayout } from '../_app'
-import Layout, { Head } from '../../components/frontend/navigation/Layout'
+
+import { useCategoriesContext } from '../../app/contexts/categories'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import Status from '../../app/types/status'
+
+import BouquetAccordion from '../../components/frontend/bouquets/accordion'
+import BouquetSubscribe from '../../components/frontend/bouquets/subscribe'
+import Layout, { Head } from '../../components/frontend/navigation/layout'
 import PageError from '../../components/frontend/ui/page/error'
 import PageLoader from '../../components/frontend/ui/page/loader'
-import BouquetAccordion from '../../components/frontend/bouquets/accordion'
-
-import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { useCategoriesContext } from '../../app/contexts/categories'
-import Status from '../../app/types/status'
-import { selectPlayer, bouquets, resetBouquets } from '../../features/player/playerSlice'
-import View from '../../components/ui/View'
 import Button from '../../components/ui/button'
-import BouquetSubscribe from '../../components/frontend/bouquets/subscribe'
+import View from '../../components/ui/view'
+
+import { selectPlayer, bouquets, resetBouquets } from '../../features/player/playerSlice'
 
 const BouquetPage: NextPageWithLayout = () => {
     const { liveCategories } = useCategoriesContext()
@@ -39,24 +42,27 @@ const BouquetPage: NextPageWithLayout = () => {
         channels: data.channels.filter(channel => channel.category_id === category.id)
     }))
 
-    const channelsContent = data && liveCategories && liveCategories.map(category => {
-        const category_channels = data.channels.filter(channel => channel.category_id === category.id).map(channel => <div key={`channel-${channel.id}`} className='rounded-sm bg-secondary-900 shadow-sm flex items-center space-x-2 p-2'>
-            <div><img src={`/api/assets?src=${channel.stream_icon}`} alt={channel.stream_display_name} className="w-10 h-10 object-contain" /></div>
+    const channelsContent = data && liveCategories && [...liveCategories].sort((a, b) => a.category_name.localeCompare(b.category_name)).map(category => {
+        const category_channels = data.channels.filter(channel => channel.category_id === category.id).map(channel => <div key={`channel-${channel.id}`} className='rounded-2xl bg-white shadow-sm flex items-center space-x-2'>
+            <div className="aspect-square w-16 rounded-2xl rounded-r-none relative p-4 flex items-center justify-center overflow-hidden z-0">
+                <img src={`/api/assets?src=${channel.stream_icon}`} alt={channel.stream_display_name} className="w-full h-full object-contain" />
+                <img src={`/api/assets?src=${channel.stream_icon}`} alt={channel.stream_display_name} className="w-full h-full object-cover absolute inset-0 -z-10 blur-3xl scale-150" />
+            </div>
 
-            <div>{channel.stream_display_name}</div>
+            <div className='truncate text-secondary-700' title={channel.stream_display_name}>{capitalize(channel.stream_display_name.toLocaleLowerCase())}</div>
         </div>)
 
-        return <div key={`bouquet-page-live-category-${category.id}`}>
-            <div>{category.category_name}</div>
+        return category_channels.length > 0 ? <div key={`bouquet-page-live-category-${category.id}`}>
+            <div className='text-xl font-semibold mb-4'>{category.category_name}</div>
 
-            <div className='grid grid-cols-3 gap-4'>{category_channels}</div>
-        </div>
+            <div className='grid grid-cols-3 gap-2'>{category_channels}</div>
+        </div> : null
     })
 
     return <>
         <Head {...{
             link: `/bouquets/${data && data.id}`,
-            title: `${data && (`${data.bouquet_name} | `)}Les bouquets Hiala TV`,
+            title: `${data && (`${data.bouquet_name} | `)}Bouquets | Hiala TV`,
             description: "Hiala TV: TV, sports, séries, films en streaming en direct live | Hiala TV Cameroun."
         }} />
         {status === Status.LOADING ? <PageLoader /> : <main>

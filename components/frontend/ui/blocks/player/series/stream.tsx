@@ -1,7 +1,7 @@
-import { useCategoriesContext } from "../../../../../../../app/contexts/categories";
-import SeriesStreamType from "../../../../../../../app/types/series/stream";
-import Subscribe from "../../ui/subscribe";
-import View from "../../ui/view";
+import { useCategoriesContext } from "../../../../../../app/contexts/categories";
+import SeriesStreamType from "../../../../../../app/types/series/stream";
+import Subscribe from "../ui/subscribe";
+import View from "../ui/view";
 
 export default function SeriesStream(props: SeriesStreamType) {
     const { seriesCategories } = useCategoriesContext()

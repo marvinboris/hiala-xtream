@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import Status from "../../../../app/types/status";
 import SeriesEpisodeType from "../../../../app/types/series/episode";
 
-import Layout, { Head } from "../../../../components/frontend/navigation/Layout";
+import Layout, { Head } from "../../../../components/frontend/navigation/layout";
 import Video from "../../../../components/frontend/ui/blocks/player/ui/video";
 import PageError from "../../../../components/frontend/ui/page/error";
 import PageLoader from "../../../../components/frontend/ui/page/loader";

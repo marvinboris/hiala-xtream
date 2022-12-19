@@ -1,7 +1,7 @@
 export default interface SeriesStreamType {
     id: number
     title: string
-    category_id: string
+    category_id: number
     cover: string
     cover_big: string
     genre: string

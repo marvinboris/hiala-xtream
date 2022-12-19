@@ -5,7 +5,7 @@ import { ChangeEvent, FormEvent, ReactElement, useState } from "react";
 import MessageType from "../../../app/types/message";
 import Status from "../../../app/types/status";
 
-import Layout, { Head } from "../../../components/auth/navigation/Layout";
+import Layout, { Head } from "../../../components/auth/navigation/layout";
 import Alert from "../../../components/ui/alert";
 
 const params = {

@@ -4,7 +4,7 @@ import { ChangeEvent, FormEvent, ReactElement, useEffect, useState } from "react
 
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import Status from "../../../app/types/status";
-import Layout, { Head } from "../../../components/auth/navigation/Layout";
+import Layout, { Head } from "../../../components/auth/navigation/layout";
 import { login, selectAuth } from "../../../features/auth/authSlice";
 
 const params = {

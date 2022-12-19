@@ -1,7 +1,7 @@
 import { ReactElement, useEffect } from 'react'
 
 import { NextPageWithLayout } from '../_app'
-import Layout, { Head } from '../../components/frontend/navigation/Layout'
+import Layout, { Head } from '../../components/frontend/navigation/layout'
 import PageError from '../../components/frontend/ui/page/error'
 import PageLoader from '../../components/frontend/ui/page/loader'
 import Bouquet from '../../components/frontend/ui/blocks/player/bouquets/bouquet'
@@ -13,7 +13,7 @@ import BouquetType from '../../app/types/bouquet'
 
 const params = {
   link: '/bouquets',
-  title: "Les bouquets Hiala TV",
+  title: "Bouquets | Hiala TV",
   description: "Hiala TV: TV, sports, séries, films en streaming en direct live | Hiala TV Cameroun."
 }
 

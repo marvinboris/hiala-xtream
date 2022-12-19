@@ -1,6 +1,7 @@
-import { useCategoriesContext } from "../../../../../../../../app/contexts/categories";
-import StreamType from "../../../../../../../../app/types/stream";
-import View from "../../../ui/view";
+import { useCategoriesContext } from "../../../../../../../app/contexts/categories";
+import StreamType from "../../../../../../../app/types/stream";
+
+import View from "../../ui/view";
 
 export default function VodStreamHeader(props: StreamType) {
     const { vodCategories } = useCategoriesContext()

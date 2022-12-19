@@ -1,4 +1,4 @@
-import { Head } from ".."
+import { Head } from "."
 
 export default function LayoutLoader() {
     return <div className="bg-gradient-to-tr from-primary-600/50 to-transparent">

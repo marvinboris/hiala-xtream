@@ -1,6 +1,6 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Popover } from '@headlessui/react'
-import { BellIcon, CameraIcon, FilmIcon, HeartIcon, HomeIcon, MagnifyingGlassIcon, TvIcon } from '@heroicons/react/24/outline'
+import { BellIcon, VideoCameraIcon, FilmIcon, HeartIcon, HomeIcon, MagnifyingGlassIcon, TvIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 
 import { useThemeContext } from '../../../../app/contexts/theme'
@@ -10,17 +10,17 @@ import Theme from '../../../../app/types/theme'
 
 import { selectAuth } from '../../../../features/auth/authSlice'
 
-import Logo from '../../../ui/Logo'
+import Logo from '../../../ui/logo'
 import Input from '../../../ui/input'
 
-import Account from './Account'
-import NavItem from './NavItem'
+import Account from './account'
+import NavItem from './nav-item'
 
 const navItems: NavItemType[] = [
     { icon: HomeIcon, href: '/', exact: true, children: "Accueil" },
     { icon: TvIcon, href: '/chaines', children: "Chaînes" },
     { icon: FilmIcon, href: '/films', children: "Films" },
-    { icon: CameraIcon, href: '/series', children: "Séries" },
+    { icon: VideoCameraIcon, href: '/series', children: "Séries" },
 ]
 
 const navItemsContent = navItems.map(item => <NavItem key={`nav-item-${item.href}`} {...item} />)

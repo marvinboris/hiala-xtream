@@ -15,7 +15,7 @@ import SeriesStreamType from '../app/types/series/stream'
 import Status from '../app/types/status'
 import StreamType from '../app/types/stream'
 
-import Layout, { Head } from '../components/frontend/navigation/Layout'
+import Layout, { Head } from '../components/frontend/navigation/layout'
 import SeriesStream from '../components/frontend/ui/blocks/player/series/stream'
 import VodStream from '../components/frontend/ui/blocks/player/vod/stream'
 import View from '../components/frontend/ui/blocks/player/ui/view'

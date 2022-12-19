@@ -7,13 +7,14 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import Status from '../../app/types/status'
 import StreamType from '../../app/types/stream'
 
-import Layout, { Head } from '../../components/frontend/navigation/Layout'
+import Layout, { Head } from '../../components/frontend/navigation/layout'
 import LiveStream from '../../components/frontend/ui/blocks/player/live/stream'
 import PageError from '../../components/frontend/ui/page/error'
 import PageLoader from '../../components/frontend/ui/page/loader'
 import PageTitle from '../../components/frontend/ui/page/title'
 
 import { liveStreams, selectPlayer } from '../../features/player/playerSlice'
+import { useCategoriesContext } from '../../app/contexts/categories'
 
 const params = {
   link: '/chaines',
@@ -25,11 +26,13 @@ const renderLiveStream = (liveStream: StreamType, index: number) => <LiveStream 
 
 const LivesPage: NextPageWithLayout = () => {
   const [search, setSearch] = useState('')
+  const [categoryId, setCategoryId] = useState(0)
 
   const dispatch = useAppDispatch()
   const { live: { streams: { data, status } } } = useAppSelector(selectPlayer)
+  const { liveCategories } = useCategoriesContext()
 
-  const liveStreamsContent = data !== null && data.filter(stream => stream.stream_display_name.toLowerCase().includes(search.toLowerCase())).map(renderLiveStream)
+  const liveStreamsContent = data !== null && data.filter(stream => categoryId === 0 || stream.category_id == categoryId).filter(stream => stream.stream_display_name.toLowerCase().includes(search.toLowerCase())).map(renderLiveStream)
 
   useEffect(() => {
     dispatch(liveStreams())
@@ -38,7 +41,9 @@ const LivesPage: NextPageWithLayout = () => {
   return <>
     <Head {...params} />
     {status === Status.LOADING ? <PageLoader /> : <main>
-      <PageTitle icon={TvIcon} title="Chaînes" subtitle="Retrouvez toutes vos chaînes préférées." search={search} setSearch={setSearch} />
+      <PageTitle icon={TvIcon} title="Chaînes" subtitle="Retrouvez toutes vos chaînes préférées."
+        search={search} setSearch={setSearch}
+        categories={liveCategories!} category_id={categoryId} selectCategory={setCategoryId} />
 
       {status === Status.FAILED ? <PageError /> : <section id="lives" aria-label='Lives' className='landing-layer'>
         <div className="container">

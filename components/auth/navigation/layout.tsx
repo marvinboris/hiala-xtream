@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import NextHead from 'next/head'
 import Link from 'next/link'
 
-import Logo from '../../../ui/Logo'
+import Logo from '../../ui/logo'
 
 interface LayoutProps {
     title: string

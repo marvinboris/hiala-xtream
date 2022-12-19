@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import StreamCategoryType from "../../../../app/types/stream_category"
+import StreamCategoryType from "../../../app/types/stream_category"
 
 interface FooterProps {
     liveCategories: StreamCategoryType[]

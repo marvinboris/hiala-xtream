@@ -1,6 +1,7 @@
 import { useState, useEffect, ComponentProps } from 'react'
 import { RadioGroup } from '@headlessui/react'
-import MethodType from '../../../../../app/types/method'
+
+import MethodType from '../../../../app/types/method'
 
 interface MethodsProps {
   methods: MethodType[]
@@ -12,7 +13,6 @@ export default function Methods({ methods }: MethodsProps) {
   useEffect(() => {
     if (methods) setSelected(methods[0])
   }, [methods])
-  
 
   return (
     <div className="w-full">

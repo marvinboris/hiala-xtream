@@ -1,4 +1,4 @@
-import { CameraIcon, FilmIcon } from "@heroicons/react/24/outline";
+import { VideoCameraIcon, FilmIcon } from "@heroicons/react/24/outline";
 import { capitalize } from "lodash";
 import { useRouter } from "next/router";
 import { ReactElement, useEffect, useState } from "react";
@@ -13,7 +13,7 @@ import Status from "../../../app/types/status";
 import SeriesStreamType from "../../../app/types/series/stream";
 import StreamCategoryType from "../../../app/types/stream_category";
 
-import Layout, { Head } from "../../../components/frontend/navigation/Layout";
+import Layout, { Head } from "../../../components/frontend/navigation/layout";
 import SeriesStream from "../../../components/frontend/ui/blocks/player/series/stream";
 import PageError from "../../../components/frontend/ui/page/error";
 import PageLoader from "../../../components/frontend/ui/page/loader";
@@ -50,7 +50,7 @@ const SeriesStreamsPage: NextPageWithLayout = () => {
     return <>
         <Head {...params} />
         {status === Status.LOADING ? <PageLoader /> : <main>
-            <PageTitle icon={CameraIcon} title="Séries" subtitle="Retrouvez toutes vos séries préférées." search={search} setSearch={setSearch} />
+            <PageTitle icon={VideoCameraIcon} title="Séries" subtitle="Retrouvez toutes vos séries préférées." search={search} setSearch={setSearch} />
 
             {status === Status.FAILED ? <PageError /> : <section id="series" aria-label='Series' className='landing-layer'>
                 <div className="container">
