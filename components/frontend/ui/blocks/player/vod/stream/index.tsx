@@ -1,6 +1,5 @@
 import { useCategoriesContext } from "../../../../../../../app/contexts/categories";
 import StreamType from "../../../../../../../app/types/stream";
-import VodStreamType from "../../../../../../../app/types/vod/stream";
 import Subscribe from "../../ui/subscribe";
 import View from "../../ui/view";
 

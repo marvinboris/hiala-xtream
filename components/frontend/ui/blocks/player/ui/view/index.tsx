@@ -7,7 +7,7 @@ import { useCategoriesContext } from '../../../../../../../app/contexts/categori
 import { useAppSelector } from '../../../../../../../app/hooks'
 
 import type SeriesStreamType from '../../../../../../../app/types/series/stream'
-import type StreamType from '../../../../../../../app/types/vod/stream'
+import type StreamType from '../../../../../../../app/types/stream'
 import { selectAuth } from '../../../../../../../features/auth/authSlice'
 
 import ViewSeries from './series'

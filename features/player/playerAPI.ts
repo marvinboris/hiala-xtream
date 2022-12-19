@@ -4,9 +4,9 @@ import BouquetType from '../../app/types/bouquet'
 import LiveStreamType from '../../app/types/live/stream'
 import SeriesInfoType from '../../app/types/series/info'
 import SeriesStreamType from '../../app/types/series/stream'
+import StreamType from '../../app/types/stream'
 import StreamCategoryType from '../../app/types/stream_category'
 import VodInfoType from '../../app/types/vod/info'
-import VodStreamType from '../../app/types/vod/stream'
 
 
 // Live
@@ -43,7 +43,7 @@ export const getVodCategories = async () => {
 }
 
 export const getVodStreams = async (category_id?: number) => {
-    const res = await axios.get<VodStreamType[]>('/api/player/vod/streams', { params: { category_id } })
+    const res = await axios.get<StreamType[]>('/api/player/vod/streams', { params: { category_id } })
     return res.data
 }
 

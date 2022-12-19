@@ -47,4 +47,5 @@ export default interface StreamType {
     custom_map: string
     external_push: string
     delay_minutes: number
+    slug: string
 }

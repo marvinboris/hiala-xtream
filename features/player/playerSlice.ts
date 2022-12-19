@@ -10,7 +10,6 @@ import Status from '../../app/types/status'
 import StreamType from '../../app/types/stream'
 import StreamCategoryType from '../../app/types/stream_category'
 import VodInfoType from '../../app/types/vod/info'
-import VodStreamType from '../../app/types/vod/stream'
 
 import { getBouquets, getLiveCategories, getLiveStreams, getSeriesCategories, getSeriesInfo, getSeriesStreams, getVodCategories, getVodInfo, getVodStreams } from './playerAPI'
 
