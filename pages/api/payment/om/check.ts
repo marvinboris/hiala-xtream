@@ -23,7 +23,7 @@ export default async function handler(
                 "Content-Type": "application/x-www-form-urlencoded",
             },
             httpsAgent: new Agent({
-                ca: require('ssl-root-cas/latest').create()
+                ca: require('ssl-root-cas').create()
             })
         })
 
