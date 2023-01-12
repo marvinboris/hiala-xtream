@@ -1,4 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { readFileSync } from 'fs'
 import { Agent } from 'https'
 
 import axios from 'axios'
@@ -23,7 +24,7 @@ export default async function handler(
                 "Content-Type": "application/x-www-form-urlencoded",
             },
             httpsAgent: new Agent({
-                ca: require('ssl-root-cas').create()
+                ca: readFileSync('node_modules/node_extra_ca_certs_mozilla_bundle/ca_bundle/ca_intermediate_root_bundle.pem')
             })
         })
 
