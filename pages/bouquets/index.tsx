@@ -37,7 +37,7 @@ const BouquetsPage: NextPageWithLayout = () => {
       {...bouquet}
       key={`bouquet-${bouquet.id}-${index}`}
       favorite={maxBouquetNumber === bouquet.bouquet_channels.length}
-      price={bouquet_name === 'passion' ? 3000 : bouquet_name === 'magic' ? 5000 : bouquet_name === 'charme' ? 2000 : bouquet_name === 'canal+' ? 12000 : 1} />
+      price={bouquet_name === 'passion' ? 3000 : bouquet_name === 'magic' ? 5000 : bouquet_name === 'charme' ? 2000 : bouquet_name === 'canal+' ? 12000 : 2} />
   }
 
   const bouquetsContent = data !== null && 'length' in data && data.map(renderBouquet)
