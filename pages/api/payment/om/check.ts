@@ -1,9 +1,10 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { Agent } from 'https'
+
 import axios from 'axios'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { handleError } from '../../../../app/helpers/utils'
-
 import MerchantPayment from '../../../../app/types/payment/om/merchant-payment'
 
 export default async function handler(
@@ -20,7 +21,10 @@ export default async function handler(
             headers: {
                 'X-AUTH-TOKEN': process.env.OM_X_AUTH_TOKEN,
                 "Content-Type": "application/x-www-form-urlencoded",
-            }
+            },
+            httpsAgent: new Agent({
+                ca: require('ssl-root-cas/latest').create()
+            })
         })
 
         const initBody = { grant_type: 'client_credentials', }
