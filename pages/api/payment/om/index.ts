@@ -21,7 +21,6 @@ export default async function handler(
             baseURL: "https://api-s1.orange.cm/",
             headers: {
                 'X-AUTH-TOKEN': process.env.OM_X_AUTH_TOKEN,
-                "Content-Type": "application/x-www-form-urlencoded",
             },
             httpsAgent: new Agent({
                 ca: readFileSync('node_modules/node_extra_ca_certs_mozilla_bundle/ca_bundle/ca_intermediate_root_bundle.pem')
@@ -38,6 +37,7 @@ export default async function handler(
         }>("token", initBody, {
             headers: {
                 Authorization: `Basic ${process.env.OM_BASIC_AUTH}`,
+                "Content-Type": "application/x-www-form-urlencoded",
             },
         });
 
@@ -49,13 +49,14 @@ export default async function handler(
         }>("omcoreapis/1.0.2/mp/init", initBody, {
             headers: {
                 Authorization: `${tokenRes.data.token_type} ${tokenRes.data.access_token}`,
+                "Content-Type": "application/x-www-form-urlencoded",
             },
         })
 
         const payBody = {
             notifUrl: `${basePath}/api/payment/om/notify`,
-            amount: amount,
-            orderId: `${Date.now()}_${phone}_${id}`,
+            amount: `${amount}`,
+            orderId: `${Date.now()}`,
             description: name,
             channelUserMsisdn: process.env.OM_USER,
             subscriberMsisdn: phone,
@@ -66,10 +67,10 @@ export default async function handler(
         const response = await instance.post<MerchantPayment>("omcoreapis/1.0.2/mp/pay", payBody, {
             headers: {
                 Authorization: `${tokenRes.data.token_type} ${tokenRes.data.access_token}`,
+                "Content-Type": "application/json",
             },
         })
 
-        console.log(response.data)
         return res.status(200).json(response.data)
     } catch (error) {
         handleError(res, error)
