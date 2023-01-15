@@ -56,7 +56,7 @@ export default async function handler(
         const payBody = {
             notifUrl: `${basePath}/api/payment/om/notify`,
             amount: `${amount}`,
-            orderId: `${Date.now()}`,
+            orderId: `${Date.now()}_${id}`,
             description: name,
             channelUserMsisdn: process.env.OM_USER,
             subscriberMsisdn: phone,

@@ -1,11 +1,16 @@
 import { RadioGroup } from '@headlessui/react'
 import { CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline'
 import axios from 'axios'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { classNames } from '../../../app/helpers/utils'
+import { useAppSelector } from '../../../app/hooks'
 import MerchantPayment from '../../../app/types/payment/om/merchant-payment'
+
+import { selectAuth } from '../../../features/auth/authSlice'
+
 import Button from '../../ui/button'
 
 const methods = [
@@ -42,6 +47,8 @@ export default function BouquetSubscribe({ amount, name, id }: BouquetSubscribeP
 
     const [phone, setPhone] = useState('')
 
+    const { data: account } = useAppSelector(selectAuth)
+
     const handleSubmit = async () => {
         if (loading) return
         if (selected.ref === 'paymooney') {
@@ -56,21 +63,28 @@ export default function BouquetSubscribe({ amount, name, id }: BouquetSubscribeP
             setLoading(true)
             const res = await axios.post<MerchantPayment>('/api/payment/om', { amount, name, id, basePath, phone })
             setLoading(false)
-            setPaymentStatus(res.data.data.status)
+
+            let { status } = res.data.data
+            setPaymentStatus(status)
+
             do {
                 const checkRes = await axios.post<MerchantPayment>('/api/payment/om/check', { payToken: res.data.data.payToken })
-                setPaymentStatus(checkRes.data.data.status)
+                status = checkRes.data.data.status
                 await sleep(5000)
-            } while (paymentStatus === "PENDING");
+            } while (status === "PENDING");
+
+            setPaymentStatus(status)
         }
     }
 
     return (
         <div className="w-full px-4 py-16 relative z-0">
             {paymentUrl || paymentStatus ? <div className="absolute inset-0 bg-black/40 backdrop-filter backdrop-blur-sm flex flex-col items-center justify-center z-40">
-                <div className='text-white'>{paymentStatus === 'SUCCESSFULL' ? "Paiement validé" :
-                    paymentStatus === 'CANCELLED' ? "Paiement annulé" :
-                        "Paiement en attente de validation"}</div>
+                <div className='text-white'>
+                    {paymentStatus === 'SUCCESSFULL' ? "Paiement validé" :
+                        paymentStatus === 'CANCELLED' ? "Paiement annulé" :
+                            "Paiement en attente de validation"}
+                </div>
 
                 <div className="mt-4">
                     {paymentStatus === 'SUCCESSFULL' ? <CheckCircleIcon className='text-primary-600 w-20' /> :
@@ -79,7 +93,7 @@ export default function BouquetSubscribe({ amount, name, id }: BouquetSubscribeP
                 </div>
             </div> : null}
 
-            <div className="mx-auto w-full max-w-md relative z-0">
+            {account ? <div className="mx-auto w-full max-w-md relative z-0">
                 <div className="relative z-0">
                     <RadioGroup value={selected} onChange={setSelected}>
                         <RadioGroup.Label className="sr-only">Méthode de paiement</RadioGroup.Label>
@@ -142,7 +156,14 @@ export default function BouquetSubscribe({ amount, name, id }: BouquetSubscribeP
                     </div>
                 </div>
                 <Button onClick={handleSubmit} className="mt-5" color='primary'>{loading ? <div className='w-5 h-5 rounded-full border-t-transparent border border-white animate-spin' /> : "Continuer"}</Button>
-            </div>
+            </div> : <div className='text-center'>
+                Veuillez vous connecter pour souscrire à un de nos bouquets.<br /><br />
+                <Link href="/auth/login">
+                    <a className='btn btn-primary'>
+                        Se connecter
+                    </a>
+                </Link>
+            </div>}
         </div>
     )
 }

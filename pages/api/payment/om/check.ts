@@ -5,8 +5,12 @@ import { Agent } from 'https'
 import axios from 'axios'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import { handleError } from '../../../../app/helpers/utils'
+import { decryptPayload, handleError } from '../../../../app/helpers/utils'
+
+import User from '../../../../app/models/user'
+
 import MerchantPayment from '../../../../app/types/payment/om/merchant-payment'
+import Bouquet from '../../../../app/models/bouquet'
 
 export default async function handler(
     req: NextApiRequest,
@@ -46,6 +50,21 @@ export default async function handler(
                 Authorization: `${tokenRes.data.token_type} ${tokenRes.data.access_token}`,
             },
         })
+
+        if (response.data.data.status === 'SUCCESSFULL') {
+            const decrypted = decryptPayload(req.cookies.user!)
+            if (!decrypted) return res.status(401).json({ error: "Not authorized!" })
+            
+            const user = await User.findByPk(decrypted.id)
+            if (!user) return res.status(401).json({ error: "Invalid user!" })
+
+            const bouquetId = +response.data.data.txnmode.split('_')[1]
+            let bouquet = JSON.stringify((JSON.parse(user.getDataValue('bouquet') as string) as number[]).concat(bouquetId))
+            if ((user.bouquet as Bouquet[]).length === 1 && (user.bouquet[0] as Bouquet).bouquet_name === 'TEST') bouquet = JSON.stringify([bouquetId])
+
+            user.update('bouquet', bouquet)
+            user.update('exp_date', new Date().getTime() / 1000 + 30 * 24 * 60 * 60)
+        }
 
         return res.status(200).json(response.data)
     } catch (error) {

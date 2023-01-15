@@ -55,7 +55,7 @@ const BouquetPage: NextPageWithLayout = () => {
         return category_channels.length > 0 ? <div key={`bouquet-page-live-category-${category.id}`}>
             <div className='text-xl font-semibold mb-4'>{category.category_name}</div>
 
-            <div className='grid grid-cols-3 gap-2'>{category_channels}</div>
+            <div className='grid grid-cols-2 lg:grid-cols-3 gap-2'>{category_channels}</div>
         </div> : null
     })
 
@@ -77,7 +77,7 @@ const BouquetPage: NextPageWithLayout = () => {
 
             {status === Status.FAILED ? <PageError /> : <section id="bouquets" aria-label='Bouquets' className='landing-layer'>
                 <div className="container">
-                    <div className="grid gap-4 grid-cols-2">
+                    <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
                         {channelsContent}
                     </div>
                     {/* {data && categories && <BouquetAccordion categories={categories} />} */}
