@@ -74,7 +74,7 @@ export default function Toolbar() {
                                     </Link>
                                 </div>}
 
-                                {account ? <>
+                                {account !== null ? <>
                                     <div className='flex items-center space-x-3'>
                                         <div className="cursor-pointer relative z-0 group after:block after:absolute after:w-[12.72px] after:h-[12.72px] after:rounded-full after:bg-primary-600 after:top-0 after:right-0">
                                             <HeartIcon className="w-[31px]" />
