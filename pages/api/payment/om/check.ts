@@ -61,9 +61,12 @@ export default async function handler(
             const bouquetId = +response.data.data.txnmode.split('_')[1]
             let bouquet = JSON.stringify((JSON.parse(user.getDataValue('bouquet') as string) as number[]).concat(bouquetId))
             if ((user.bouquet as Bouquet[]).length === 1 && (user.bouquet[0] as Bouquet).bouquet_name === 'TEST') bouquet = JSON.stringify([bouquetId])
-
+            const exp_date = new Date().getTime() / 1000 + 30 * 24 * 60 * 60
+            
+            console.log(bouquet, exp_date);
+            
             await user.update('bouquet', bouquet)
-            await user.update('exp_date', new Date().getTime() / 1000 + 30 * 24 * 60 * 60)
+            await user.update('exp_date', exp_date)
         }
 
         return res.status(200).json(response.data)
