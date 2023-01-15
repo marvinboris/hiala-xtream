@@ -65,8 +65,10 @@ export default async function handler(
             
             console.log(bouquet, exp_date);
             
-            await user.update('bouquet', bouquet)
-            await user.update('exp_date', exp_date)
+            user.bouquet = bouquet
+            user.exp_date = exp_date
+
+            await user.save()
         }
 
         return res.status(200).json(response.data)
