@@ -13,12 +13,13 @@ interface PageTitleProps {
     icon: (props: React.ComponentProps<'svg'>) => JSX.Element
     search: string
     setSearch: Dispatch<SetStateAction<string>>
+    placeholder: string
     categories?: StreamCategoryType[]
     category_id?: number
     selectCategory?: (category_id: number) => void
 }
 
-export default function PageTitle({ title, subtitle, icon: Icon, search, setSearch, categories, category_id, selectCategory }: PageTitleProps) {
+export default function PageTitle({ title, subtitle, icon: Icon, search, setSearch, placeholder, categories, category_id, selectCategory }: PageTitleProps) {
     return <header className="container">
         <div className="bg-secondary-800 py-4 lg:py-6 pl-6 lg:pl-9 pr-8 lg:pr-12 flex items-center rounded-[30px]">
             <div className="text-white opacity-30 relative pr-3 lg:pr-[22px] mr-3 lg:mr-[22px]">
@@ -34,7 +35,7 @@ export default function PageTitle({ title, subtitle, icon: Icon, search, setSear
             <div className="ml-auto">
                 <div className='flex items-center space-x-3 lg:space-x-9'>
                     <div className='hidden lg:block'>
-                        <Input type='search' name='search' icon={MagnifyingGlassIcon} onChange={e => setSearch(e.target.value)} value={search} className="bg-secondary-900" placeholder='Rechercher une chaîne...' />
+                        <Input type='search' name='search' icon={MagnifyingGlassIcon} onChange={e => setSearch(e.target.value)} value={search} className="bg-secondary-900" placeholder={placeholder} />
                     </div>
 
                     {categories && selectCategory ? <div className="relative group z-20">

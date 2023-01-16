@@ -1,13 +1,16 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-type Data = {
-  name: string
-}
+import User from '../../app/models/user'
 
-export default function handler(
+type Data = unknown
+
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  res.status(200).json({ name: 'John Doe' })
+  const user = await User.findOne()
+  const data = user!.bouquet.length
+
+  res.status(200).json([data, typeof data])
 }

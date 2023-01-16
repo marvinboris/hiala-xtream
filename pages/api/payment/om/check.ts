@@ -58,12 +58,12 @@ export default async function handler(
             const user = await User.findByPk(decrypted.id)
             if (!user) return res.status(401).json({ error: "Invalid user!" })
 
-            const bouquetId = +response.data.data.txnmode.split('_')[1]
-            let bouquet = JSON.stringify((JSON.parse(user.getDataValue('bouquet') as string) as number[]).concat(bouquetId))
-            if ((user.bouquet as Bouquet[]).length === 1 && (user.bouquet[0] as Bouquet).bouquet_name === 'TEST') bouquet = JSON.stringify([bouquetId])
+            const test_bouquet = await Bouquet.findOne({ where: { bouquet_name: 'TEST' } })
+
+            const bouquet_id = +response.data.data.txnmode.split('_')[1]
+            let bouquet = JSON.stringify((JSON.parse(user.getDataValue('bouquet') as string) as number[]).concat(bouquet_id))
+            if ((user.bouquet as number[]).length === 1 && user.bouquet[0] === test_bouquet!.id) bouquet = JSON.stringify([bouquet_id])
             const exp_date = new Date().getTime() / 1000 + 30 * 24 * 60 * 60
-            
-            console.log(bouquet, exp_date);
             
             user.bouquet = bouquet
             user.exp_date = exp_date

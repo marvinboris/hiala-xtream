@@ -91,6 +91,12 @@ export default function BouquetSubscribe({ amount, name, id }: BouquetSubscribeP
                         paymentStatus === 'CANCELLED' ? <ExclamationCircleIcon className='text-red-600 w-20' /> :
                             <div className='border-[5px] border-t-transparent border-sky-600 rounded-full animate-spin w-20 h-20' />}
                 </div>
+
+                {paymentStatus === 'SUCCESSFULL' ? <Link href="/">
+                    <a className='btn btn-primary'>
+                        Retourner à l'écran d'accueil
+                    </a>
+                </Link> : null}
             </div> : null}
 
             {account ? <div className="mx-auto w-full max-w-md relative z-0">

@@ -41,9 +41,16 @@ const VodsPage: NextPageWithLayout = () => {
   return <>
     <Head {...params} />
     {status === Status.LOADING ? <PageLoader /> : <main>
-      <PageTitle icon={FilmIcon} title="Films" subtitle="Retrouvez tous vos films préférés."
-        search={search} setSearch={setSearch}
-        categories={vodCategories!} category_id={categoryId} selectCategory={setCategoryId} />
+      <PageTitle
+        icon={FilmIcon}
+        title="Films"
+        subtitle="Retrouvez tous vos films préférés."
+        search={search}
+        setSearch={setSearch}
+        placeholder='Rechercher un film...'
+        categories={vodCategories!}
+        category_id={categoryId}
+        selectCategory={setCategoryId} />
 
       {status === Status.FAILED ? <PageError /> : <section id="vods" aria-label='Vods' className='landing-layer'>
         <div className="container">

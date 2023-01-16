@@ -28,7 +28,7 @@ export default async function handler(
 
         const test_bouquet = await Bouquet.findOne({ where: { bouquet_name: 'TEST' } })
 
-        const user = await User.create({
+        await User.create({
             member_id: 1,
             username, password,
             admin_notes: JSON.stringify({ first_name, last_name, email, phone }),

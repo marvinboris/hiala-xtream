@@ -41,9 +41,16 @@ const LivesPage: NextPageWithLayout = () => {
   return <>
     <Head {...params} />
     {status === Status.LOADING ? <PageLoader /> : <main>
-      <PageTitle icon={TvIcon} title="Chaînes" subtitle="Retrouvez toutes vos chaînes préférées."
-        search={search} setSearch={setSearch}
-        categories={liveCategories!} category_id={categoryId} selectCategory={setCategoryId} />
+      <PageTitle
+        icon={TvIcon}
+        title="Chaînes"
+        subtitle="Retrouvez toutes vos chaînes préférées."
+        search={search}
+        setSearch={setSearch}
+        placeholder='Rechercher une chaîne...'
+        categories={liveCategories!}
+        category_id={categoryId}
+        selectCategory={setCategoryId} />
 
       {status === Status.FAILED ? <PageError /> : <section id="lives" aria-label='Lives' className='landing-layer'>
         <div className="container">

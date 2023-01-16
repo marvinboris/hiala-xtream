@@ -41,9 +41,16 @@ const SeriesPage: NextPageWithLayout = () => {
   return <>
     <Head {...params} />
     {status === Status.LOADING ? <PageLoader /> : <main>
-      <PageTitle icon={VideoCameraIcon} title="Séries" subtitle="Retrouvez toutes vos séries préférées." 
-        search={search} setSearch={setSearch}
-        categories={seriesCategories!} category_id={categoryId} selectCategory={setCategoryId} />
+      <PageTitle
+        icon={VideoCameraIcon}
+        title="Séries"
+        subtitle="Retrouvez toutes vos séries préférées."
+        search={search}
+        setSearch={setSearch}
+        placeholder='Rechercher une série...'
+        categories={seriesCategories!}
+        category_id={categoryId}
+        selectCategory={setCategoryId} />
 
       {status === Status.FAILED ? <PageError /> : <section id="series" aria-label='Seriess' className='landing-layer'>
         <div className="container">
