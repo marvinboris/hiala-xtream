@@ -70,7 +70,7 @@ const BouquetPage: NextPageWithLayout = () => {
                 <h1 className="page-title">{data && data.bouquet_name}</h1>
                 {data && <div>
                     <View title={`Souscrire au bouquet ${data.bouquet_name}`} action={<Button color='primary'>Souscrire</Button>}>
-                        <BouquetSubscribe amount={2} name={data.bouquet_name} id={data.id} />
+                        <BouquetSubscribe amount={data.bouquet_name.toLowerCase() === 'passion' ? 3000 : data.bouquet_name.toLowerCase() === 'magic' ? 5000 : data.bouquet_name.toLowerCase() === 'charme' ? 2000 : data.bouquet_name.toLowerCase() === 'canal+' ? 12000 : 2} name={data.bouquet_name} id={data.id} />
                     </View>
                 </div>}
             </header>
