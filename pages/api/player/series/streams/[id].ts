@@ -2,8 +2,9 @@
 import { existsSync, mkdirSync, readFileSync } from 'fs'
 import path from 'path'
 
-import { path as ffmpegPath } from '@ffmpeg-installer/ffmpeg'
-import ffmpeg from 'fluent-ffmpeg'
+import axios from 'axios'
+// import { path as ffmpegPath } from '@ffmpeg-installer/ffmpeg'
+// import ffmpeg from 'fluent-ffmpeg'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { decryptPayload, handleError } from '../../../../../app/helpers/utils'
@@ -14,7 +15,7 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<unknown | { error: string }>
 ) {
-    ffmpeg.setFfmpegPath(ffmpegPath)
+    // ffmpeg.setFfmpegPath(ffmpegPath)
     
     try {
         const decrypted = decryptPayload(req.cookies.user!)
@@ -28,34 +29,37 @@ export default async function handler(
         const series = await Stream.findByPk(+id)
 
         const src = `${process.env.XTREAM_HOSTNAME!}/series/${username}/${password}/${id}.${series!.target_container[0]}`
+        const source1 = await axios.get(src)
 
-        const parsedSrc = src.split('/')
+        res.send(source1.data)
 
-        const directory = path.join(process.cwd(), 'public', 'files', parsedSrc[3])
-        const fileName = `${parsedSrc.filter((_, i) => i > 3).join('-')}.m3u8`
+        // const parsedSrc = src.split('/')
 
-        const filePath = path.join(directory, fileName)
-        if (!existsSync(directory)) mkdirSync(directory)
-        if (!existsSync(filePath)) {
-            ffmpeg(src, { timeout: 432000 }).addOptions([
-                '-profile:v baseline', // baseline profile (level 3.0) for H264 video codec
-                '-level 3.0',
-                // '-s 640x360',          // 640px width, 360px height output video dimensions
-                '-start_number 0',     // start the first .ts segment at index 0
-                '-hls_time 5',        // 5 second segment duration
-                '-hls_list_size 0',    // Maxmimum number of playlist entries (0 means all entries/infinite)
-                '-f hls'               // HLS format
-            ]).output(filePath).run()
+        // const directory = path.join(process.cwd(), 'public', 'files', parsedSrc[3])
+        // const fileName = `${parsedSrc.filter((_, i) => i > 3).join('-')}.m3u8`
 
-            return res.end()
-        }
+        // const filePath = path.join(directory, fileName)
+        // if (!existsSync(directory)) mkdirSync(directory)
+        // if (!existsSync(filePath)) {
+        //     ffmpeg(src, { timeout: 432000 }).addOptions([
+        //         '-profile:v baseline', // baseline profile (level 3.0) for H264 video codec
+        //         '-level 3.0',
+        //         // '-s 640x360',          // 640px width, 360px height output video dimensions
+        //         '-start_number 0',     // start the first .ts segment at index 0
+        //         '-hls_time 5',        // 5 second segment duration
+        //         '-hls_list_size 0',    // Maxmimum number of playlist entries (0 means all entries/infinite)
+        //         '-f hls'               // HLS format
+        //     ]).output(filePath).run()
 
-        const source = readFileSync(filePath, 'utf8')
+        //     return res.end()
+        // }
 
-        const expression = new RegExp(`${username}-${password}-${id}`, "g")
-        const result = source.replace(expression, `/files/series/${username}-${password}-${id}`)
+        // const source = readFileSync(filePath, 'utf8')
 
-        res.send(result)
+        // const expression = new RegExp(`${username}-${password}-${id}`, "g")
+        // const result = source.replace(expression, `/files/series/${username}-${password}-${id}`)
+
+        // res.send(result)
     } catch (error) {
         handleError(res, error)
     }

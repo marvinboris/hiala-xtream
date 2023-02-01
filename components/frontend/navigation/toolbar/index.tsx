@@ -1,6 +1,6 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Popover } from '@headlessui/react'
-import { BellIcon, VideoCameraIcon, FilmIcon, HeartIcon, HomeIcon, MagnifyingGlassIcon, TvIcon } from '@heroicons/react/24/outline'
+import { BellIcon, VideoCameraIcon, FilmIcon, HeartIcon, HomeIcon, MagnifyingGlassIcon, TvIcon, ArrowDownTrayIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 
 import { useThemeContext } from '../../../../app/contexts/theme'
@@ -105,6 +105,10 @@ export default function Toolbar() {
                                         </div>
                                     </div>
                                 </> : null}
+
+                                <a href="/files/app.apk">
+                                    <ArrowDownTrayIcon className='w-8' />
+                                </a>
 
                                 <div className='flex items-center'>
                                     <button type="button" id="headlessui-listbox-button-10" className='hidden h-10 p-2 -m-2' aria-haspopup="true" aria-expanded="false" data-headlessui-state="" aria-labelledby="headlessui-listbox-label-9 headlessui-listbox-button-10" onClick={toggleDark}>

@@ -40,7 +40,7 @@ export default function Video({ live, info, category }: VideoProps) {
             controls: true,
             responsive: true,
             fluid: true,
-            sources: ('stream_source' in info ? info : info.stream).stream_source.map(src => ({ src, type: 'application/x-mpegURL' }))
+            sources: ('stream_source' in info ? info : info.stream).stream_source.map(src => ({ src, type: live ? 'application/x-mpegURL' : 'video/x-matroska' }))
         }
         if (live) options.mpegtsjs = {
             mediaDataSource: {
