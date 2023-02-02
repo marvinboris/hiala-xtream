@@ -3,7 +3,7 @@ import { CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/24/outl
 import axios from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { classNames } from '../../../app/helpers/utils'
 import { useAppSelector } from '../../../app/hooks'
@@ -15,8 +15,8 @@ import Button from '../../ui/button'
 
 const methods = [
     {
-        name: 'Paiement mobile / par carte',
-        description: 'OM / MoMo / VISA / MasterCard / PayPal',
+        name: 'Paiement mobile - MTN / par carte',
+        description: 'MoMo / VISA / MasterCard / PayPal',
         ref: 'paymooney'
     },
     {
@@ -46,8 +46,13 @@ export default function BouquetSubscribe({ amount, name, id }: BouquetSubscribeP
     const [paymentStatus, setPaymentStatus] = useState<MerchantPayment["data"]["status"] | null>(null)
 
     const [phone, setPhone] = useState('')
+    const [phoneValid, setPhoneValid] = useState(false)
 
     const { data: account } = useAppSelector(selectAuth)
+
+    useEffect(() => {
+        setPhoneValid(/^6(9\d{7}|5[5-9]\d{6})$/.test(phone))
+    }, [phone])
 
     const handleSubmit = async () => {
         if (loading) return
@@ -60,6 +65,8 @@ export default function BouquetSubscribe({ amount, name, id }: BouquetSubscribeP
             setLoading(false)
             if (res.data.response === 'success') setPaymentUrl(res.data.payment_url)
         } else if (selected.ref === 'om') {
+            if (!phoneValid) return
+
             setLoading(true)
             const res = await axios.post<MerchantPayment>('/api/payment/om', { amount, name, id, basePath, phone })
             setLoading(false)
@@ -78,28 +85,28 @@ export default function BouquetSubscribe({ amount, name, id }: BouquetSubscribeP
     }
 
     return (
-        <div className="w-full px-4 py-16 relative z-0">
-            {paymentUrl || paymentStatus ? <div className="absolute inset-0 bg-black/40 backdrop-filter backdrop-blur-sm flex flex-col items-center justify-center z-40">
-                <div className='text-white'>
-                    {paymentStatus === 'SUCCESSFULL' ? "Paiement validé" :
-                        paymentStatus === 'CANCELLED' ? "Paiement annulé" :
-                            "Paiement en attente de validation"}
-                </div>
+        <div className="w-full relative z-0 px-4 py-16">
+            {account ? <div className="mx-auto w-full max-w-md">
+                {paymentUrl || paymentStatus ? <div className="absolute inset-0 bg-black/40 backdrop-filter backdrop-blur-sm flex flex-col items-center justify-center z-40">
+                    <div className='text-white'>
+                        {paymentStatus === 'SUCCESSFULL' ? "Paiement validé" :
+                            paymentStatus === 'CANCELLED' ? "Paiement annulé" :
+                                "Paiement en attente de validation"}
+                    </div>
 
-                <div className="mt-4">
-                    {paymentStatus === 'SUCCESSFULL' ? <CheckCircleIcon className='text-primary-600 w-20' /> :
-                        paymentStatus === 'CANCELLED' ? <ExclamationCircleIcon className='text-red-600 w-20' /> :
-                            <div className='border-[5px] border-t-transparent border-sky-600 rounded-full animate-spin w-20 h-20' />}
-                </div>
+                    <div className="mt-4">
+                        {paymentStatus === 'SUCCESSFULL' ? <CheckCircleIcon className='text-primary-600 w-20' /> :
+                            paymentStatus === 'CANCELLED' ? <ExclamationCircleIcon className='text-red-600 w-20' /> :
+                                <div className='border-[5px] border-t-transparent border-sky-600 rounded-full animate-spin w-20 h-20' />}
+                    </div>
 
-                {paymentStatus === 'SUCCESSFULL' ? <Link href="/">
-                    <a className='btn btn-primary'>
-                        Retourner à l'écran d'accueil
-                    </a>
-                </Link> : null}
-            </div> : null}
+                    {paymentStatus === 'SUCCESSFULL' ? <Link href="/">
+                        <a className='btn btn-primary'>
+                            Retourner à l'écran d'accueil
+                        </a>
+                    </Link> : null}
+                </div> : null}
 
-            {account ? <div className="mx-auto w-full max-w-md relative z-0">
                 <div className="relative z-0">
                     <RadioGroup value={selected} onChange={setSelected}>
                         <RadioGroup.Label className="sr-only">Méthode de paiement</RadioGroup.Label>
@@ -150,14 +157,14 @@ export default function BouquetSubscribe({ amount, name, id }: BouquetSubscribeP
                 </div>
 
                 {selected.ref === 'om' ? <div className='mt-4'>
-                    <input placeholder='Orange phone number' disabled={loading} className='rounded-lg bg-secondary-100 outline-none py-3 px-4 text-sm block w-full' onChange={e => setPhone(e.target.value)} value={phone} />
+                    <input placeholder='Orange phone number. Ex: 690909090' type='tel' disabled={loading} className={classNames('rounded-lg bg-secondary-100 py-3 px-4 text-sm block w-full', phone === '' ? 'outline-none' : phoneValid ? 'outline-primary-600' : 'outline-red-600')} onChange={e => setPhone(e.target.value)} value={phone} />
                 </div> : null}
 
                 <div className={classNames(paymentUrl ? "opacity-100 scale-100" : "opacity-0 scale-0", "fixed inset-0 z-50 items-center justify-center flex flex-col transition-all duration-200")}>
                     <div onClick={() => setPaymentUrl(null)} className='fixed z-0 top-0 left-0 w-screen h-screen bg-black/30' />
                     <div className="relative z-10">
                         <div className="container">
-                            <iframe src={paymentUrl || ''} className="max-w-sm w-full min-h-[600px]" />
+                            <iframe src={paymentUrl || ''} className="max-w-sm w-full min-h-[600px] z-[100]" />
                         </div>
                     </div>
                 </div>
