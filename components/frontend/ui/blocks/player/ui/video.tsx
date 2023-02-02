@@ -25,7 +25,7 @@ export default function Video({ live, info, category }: VideoProps) {
     const { data: account } = useAppSelector(selectAuth)
 
     const type = 'stream_source' in info ? 'stream' : 'serie'
-    const condition = account === null || !account.bouquet || !account.bouquet.find(bouquet => (type === 'stream' && bouquet.bouquet_channels.find(stream => stream === info.id)) || (type === 'serie' && bouquet.bouquet_series.find(serie => serie === info.id)))
+    const condition = account === null || !account.bouquet || !account.bouquet.find(bouquet => (type === 'stream' && bouquet.bouquet_channels.find(stream => stream === (info as StreamType).id)) || (type === 'serie' && bouquet.bouquet_series.find(serie => serie === (info as SeriesEpisodeType).series_id)))
 
     useEffect(() => {
         if (condition) push('/bouquets')

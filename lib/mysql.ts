@@ -6,7 +6,7 @@ const sequelize = new Sequelize(process.env.DB_DATABASE!, process.env.DB_USERNAM
     dialect: "mysql",
 })
 
-if (process.env.DB_TEST) (async () => {
+if (process.env.NODE_ENV !== 'production') (async () => {
     try {
         await sequelize.authenticate();
         console.log('Connection has been established successfully.');
