@@ -3,7 +3,7 @@ import { CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/24/outl
 import axios from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 
 import { classNames } from '../../../app/helpers/utils'
 import { useAppSelector } from '../../../app/hooks'
@@ -11,6 +11,7 @@ import MerchantPayment from '../../../app/types/payment/om/merchant-payment'
 
 import { selectAuth } from '../../../features/auth/authSlice'
 
+import Alert from '../../ui/alert'
 import Button from '../../ui/button'
 
 const methods = [
@@ -45,6 +46,8 @@ export default function BouquetSubscribe({ amount, name, id }: BouquetSubscribeP
     const [paymentUrl, setPaymentUrl] = useState<string | null>(null)
     const [paymentStatus, setPaymentStatus] = useState<MerchantPayment["data"]["status"] | null>(null)
 
+    const [message, setMessage] = useState<string | null>(null)
+
     const [phone, setPhone] = useState('')
     const [phoneValid, setPhoneValid] = useState(false)
 
@@ -54,7 +57,9 @@ export default function BouquetSubscribe({ amount, name, id }: BouquetSubscribeP
         setPhoneValid(/^6(9\d{7}|5[5-9]\d{6})$/.test(phone))
     }, [phone])
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e: FormEvent) => {
+        e.preventDefault()
+
         if (loading) return
         if (selected.ref === 'paymooney') {
             setLoading(true)
@@ -65,7 +70,8 @@ export default function BouquetSubscribe({ amount, name, id }: BouquetSubscribeP
             setLoading(false)
             if (res.data.response === 'success') setPaymentUrl(res.data.payment_url)
         } else if (selected.ref === 'om') {
-            if (!phoneValid) return
+            setMessage(null)
+            if (!phoneValid) return setMessage("Numéro de téléphone invalide")
 
             setLoading(true)
             const res = await axios.post<MerchantPayment>('/api/payment/om', { amount, name, id, basePath, phone })
@@ -73,6 +79,8 @@ export default function BouquetSubscribe({ amount, name, id }: BouquetSubscribeP
 
             let { status } = res.data.data
             setPaymentStatus(status)
+
+            if (status === 'FAILED') return setMessage(res.data.data.inittxnmessage)
 
             do {
                 const checkRes = await axios.post<MerchantPayment>('/api/payment/om/check', { payToken: res.data.data.payToken })
@@ -85,9 +93,9 @@ export default function BouquetSubscribe({ amount, name, id }: BouquetSubscribeP
     }
 
     return (
-        <div className="w-full relative z-0 px-4 py-16">
+        <form onSubmit={handleSubmit} className="w-full relative z-0 px-4 py-16">
             {account ? <div className="mx-auto w-full max-w-md">
-                {paymentUrl || paymentStatus ? <div className="absolute inset-0 bg-black/40 backdrop-filter backdrop-blur-sm flex flex-col items-center justify-center z-40">
+                {paymentUrl || (paymentStatus && paymentStatus !== 'FAILED') ? <div className="absolute inset-0 bg-black/40 backdrop-filter backdrop-blur-sm flex flex-col items-center justify-center z-40">
                     <div className='text-white'>
                         {paymentStatus === 'SUCCESSFULL' ? "Paiement validé" :
                             paymentStatus === 'CANCELLED' ? "Paiement annulé" :
@@ -156,7 +164,8 @@ export default function BouquetSubscribe({ amount, name, id }: BouquetSubscribeP
                     </RadioGroup>
                 </div>
 
-                {selected.ref === 'om' ? <div className='mt-4'>
+                {selected.ref === 'om' ? <div className='mt-4 space-y-2'>
+                    {message && <Alert color='danger'>{message}</Alert>}
                     <input placeholder='Orange phone number. Ex: 690909090' type='tel' disabled={loading} className={classNames('rounded-lg bg-secondary-100 py-3 px-4 text-sm block w-full', phone === '' ? 'outline-none' : phoneValid ? 'outline-primary-600' : 'outline-red-600')} onChange={e => setPhone(e.target.value)} value={phone} />
                 </div> : null}
 
@@ -177,7 +186,7 @@ export default function BouquetSubscribe({ amount, name, id }: BouquetSubscribeP
                     </a>
                 </Link>
             </div>}
-        </div>
+        </form>
     )
 }
 

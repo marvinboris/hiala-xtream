@@ -1,9 +1,10 @@
 import { createReadStream, createWriteStream, existsSync, mkdirSync, rmSync, statSync } from "fs"
-import { NextApiResponse } from "next"
 import path from "path"
 import { promisify } from "util"
-import stream from 'stream'
+
 import got from "got"
+import { NextApiResponse } from "next"
+import stream from 'stream'
 
 const send = (res: NextApiResponse) => {
     const readStream = createReadStream(path.join(process.cwd(), 'public', 'images', 'favicon.svg'))

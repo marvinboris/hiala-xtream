@@ -12,7 +12,7 @@ export default interface MerchantPayment {
         inittxnstatus: string
         confirmtxnstatus: string | null
         confirmtxnmessage: string | null
-        status: "PENDING" | "SUCCESSFULL" | "CANCELLED"
+        status: "PENDING" | "SUCCESSFULL" | "CANCELLED" | "FAILED"
         notifUrl: string
         description: string
         channelUserMsisdn: string

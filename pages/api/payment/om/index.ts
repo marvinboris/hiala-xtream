@@ -24,7 +24,8 @@ export default async function handler(
             },
             httpsAgent: new Agent({
                 ca: readFileSync('node_modules/node_extra_ca_certs_mozilla_bundle/ca_bundle/ca_intermediate_root_bundle.pem')
-            })
+            }),
+            validateStatus: () => true
         })
 
         const initBody = { grant_type: 'client_credentials', }
@@ -70,8 +71,8 @@ export default async function handler(
                 "Content-Type": "application/json",
             },
         })
-
-        return res.status(200).json(response.data)
+        
+        res.status(200).json(response.data)
     } catch (error) {
         handleError(res, error)
     }
