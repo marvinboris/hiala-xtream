@@ -1,8 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { existsSync, mkdirSync, readFileSync } from 'fs'
-import path from 'path'
+// import { existsSync, mkdirSync, readFileSync } from 'fs'
+// import path from 'path'
 
-import axios from 'axios'
+// import axios from 'axios'
 // import { path as ffmpegPath } from '@ffmpeg-installer/ffmpeg'
 // import ffmpeg from 'fluent-ffmpeg'
 import type { NextApiRequest, NextApiResponse } from 'next'
@@ -10,13 +10,14 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { decryptPayload, handleError } from '../../../../../app/helpers/utils'
 import { Stream } from '../../../../../app/models'
 import User from '../../../../../app/models/user'
+import { assets } from '../../../../../lib/utils'
 
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<unknown | { error: string }>
 ) {
     // ffmpeg.setFfmpegPath(ffmpegPath)
-    
+
     try {
         const decrypted = decryptPayload(req.cookies.user!)
         if (!decrypted) return res.status(401).json({ error: "Not authorized!" })
@@ -29,9 +30,7 @@ export default async function handler(
         const series = await Stream.findByPk(+id)
 
         const src = `${process.env.XTREAM_HOSTNAME!}/series/${username}/${password}/${id}.${series!.target_container[0]}`
-        const source1 = await axios.get(src)
-
-        res.send(source1.data)
+        return await assets({ src, res })
 
         // const parsedSrc = src.split('/')
 
