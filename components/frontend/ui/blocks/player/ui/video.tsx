@@ -35,8 +35,6 @@ export default function Video({ live, info, category }: VideoProps) {
     if (!condition) {
         const name = capitalize(category.category_name.toLocaleLowerCase())
         const sources = ('stream_source' in info ? info : info.stream).stream_source.map(src => ({ src, type: live ? 'application/x-mpegURL' : 'video/webm' }))
-        console.log(sources);
-        
 
         const options: VideoJsPlayerPluginOptions = {
             autoplay: true,
