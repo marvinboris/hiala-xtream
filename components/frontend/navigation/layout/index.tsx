@@ -14,10 +14,11 @@ import LayoutLoader from './loader'
 import { liveCategories, selectPlayer, seriesCategories, vodCategories } from '../../../../features/player/playerSlice'
 
 interface LayoutProps {
+    videoPage?: boolean
     children: ReactNode
 }
 
-export default function Layout({ children }: LayoutProps) {
+export default function Layout({ videoPage, children }: LayoutProps) {
     const router = useRouter()
 
     const dispatch = useAppDispatch()
@@ -31,8 +32,6 @@ export default function Layout({ children }: LayoutProps) {
 
     const loading = live.categories.status === Status.LOADING || series.categories.status === Status.LOADING || vod.categories.status === Status.LOADING
     const failed = live.categories.status === Status.FAILED || series.categories.status === Status.FAILED || vod.categories.status === Status.FAILED
-
-    const videoPage = /\/chaines\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+/.test(router.asPath) || /\/films\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+/.test(router.asPath) || /\/series\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+/.test(router.asPath)
 
     return loading ? <LayoutLoader /> : failed ? <LayoutError /> : (live.categories.data && series.categories.data && vod.categories.data) ? <CategoriesContext.Provider value={{ liveCategories: live.categories.data, seriesCategories: series.categories.data, vodCategories: vod.categories.data }}>
         {videoPage ? children : <div className='min-h-screen flex flex-col'>

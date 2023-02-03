@@ -56,7 +56,7 @@ const VodStreamPage: NextPageWithLayout = () => {
 }
 
 VodStreamPage.getLayout = function getLayout(page: ReactElement) {
-    return <Layout>{page}</Layout>
+    return <Layout videoPage>{page}</Layout>
 }
 
 export default VodStreamPage

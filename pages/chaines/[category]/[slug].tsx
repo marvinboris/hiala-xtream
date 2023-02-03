@@ -56,7 +56,7 @@ const LiveStreamPage: NextPageWithLayout = () => {
 }
 
 LiveStreamPage.getLayout = function getLayout(page: ReactElement) {
-    return <Layout>{page}</Layout>
+    return <Layout videoPage>{page}</Layout>
 }
 
 export default LiveStreamPage

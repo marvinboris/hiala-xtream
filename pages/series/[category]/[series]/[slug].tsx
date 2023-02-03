@@ -65,7 +65,7 @@ const SeriesEpisodeStreamPage: NextPageWithLayout = () => {
 }
 
 SeriesEpisodeStreamPage.getLayout = function getLayout(page: ReactElement) {
-    return <Layout>{page}</Layout>
+    return <Layout videoPage>{page}</Layout>
 }
 
 export default SeriesEpisodeStreamPage
