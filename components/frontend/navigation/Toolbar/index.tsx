@@ -15,6 +15,7 @@ import Input from '../../../ui/input'
 
 import Account from './account'
 import NavItem from './nav-item'
+import Download from './download'
 
 const navItems: NavItemType[] = [
     { icon: HomeIcon, href: '/', exact: true, children: "Accueil" },
@@ -49,7 +50,7 @@ export default function Toolbar() {
                             <div className="flex items-center">
                                 <Link href="/">
                                     <a className='block'>
-                                        <span className="sr-only">Hiala TV</span>
+                                        <span className="sr-only">{process.env.APP_NAME}</span>
                                         <Logo />
                                     </a>
                                 </Link>
@@ -106,9 +107,7 @@ export default function Toolbar() {
                                     </div>
                                 </> : null}
 
-                                <a href="/files/app.apk">
-                                    <ArrowDownTrayIcon className='w-8' />
-                                </a>
+                                <Download />
 
                                 <div className='flex items-center'>
                                     <button type="button" id="headlessui-listbox-button-10" className='hidden h-10 p-2 -m-2' aria-haspopup="true" aria-expanded="false" data-headlessui-state="" aria-labelledby="headlessui-listbox-label-9 headlessui-listbox-button-10" onClick={toggleDark}>
