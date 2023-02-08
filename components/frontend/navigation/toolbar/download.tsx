@@ -21,8 +21,8 @@ export default function Download() {
                     <ArrowDownTrayIcon className='w-8' />
                 </Popover.Button>
                 <Transition as={Fragment} enter="transition ease-out duration-200" enterFrom="opacity-0 translate-y-1" enterTo="opacity-100 translate-y-0" leave="transition ease-in duration-150" leaveFrom="opacity-100 translate-y-0" leaveTo="opacity-0 translate-y-1">
-                    <Popover.Panel className="fixed w-screen h-screen flex items-center justify-center top-0 left-0 z-40">
-                        <Popover.Overlay onClick={close} className="absolute z-0 inset-0 bg-black/20 backdrop-blur-sm backdrop-filter" />
+                    <Popover.Panel className="fixed w-screen h-screen bg-black/20 backdrop-blur-sm backdrop-filter flex items-center justify-center top-0 left-0 z-40">
+                        <Popover.Overlay onClick={close} className="fixed z-0 w-screen h-screen" />
                         <div className="grid grid-cols-2 gap-2 relative z-10">
                             {[
                                 { name: 'Hiala C', os: 'Android', href: '/files/hiala-c.apk' },
