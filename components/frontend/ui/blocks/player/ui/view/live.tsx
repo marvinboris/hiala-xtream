@@ -1,5 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react'
-import { Bars3Icon, MagnifyingGlassIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { capitalize } from 'lodash'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -25,9 +25,10 @@ export default function LiveView() {
         const category = categories?.find(category => category.id === stream.category_id)!
 
         setIsOpen(false)
+        setSearch('')
         push(`/chaines/${category.slug}/${stream.slug}`, undefined, { shallow: true })
-    }} className='cursor-pointer flex items-center space-x-2 bg-secondary-900'>
-        <div className="aspect-square w-16 relative p-4 flex items-center justify-center overflow-hidden z-0">
+    }} className='cursor-pointer flex items-center space-x-2 bg-secondary-900 hover:bg-secondary-700 transition-all duration-200 text-sm'>
+        <div className="aspect-square w-14 bg-secondary-700 relative p-2.5 flex items-center justify-center overflow-hidden z-0">
             <img src={`/api/assets?src=${stream.stream_icon}`} alt={stream.stream_display_name} className="w-full h-full object-contain" />
             <img src={`/api/assets?src=${stream.stream_icon}`} alt={stream.stream_display_name} className="w-full h-full object-cover absolute inset-0 -z-10 blur-3xl scale-150" />
         </div>
@@ -51,15 +52,17 @@ export default function LiveView() {
 
                 {/* Full-screen container to center the panel */}
                 <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0 scale-95" enterTo="opacity-100 scale-100" leave="ease-in duration-200" leaveFrom="opacity-100 scale-100" leaveTo="opacity-0 scale-95">
-                    <div className="container py-4 flex-1 flex flex-col">
-                        <Dialog.Panel className="mx-auto max-w-2xl w-full rounded-2xl bg-secondary-800 text-secondary-400 pt-3 pb-5 px-4 flex-1 flex flex-col">
+                    <div className="container py-4 flex-1 flex flex-col overflow-auto">
+                        <Dialog.Panel className="mx-auto max-w-2xl w-full rounded-2xl bg-secondary-800 text-secondary-400 pt-3 pb-5 px-4 flex-1 flex flex-col overflow-auto">
                             <header className="space-y-4 pb-5">
-                                <div>
+                                <div className='flex items-center justify-between'>
                                     <Link href="/">
                                         <a className='outline-none inline-block'>
                                             <Logo reset />
                                         </a>
                                     </Link>
+
+                                    <XMarkIcon className='cursor-pointer w-5' onClick={() => setIsOpen(false)} />
                                 </div>
 
                                 <div>

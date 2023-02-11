@@ -64,15 +64,22 @@ export default function Video({ live, info, category, children }: VideoProps) {
             videoElement.classList.add('vjs-big-play-centered');
             videoRef.current?.appendChild(videoElement);
 
-            const player = playerRef.current = videojs(videoElement, options, () => {
-                videojs.log('player is ready');
-            });
+            playerRef.current = videojs(videoElement, options);
 
             // You could update an existing player in the `else` block here
             // on prop change, for example:
         } else {
             const player = playerRef.current;
 
+            require('videojs-landscape-fullscreen')
+            player.landscapeFullscreen!({
+                fullscreen: {
+                    enterOnRotate: true,
+                    exitOnRotate: true,
+                    alwaysInLandscapeMode: true,
+                    iOS: true
+                }
+            })
             player.autoplay(options.autoplay);
             player.src(options.sources);
         }
@@ -96,11 +103,13 @@ export default function Video({ live, info, category, children }: VideoProps) {
                 <header className="container flex items-center h-20 lg:h-[133px]">
                     <div className="mr-6 md:mr-12"><div onClick={back} className="cursor-pointer w-12 h-12 rounded-full flex items-center justify-center bg-white/30 text-white"><ArrowLeftIcon className="w-6" /></div></div>
                     {live ? <img src={`/api/assets?src=${('stream_source' in info ? info : info.stream).stream_icon}`} alt="Stream Icon" className="h-12 object-center mr-3" /> : null}
-                    <div>
-                        <div className="text-xl font-bold text-white">{('stream_source' in info ? info : info.stream).stream_display_name}</div>
+                    <div className='flex-1 mr-6'>
+                        <div className="text-xl font-bold text-white truncate max-w-[150px]" title={('stream_source' in info ? info : info.stream).stream_display_name}>
+                            {('stream_source' in info ? info : info.stream).stream_display_name}
+                        </div>
                         <div className="text-sm">{name}</div>
                     </div>
-                    <div className="ml-auto">{live ? children : <HeartIcon className="w-14 text-white" />}</div>
+                    <div className='ml-auto'>{live ? children : <HeartIcon className="w-14 text-white" />}</div>
                 </header>
 
                 <div data-vjs-player className="flex-1">

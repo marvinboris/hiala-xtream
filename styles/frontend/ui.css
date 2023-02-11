@@ -46,14 +46,17 @@ main.page-main section {
     @apply text-secondary-900 text-xl tracking-tight font-bold mb-3 dark:text-secondary-200;
 }
 
-.carousel::-webkit-scrollbar {
-    display: none;
+.no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }
 
 .carousel {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-    @apply px-3 sm:px-5 lg:px-7 whitespace-nowrap overflow-x-visible overflow-y-hidden mt-5 pb-5;
+    @apply no-scrollbar px-3 sm:px-5 lg:px-7 whitespace-nowrap overflow-x-visible overflow-y-hidden mt-5 pb-5;
 }
 
 .landing-layer {
