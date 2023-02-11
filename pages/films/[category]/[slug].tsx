@@ -1,7 +1,6 @@
 import { capitalize } from "lodash";
 import { useRouter } from "next/router";
 import { ReactElement, useEffect, useState } from "react";
-import slugify from "slugify";
 import 'video.js/dist/video-js.css';
 
 import { NextPageWithLayout } from "../../_app";
@@ -34,7 +33,7 @@ const VodStreamPage: NextPageWithLayout = () => {
         description: "Hiala TV: TV, sports, séries, films en streaming en direct live | Hiala TV Cameroun."
     }
 
-    const category = categories?.find(c => slugify(c.category_name, { lower: true }) === categorySlug)!
+    const category = categories?.find(c => c.slug === categorySlug)!
     const { category_name, id } = category
 
     useEffect(() => {
@@ -44,7 +43,7 @@ const VodStreamPage: NextPageWithLayout = () => {
 
     useEffect(() => {
         if (data !== null && info === null) {
-            const info = data.find(stream => slugify(stream.stream_display_name, { lower: true }) === slug)!
+            const info = data.find(stream => stream.slug === slug)!
             setInfo(info)
         }
     }, [data, info])

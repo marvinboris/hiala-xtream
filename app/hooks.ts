@@ -7,25 +7,25 @@ import type { AppDispatch, AppState } from './store'
 
 export const useForm =
   <TContent>(defaultValues: TContent) =>
-  (handler: (content: TContent) => void) =>
-  async (event: ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    event.persist()
+    (handler: (content: TContent) => void) =>
+      async (event: ChangeEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        event.persist()
 
-    const form = event.target as HTMLFormElement
-    const elements = Array.from(form.elements) as HTMLInputElement[]
-    const data = elements
-      .filter((element) => element.hasAttribute('name'))
-      .reduce(
-        (object, element) => ({
-          ...object,
-          [`${element.getAttribute('name')}`]: element.value,
-        }),
-        defaultValues
-      )
-    await handler(data)
-    form.reset()
-  }
+        const form = event.target as HTMLFormElement
+        const elements = Array.from(form.elements) as HTMLInputElement[]
+        const data = elements
+          .filter((element) => element.hasAttribute('name'))
+          .reduce(
+            (object, element) => ({
+              ...object,
+              [`${element.getAttribute('name')}`]: element.value,
+            }),
+            defaultValues
+          )
+        await handler(data)
+        form.reset()
+      }
 
 // https://overreacted.io/making-setinterval-declarative-with-react-hooks/
 export const useInterval = (callback: Function, delay: number) => {
@@ -45,20 +45,34 @@ export const useInterval = (callback: Function, delay: number) => {
 
 export const usePlayer = (options: VideoJsPlayerOptions) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [player, setPlayer] = useState<VideoJsPlayer | null>(null);
+  const [player, setPlayer] = useState<VideoJsPlayer & {
+    landscapeFullscreen?: ({ }) => void
+  } | null>(null);
 
   useEffect(() => {
     const vjsPlayer = videojs(videoRef.current!, options);
     setPlayer(vjsPlayer);
 
     return () => {
+      console.log('Disposing')
       if (player !== null) {
         player.dispose();
+        player.pause()
+        player.reset()
       }
     };
   }, []);
   useEffect(() => {
     if (player !== null) {
+      require('videojs-landscape-fullscreen')
+      player.landscapeFullscreen!({
+        fullscreen: {
+          enterOnRotate: true,
+          exitOnRotate: true,
+          alwaysInLandscapeMode: true,
+          iOS: true
+        }
+      })
       player.autoplay(options.autoplay!)
       player.controls(options.controls!)
       player.fluid(options.fluid!)

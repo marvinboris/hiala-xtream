@@ -1,39 +1,39 @@
 .video-js {
-    @apply p-0 flex-1 flex flex-col bg-secondary-900 !important
-}
+    @apply p-0 flex-1 flex flex-col bg-secondary-900 !important;
 
-.video-js:not(.vjs-fullscreen) video, .video-js:not(.vjs-fullscreen) .vjs-text-track-display, .video-js:not(.vjs-fullscreen) .vjs-modal-dialog {
-    @apply max-h-[calc(100vh_-_160px)] lg:max-h-[calc(100vh_-_291px)] !important
-}
+    &:not(.vjs-fullscreen) video, &:not(.vjs-fullscreen) .vjs-text-track-display, &:not(.vjs-fullscreen) .vjs-modal-dialog {
+        @apply max-h-[calc(100vh_-_160px)] lg:max-h-[calc(100vh_-_291px)] !important;
+    }
 
-.video-js video {
-    @apply bg-black !important
-}
+    video {
+        @apply bg-black !important;
+    }
 
-.video-js .vjs-control-bar {
-    @apply relative px-4 sm:px-6 lg:px-8 mx-auto h-20 lg:h-[158px] space-x-4 lg:space-x-[30px] bg-secondary-900 border-0 mt-auto items-center z-0 after:fixed after:bg-secondary-900 after:inset-x-0 after:h-20 after:lg:h-[158px] after:bottom-0 after:-z-10 !important
-}
+    .vjs-control-bar {
+        @apply relative px-4 sm:px-6 lg:px-8 mx-auto h-20 lg:h-[158px] space-x-4 lg:space-x-[30px] bg-secondary-900 border-0 mt-auto items-center z-0 after:fixed after:bg-secondary-900 after:inset-x-0 after:h-20 after:lg:h-[158px] after:bottom-0 after:-z-10 !important;
+    }
 
-.video-js:not(.vjs-fullscreen) .vjs-control-bar {
-    /* @apply opacity-100 !important     */
-}
+    &:not(.vjs-fullscreen) .vjs-control-bar {
+        /* @apply opacity-100 !important;     */
+    }
 
-.video-js .vjs-volume-panel {
-    @apply items-center
-}
+    .vjs-volume-panel {
+        @apply items-center
+    }
 
-.video-js .vjs-control {
-    @apply h-auto !important
-}
+    .vjs-control {
+        @apply h-auto !important;
+    }
 
-.video-js .vjs-control.vjs-button.vjs-play-control {
-    @apply border-solid border-4 lg:border-[9.13px] border-white/30 w-10 lg:w-[84px] h-10 lg:h-[84px] rounded-full inline-flex items-center justify-center !important
-}
+    .vjs-control.vjs-button.vjs-play-control {
+        @apply border-solid border-4 lg:border-[9.13px] border-white/30 w-10 lg:w-[84px] h-10 lg:h-[84px] rounded-full inline-flex items-center justify-center !important;
+    }
 
-.video-js .vjs-button .vjs-icon-placeholder::before {
-    @apply static text-xl lg:text-4xl !important
-}
+    .vjs-button .vjs-icon-placeholder::before {
+        @apply static text-xl lg:text-4xl !important;
+    }
 
-.video-js:not(.vjs-fullscreen) .vjs-big-play-button, .video-js:not(.vjs-fullscreen) .vjs-loading-spinner {
-    @apply lg:-translate-y-[79px]
+    &:not(.vjs-fullscreen) .vjs-big-play-button, &:not(.vjs-fullscreen) .vjs-loading-spinner {
+        @apply lg:-translate-y-[79px];
+    }
 }

@@ -4,6 +4,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { handleError } from '../../../app/helpers/utils'
 import Bouquet from '../../../app/models/bouquet'
 import User from '../../../app/models/user'
+import { sendSms, testSms } from '../../../lib/budget-sms';
 
 import sendMail from '../../../lib/nodemailer';
 
@@ -49,6 +50,16 @@ export default async function handler(
                     <li>Mot de passe : <strong>${password}</strong></li>
                     </ul>
                 </main>
+            `
+        });
+
+        sendSms({
+            to: `237${phone}`,
+            message: `
+            Votre compte a bien été créé.
+            Vous pouvez vous y connecter en utilisant les paramètres suivants :
+            Nom d'utilisateur : ${username}
+            Mot de passe : ${password}
             `
         })
 

@@ -29,7 +29,7 @@ StreamsSeason.init({
     slug: {
         type: DataTypes.VIRTUAL,
         get() {
-            return slugify(this.getDataValue('season_name'));
+            return slugify(this.getDataValue('season_name'), { lower: true });
         },
         set(value) {
             throw new Error('Do not try to set the `slug` value!');

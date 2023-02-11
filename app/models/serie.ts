@@ -99,7 +99,7 @@ Serie.init({
     slug: {
         type: DataTypes.VIRTUAL,
         get() {
-            return slugify(this.getDataValue('title'));
+            return slugify(this.getDataValue('title'), { lower: true });
         },
         set(value) {
             throw new Error('Do not try to set the `slug` value!');

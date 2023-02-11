@@ -1,13 +1,13 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
-import { useState, Fragment, useEffect, ReactNode } from 'react'
-import slugify from 'slugify'
+import { useState, Fragment, ReactNode } from 'react'
+
 import { useCategoriesContext } from '../../../../../../../app/contexts/categories'
 import { useAppSelector } from '../../../../../../../app/hooks'
-
 import type SeriesStreamType from '../../../../../../../app/types/series/stream'
 import type StreamType from '../../../../../../../app/types/stream'
+
 import { selectAuth } from '../../../../../../../features/auth/authSlice'
 
 import ViewSeries from './series'
@@ -65,7 +65,7 @@ export default function View({ stream, action }: ViewProps) {
                                                 </Link>
                                             </div>
                                         </> : <div>
-                                            {type === 'stream' ? <Link href={`/films/${slugify(category!.category_name, { lower: true })}/${slugify(name, { lower: true })}`}>
+                                            {type === 'stream' ? <Link href={`/films/${category!.slug}/${stream.slug}`}>
                                                 <a className='btn btn-primary'>Regarder maintenant</a>
                                             </Link> : null}
                                         </div>}

@@ -1,7 +1,6 @@
 import { capitalize } from "lodash";
 import { useRouter } from "next/router";
 import { ReactElement, useEffect, useState } from "react";
-import slugify from "slugify";
 
 import { NextPageWithLayout } from "../../_app";
 
@@ -9,9 +8,11 @@ import { useCategoriesContext } from "../../../app/contexts/categories";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import Status from "../../../app/types/status";
 import StreamType from "../../../app/types/stream";
+import StreamCategoryType from "../../../app/types/stream_category";
 
 import Layout, { Head } from "../../../components/frontend/navigation/layout";
 import Video from "../../../components/frontend/ui/blocks/player/ui/video";
+import LiveView from "../../../components/frontend/ui/blocks/player/ui/view/live";
 import PageError from "../../../components/frontend/ui/page/error";
 import PageLoader from "../../../components/frontend/ui/page/loader";
 
@@ -25,33 +26,36 @@ const LiveStreamPage: NextPageWithLayout = () => {
     const { liveCategories: categories } = useCategoriesContext()
     const { query: { category: categorySlug, slug } } = useRouter()
 
-    const [name, setName] = useState('')
+    const [category, setCategory] = useState<StreamCategoryType | null>(null)
     const [info, setInfo] = useState<StreamType | null>(null)
 
     const params = {
         link: `/chaines/${categorySlug}/${slug}`,
-        title: `${info ? `${info.stream_display_name} | ` : ''}Chaînes | ${name} | Hiala TV`,
+        title: `${info ? `${info.stream_display_name} | ` : ''}Chaînes | ${category ? `${capitalize(category.category_name.toLocaleLowerCase())} |` : ''} Hiala TV`,
         description: "Hiala TV: TV, sports, séries, films en streaming en direct live | Hiala TV Cameroun."
     }
 
-    const category = categories?.find(_category => slugify(_category.category_name, { lower: true }) === categorySlug)!
-    const { category_name, id } = category
-
     useEffect(() => {
-        setName(capitalize(category_name.toLocaleLowerCase()))
-        dispatch(streams(id))
+        dispatch(streams())
     }, [])
 
     useEffect(() => {
-        if (data !== null && info === null) {
-            const info = data.find(stream => slugify(stream.stream_display_name, { lower: true }) === slug)!
+        const category = categories?.find(category => category.slug === categorySlug)!
+        setCategory(category)
+    }, [categorySlug])
+
+    useEffect(() => {
+        if (data !== null) {
+            const info = data.find(stream => stream.slug === slug)!
             setInfo(info)
         }
-    }, [data, info])
+    }, [data, slug])
 
     return <>
         <Head {...params} />
-        {status === Status.LOADING ? <PageLoader /> : status === Status.FAILED ? <PageError /> : info !== null ? <Video live category={category} info={info} /> : null}
+        {status === Status.LOADING ? <PageLoader /> : status === Status.FAILED ? <PageError /> : (info !== null && category !== null && data !== null) ? <Video live category={category} info={info}>
+            <LiveView />
+        </Video> : null}
     </>
 }
 

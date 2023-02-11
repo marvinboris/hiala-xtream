@@ -1,16 +1,15 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import User from '../../app/models/user'
+import { checkCredit } from '../../lib/budget-sms'
 
-type Data = unknown
+type Data = boolean
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const user = await User.findOne()
-  const data = user!.bouquet.length
+  const answer = await checkCredit()
 
-  res.status(200).json([data, typeof data])
+  res.status(200).json(answer)
 }

@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react'
-import slugify from 'slugify';
 
 import { useAppDispatch, useAppSelector } from '../../../../../../../../app/hooks';
 import SeriesEpisodeType from '../../../../../../../../app/types/series/episode';
@@ -26,7 +25,7 @@ interface Plot {
 const classNames = (...c: string[]) => c.join(' ')
 
 const EpisodePlot = ({ episodes, info, category }: Plot) => <div className='space-y-4'>
-    {episodes.map(episode => <Link key={`series-info-episode-${episode.id}`} href={`/series/${slugify(category.category_name, { lower: true })}/${slugify(info.title, { lower: true })}/${slugify(episode.stream.stream_display_name, { lower: true })}`}>
+    {episodes.map(episode => <Link key={`series-info-episode-${episode.id}`} href={`/series/${category.slug}/${info.slug}/${episode.stream.slug}`}>
         <a className='flex'>
             <div className='mr-2 w-1/4 hidden md:block'>
                 <div className="ratio-16by9 bg-secondary-800">
@@ -48,7 +47,7 @@ const EpisodePlot = ({ episodes, info, category }: Plot) => <div className='spac
 </div>
 
 const NoEpisodePlot = ({ episodes, info, category }: Plot) => <div className='grid gap-x-2 gap-y-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-    {episodes.map(episode => <Link key={`series-info-episode-${episode.id}`} href={`/series/${slugify(category.category_name, { lower: true })}/${slugify(info.title, { lower: true })}/${slugify(episode.stream.stream_display_name, { lower: true })}`}>
+    {episodes.map(episode => <Link key={`series-info-episode-${episode.id}`} href={`/series/${category.slug}/${info.slug}/${episode.stream.slug}`}>
         <a className="block">
             <div className="ratio-16by9 bg-secondary-800">
                 <img src={`/api/assets?src=${episode.stream.movie_propeties.movie_image || info.cover}`} alt={episode.stream.stream_display_name} className="image-cover absolute inset-0" />
