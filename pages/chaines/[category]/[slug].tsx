@@ -53,7 +53,7 @@ const LiveStreamPage: NextPageWithLayout = () => {
 
     return <>
         <Head {...params} />
-        {status === Status.LOADING ? <PageLoader /> : status === Status.FAILED ? <PageError /> : (info !== null && category !== null && data !== null) ? <Video live category={category} info={info}>
+        {status === Status.LOADING ? <PageLoader /> : status === Status.FAILED ? <PageError /> : (info !== null && category !== null) ? <Video live category={category} info={info}>
             <LiveView />
         </Video> : null}
     </>

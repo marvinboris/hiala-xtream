@@ -7,6 +7,8 @@ import { useState, Fragment } from 'react'
 
 import { useCategoriesContext } from '../../../../../../../app/contexts/categories'
 import { useAppSelector } from '../../../../../../../app/hooks'
+import SeriesEpisodeType from '../../../../../../../app/types/series/episode'
+import SeriesStreamType from '../../../../../../../app/types/series/stream'
 import StreamType from '../../../../../../../app/types/stream'
 
 import { selectPlayer } from '../../../../../../../features/player/playerSlice'
@@ -14,30 +16,27 @@ import { selectPlayer } from '../../../../../../../features/player/playerSlice'
 import Input from '../../../../../../ui/input'
 import Logo from '../../../../../../ui/logo'
 
-export default function LiveView() {
+export default function SerieView() {
     const { push } = useRouter()
-    const { live: { streams: { data } } } = useAppSelector(selectPlayer)
-    const { liveCategories: categories } = useCategoriesContext()
+    const { series: { streams, info: { data } } } = useAppSelector(selectPlayer)
+    const { seriesCategories: categories } = useCategoriesContext()
 
     let [isOpen, setIsOpen] = useState<boolean>(false)
     const [search, setSearch] = useState('')
 
-    const renderStream = (stream: StreamType) => <div key={`live-stream-${stream.id}`} onClick={() => {
-        const category = categories?.find(category => category.id === stream.category_id)!
+    const renderStream = (episode: SeriesEpisodeType) => <div key={`series-episode-${episode.id}`} onClick={() => {
+        const series = streams.data?.find(series => series.id === episode.series_id)!
+        const category = categories?.find(category => category.id === series.category_id)!
+        const stream = data?.find(_episode => _episode.id === episode.id)!
 
         setIsOpen(false)
         setSearch('')
-        push(`/chaines/${category.slug}/${stream.slug}`, undefined, { shallow: true })
-    }} className='cursor-pointer flex items-center space-x-2 bg-secondary-900 hover:bg-secondary-700 transition-all duration-200 text-sm'>
-        <div className="aspect-square w-14 bg-secondary-700 relative p-2.5 flex items-center justify-center overflow-hidden z-0">
-            <img src={`/api/assets?src=${stream.stream_icon}`} alt={stream.stream_display_name} className="w-full h-full object-contain" />
-            <img src={`/api/assets?src=${stream.stream_icon}`} alt={stream.stream_display_name} className="w-full h-full object-cover absolute inset-0 -z-10 blur-3xl scale-150" />
-        </div>
-
-        <div className='truncate text-secondary-400' title={stream.stream_display_name}>{capitalize(stream.stream_display_name.toLocaleLowerCase())}</div>
+        push(`/series/${category.slug}/${series.slug}/${stream.stream.slug}`, undefined, { shallow: true })
+    }} className='cursor-pointer flex items-center px-2.5 h-14 bg-secondary-900 hover:bg-secondary-700 transition-all duration-200 text-sm'>
+        <div className='truncate text-secondary-400' title={episode.stream.stream_display_name}>{capitalize(episode.stream.stream_display_name.toLocaleLowerCase())}</div>
     </div>
 
-    const streamsContent = data !== null && data.filter(stream => stream.stream_display_name.toLowerCase().includes(search.toLowerCase())).map(renderStream)
+    const episodesContent = data !== null && data.filter(episode => episode.stream.stream_display_name.toLowerCase().includes(search.toLowerCase())).map(renderStream)
 
     return <div>
         <div onClick={() => setIsOpen(true)}>
@@ -67,13 +66,13 @@ export default function LiveView() {
                                 </div>
 
                                 <div>
-                                    <Input type='search' name='search' icon={MagnifyingGlassIcon} onChange={e => setSearch(e.target.value)} value={search} className="bg-secondary-900" placeholder="Rechercher une chaîne..." />
+                                    <Input type='search' name='search' icon={MagnifyingGlassIcon} onChange={e => setSearch(e.target.value)} value={search} className="bg-secondary-900" placeholder="Rechercher une série..." />
                                 </div>
                             </header>
 
                             <div className='flex-1 overflow-auto'>
                                 <div className="divide-y divide-secondary-500">
-                                    {streamsContent}
+                                    {episodesContent}
                                 </div>
                             </div>
                         </Dialog.Panel>

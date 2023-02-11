@@ -17,10 +17,11 @@ type VideoProps = {
     live?: boolean
     info: StreamType | SeriesEpisodeType
     category: StreamCategoryType
+    onEnded?: () => void
     children?: ReactNode
 }
 
-export default function Video({ live, info, category, children }: VideoProps) {
+export default function Video({ live, info, category, onEnded, children }: VideoProps) {
     const { back, push } = useRouter()
 
     const { data: account } = useAppSelector(selectAuth)
@@ -81,7 +82,11 @@ export default function Video({ live, info, category, children }: VideoProps) {
                 }
             })
             player.autoplay(options.autoplay);
+            player.controls(options.controls);
+            player.responsive(options.responsive);
+            player.fluid(options.fluid);
             player.src(options.sources);
+            onEnded && player.on('ended', onEnded)
         }
     }, [options, videoRef]);
 
@@ -104,12 +109,16 @@ export default function Video({ live, info, category, children }: VideoProps) {
                     <div className="mr-6 md:mr-12"><div onClick={back} className="cursor-pointer w-12 h-12 rounded-full flex items-center justify-center bg-white/30 text-white"><ArrowLeftIcon className="w-6" /></div></div>
                     {live ? <img src={`/api/assets?src=${('stream_source' in info ? info : info.stream).stream_icon}`} alt="Stream Icon" className="h-12 object-center mr-3" /> : null}
                     <div className='flex-1 mr-6'>
-                        <div className="text-xl font-bold text-white truncate max-w-[150px]" title={('stream_source' in info ? info : info.stream).stream_display_name}>
+                        <div className="text-xl font-bold text-white truncate max-w-[150px] sm:max-w-none" title={('stream_source' in info ? info : info.stream).stream_display_name}>
                             {('stream_source' in info ? info : info.stream).stream_display_name}
                         </div>
                         <div className="text-sm">{name}</div>
                     </div>
-                    <div className='ml-auto'>{live ? children : <HeartIcon className="w-14 text-white" />}</div>
+                    <div className='ml-auto'>{live ? children : <div className='flex items-center'>
+                        <HeartIcon className="w-10 text-white mr-3" />
+
+                        {children}
+                    </div>}</div>
                 </header>
 
                 <div data-vjs-player className="flex-1">
