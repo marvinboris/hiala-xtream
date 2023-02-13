@@ -2,7 +2,7 @@
 import axios from 'axios'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import { decryptPayload, handleError } from '../../../../../app/helpers/utils'
+import { assets, decryptPayload, handleError } from '../../../../../app/helpers/utils'
 import User from '../../../../../app/models/user'
 
 export default async function handler(
@@ -18,13 +18,15 @@ export default async function handler(
 
         const { id } = req.query
         const { username, password } = user
-        
-        const source = await axios.get<string>(`${process.env.XTREAM_HOSTNAME!}/live/${username}/${password}/${id}.m3u8`)
+
+        const source = await axios.get<string>(`${process.env.XTREAM_HOSTNAME!}/live/${username}/${password}/${id}.m3u8`, {
+            validateStatus: () => true
+        })
 
         const expression = new RegExp(`/hls/${username}/${password}`, "g")
-        const result = source.data.replace(expression, `/api/assets?src=${process.env.XTREAM_HOSTNAME!}/hls/${username}/${password}`)
+        const result = source.data.replace(expression, assets(`${process.env.XTREAM_HOSTNAME!}/hls/${username}/${password}`))
         
-        res.send(result)
+        res.status(source.status).send(result)
     } catch (error) {
         handleError(res, error)
     }

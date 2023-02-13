@@ -26,7 +26,7 @@ export const assets = async ({ src, res }: AssetsParams) => {
     const parsedSrc = src.split('/')
 
     const directory = path.join(process.cwd(), 'public', 'files', parsedSrc[3])
-    const fileName = parsedSrc.filter((_, i) => i > 3).join('-')
+    const fileName = parsedSrc[parsedSrc.length - 1]
 
     const filePath = path.join(directory, fileName)
 

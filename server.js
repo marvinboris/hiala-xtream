@@ -1,5 +1,7 @@
 const { createServer } = require('http')
+const path = require('path')
 const { parse } = require('url')
+
 const next = require('next')
 
 require('dotenv').config({ path: './.env.local' })
@@ -18,7 +20,7 @@ app.prepare().then(() => {
             const { pathname, query } = parsedUrl
 
             if (pathname === '/sw.js' || /^\/(workbox|worker|fallback)-\w+\.js$/.test(pathname)) {
-                const filePath = join(__dirname, '.next', pathname)
+                const filePath = path.join(__dirname, '.next', pathname)
                 app.serveStatic(req, res, filePath)
               } else {
                 handle(req, res, parsedUrl)

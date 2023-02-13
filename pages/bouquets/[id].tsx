@@ -5,6 +5,7 @@ import { ReactElement, useEffect } from 'react'
 import { NextPageWithLayout } from '../_app'
 
 import { useCategoriesContext } from '../../app/contexts/categories'
+import { assets } from '../../app/helpers/utils'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import Status from '../../app/types/status'
 
@@ -45,8 +46,8 @@ const BouquetPage: NextPageWithLayout = () => {
     const channelsContent = data && liveCategories && [...liveCategories].sort((a, b) => a.category_name.localeCompare(b.category_name)).map(category => {
         const category_channels = data.channels.filter(channel => channel.category_id === category.id).map(channel => <div key={`channel-${channel.id}`} className='rounded-2xl bg-white shadow-sm flex items-center space-x-2'>
             <div className="aspect-square w-16 rounded-2xl rounded-r-none relative p-4 flex items-center justify-center overflow-hidden z-0">
-                <img src={`/api/assets?src=${channel.stream_icon}`} alt={channel.stream_display_name} className="w-full h-full object-contain" />
-                <img src={`/api/assets?src=${channel.stream_icon}`} alt={channel.stream_display_name} className="w-full h-full object-cover absolute inset-0 -z-10 blur-3xl scale-150" />
+                <img src={assets(channel.stream_icon)} alt={channel.stream_display_name} className="w-full h-full object-contain" />
+                <img src={assets(channel.stream_icon)} alt={channel.stream_display_name} className="w-full h-full object-cover absolute inset-0 -z-10 blur-3xl scale-150" />
             </div>
 
             <div className='truncate text-secondary-700' title={channel.stream_display_name}>{capitalize(channel.stream_display_name.toLocaleLowerCase())}</div>

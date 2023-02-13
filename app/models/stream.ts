@@ -20,7 +20,7 @@ class Stream extends Model<InferAttributes<Stream>, InferCreationAttributes<Stre
     declare movie_propeties: string
     declare movie_subtitles: string
     declare read_native: number
-    declare target_container: string
+    declare target_container: string | string[]
     declare stream_all: number
     declare remove_subtitles: number
     declare custom_sid: string | null
@@ -133,7 +133,7 @@ Stream.init({
         type: DataTypes.TEXT,
         get() {
             const rawValue = this.getDataValue('target_container')
-            return rawValue ? JSON.parse(rawValue) : null
+            return rawValue ? JSON.parse(<string>rawValue) : null
         },
     },
     stream_all: {

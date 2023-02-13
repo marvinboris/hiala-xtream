@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useState, Fragment, ReactNode } from 'react'
 
 import { useCategoriesContext } from '../../../../../../../app/contexts/categories'
+import { assets } from '../../../../../../../app/helpers/utils'
 import { useAppSelector } from '../../../../../../../app/hooks'
 import type SeriesStreamType from '../../../../../../../app/types/series/stream'
 import type StreamType from '../../../../../../../app/types/stream'
@@ -51,7 +52,7 @@ export default function View({ stream, action }: ViewProps) {
                             </nav>
                             <Dialog.Panel className="mx-auto max-w-5xl w-full relative bg-secondary-900">
                                 <div className="ratio-16by9 bg-secondary-800">
-                                    <img src={`/api/assets?src=${"cover" in stream ? stream.cover : stream.movie_propeties.cover_big}`} alt={name} className="image-cover absolute inset-0 z-0" />
+                                    <img src={assets("cover" in stream ? stream.cover : stream.movie_propeties.cover_big)} alt={name} className="image-cover absolute inset-0 z-0" />
 
                                     <div className="absolute inset-0 flex items-center justify-center flex-col z-10 px-5 lg:px-10 text-center bg-secondary-900/50 text-secondary-100">
                                         {condition ? <>

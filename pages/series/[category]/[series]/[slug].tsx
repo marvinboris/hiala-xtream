@@ -64,7 +64,7 @@ const SeriesEpisodeStreamPage: NextPageWithLayout = () => {
     return <>
         <Head {...params} />
         {status === Status.LOADING ? <PageLoader /> : status === Status.FAILED ? <PageError /> : (info !== null && category !== null && data !== null) ? <Video category={category} info={info} onEnded={() => {
-            const episode = data.find(episode => episode.sort === info.sort + 1)
+            const episode = data.find(episode => episode.sort === info.sort + 1 && episode.season_num === info.season_num)
             if (episode) setInfo(episode)
             else { }
         }}>

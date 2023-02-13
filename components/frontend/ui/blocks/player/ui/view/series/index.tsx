@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react'
 
+import { assets } from '../../../../../../../../app/helpers/utils';
 import { useAppDispatch, useAppSelector } from '../../../../../../../../app/hooks';
 import SeriesEpisodeType from '../../../../../../../../app/types/series/episode';
 import SeriesStreamType from "../../../../../../../../app/types/series/stream";
@@ -29,7 +30,7 @@ const EpisodePlot = ({ episodes, info, category }: Plot) => <div className='spac
         <a className='flex'>
             <div className='mr-2 w-1/4 hidden md:block'>
                 <div className="ratio-16by9 bg-secondary-800">
-                    <img src={`/api/assets?src=${episode.stream.movie_propeties.movie_image || info.cover}`} alt={episode.stream.stream_display_name} className="image-cover absolute inset-0" />
+                    <img src={assets(episode.stream.movie_propeties.movie_image || info.cover)} alt={episode.stream.stream_display_name} className="image-cover absolute inset-0" />
                 </div>
             </div>
 
@@ -50,7 +51,7 @@ const NoEpisodePlot = ({ episodes, info, category }: Plot) => <div className='gr
     {episodes.map(episode => <Link key={`series-info-episode-${episode.id}`} href={`/series/${category.slug}/${info.slug}/${episode.stream.slug}`}>
         <a className="block">
             <div className="ratio-16by9 bg-secondary-800">
-                <img src={`/api/assets?src=${episode.stream.movie_propeties.movie_image || info.cover}`} alt={episode.stream.stream_display_name} className="image-cover absolute inset-0" />
+                <img src={assets(episode.stream.movie_propeties.movie_image || info.cover)} alt={episode.stream.stream_display_name} className="image-cover absolute inset-0" />
             </div>
 
             <div className="mt-2 text-white text-sm md:text-lg">Épisode {episode.sort}</div>

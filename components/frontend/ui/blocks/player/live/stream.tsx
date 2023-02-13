@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { useCategoriesContext } from "../../../../../../app/contexts/categories";
+import { assets } from "../../../../../../app/helpers/utils";
 import StreamType from "../../../../../../app/types/stream";
 
 import Subscribe from "../ui/subscribe";
@@ -13,8 +14,8 @@ export default function LiveStream({ category_id, slug, stream_display_name, str
         <Link href={`/chaines/${c.slug}/${slug}`}>
             <a className="block relative p-2 lg:p-4 rounded-[20px] bg-white hover:bg-secondary-100 cursor-pointer space-y-2 lg:space-y-4 transition-all duration-200">
                 <div className="aspect-square rounded-2xl relative p-4 flex items-center justify-center overflow-hidden z-0">
-                    <img src={`/api/assets?src=${stream_icon}`} alt={stream_display_name} className="w-full h-full object-contain" />
-                    <img src={`/api/assets?src=${stream_icon}`} alt={stream_display_name} className="w-full h-full object-cover absolute inset-0 -z-10 blur-3xl scale-150" />
+                    <img src={assets(stream_icon)} alt={stream_display_name} className="w-full h-full object-contain" />
+                    <img src={assets(stream_icon)} alt={stream_display_name} className="w-full h-full object-cover absolute inset-0 -z-10 blur-3xl scale-150" />
                 </div>
                 <Subscribe type="stream" id={id} />
                 <div className="text-secondary-600 truncate text-center text-sm lg:text-base capitalize">{stream_display_name}</div>

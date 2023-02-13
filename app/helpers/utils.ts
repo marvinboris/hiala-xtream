@@ -27,3 +27,5 @@ export const generateString = (length: number) => {
     }
     return result;
 }
+
+export const assets = (url: string) => `/api/assets?src=${url}`

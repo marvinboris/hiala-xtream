@@ -4,6 +4,7 @@ import { useRouter } from "next/router"
 import { ReactNode, useEffect } from 'react'
 import { VideoJsPlayerPluginOptions } from 'video.js'
 
+import { assets } from '../../../../../../app/helpers/utils'
 import { useAppSelector, usePlayer } from '../../../../../../app/hooks'
 import SeriesEpisodeType from '../../../../../../app/types/series/episode'
 import StreamType from '../../../../../../app/types/stream'
@@ -60,7 +61,7 @@ export function VideoJS({ live, info, category, children }: VideoProps) {
             <div className="h-screen flex flex-col">
                 <header className="container flex items-center h-20 lg:h-[133px]">
                     <div className="mr-6 md:mr-12"><div onClick={back} className="cursor-pointer w-12 h-12 rounded-full flex items-center justify-center bg-white/30 text-white"><ArrowLeftIcon className="w-6" /></div></div>
-                    {live ? <img src={`/api/assets?src=${('stream_source' in info ? info : info.stream).stream_icon}`} alt="Stream Icon" className="h-12 object-center mr-3" /> : null}
+                    {live ? <img src={assets(('stream_source' in info ? info : info.stream).stream_icon)} alt="Stream Icon" className="h-12 object-center mr-3" /> : null}
                     <div>
                         <div className="text-xl font-bold text-white">{('stream_source' in info ? info : info.stream).stream_display_name}</div>
                         <div className="text-sm">{name}</div>
