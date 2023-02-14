@@ -1,4 +1,4 @@
-import { createWriteStream, existsSync } from 'fs';
+import { createWriteStream, existsSync, statSync } from 'fs';
 import path from 'path';
 import { promisify } from 'util';
 
@@ -33,15 +33,17 @@ export default async function handler(
 
         const episodes = streams.map(stream => {
             const episode = series_episodes.find(episode => episode.stream_id === stream.id)!
+            return { stream, ...episode.get() }
+        })
 
-            const filePath = path.join(process.cwd(), 'public', 'files', 'series', stream.id.toString() + '.' + (<string[]>stream.target_container)[0])
-            if (!existsSync(filePath)) {
-                const downloadStream = got.stream(`${process.env.XTREAM_HOSTNAME!}/series/${username}/${password}/${stream.id.toString()}.${(<string[]>stream.target_container)[0]}`)
+        Promise.all(episodes.map(episode => {
+            const filePath = path.join(process.cwd(), 'public', 'files', 'series', episode.stream.id.toString() + '.' + (<string[]>episode.stream.target_container)[0])
+            if (!existsSync(filePath) || (existsSync(filePath) && statSync(filePath).size === 0)) {
+                const downloadStream = got.stream(`${process.env.XTREAM_HOSTNAME!}/series/${username}/${password}/${episode.stream.id.toString()}.${(<string[]>episode.stream.target_container)[0]}`)
                 const fileWriterStream = createWriteStream(filePath)
                 pipeline(downloadStream, fileWriterStream)
             }
-            return { stream, ...episode.get() }
-        })
+        }))
 
         res.status(200).json(episodes)
     } catch (error) {

@@ -1,15 +1,15 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { createWriteStream, existsSync } from 'fs'
+import { createWriteStream, existsSync, statSync } from 'fs'
 import path from 'path'
 import { promisify } from 'util'
 
+import got from 'got'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import stream from 'stream'
 
 import { decryptPayload, handleError } from '../../../../app/helpers/utils'
 import Stream from '../../../../app/models/stream'
 import User from '../../../../app/models/user'
-import got from 'got'
 
 export default async function handler(
     req: NextApiRequest,
@@ -34,14 +34,14 @@ export default async function handler(
         if (category_id) vod_streams = await Stream.findAll({ where: { category_id, type } })
         else vod_streams = await Stream.findAll({ where: { type } })
 
-        vod_streams.forEach(stream => {
-            const filePath = path.join(process.cwd(), 'public', 'files', 'series', stream.id.toString() + '.' + (<string[]>stream.target_container)[0])
-            if (!existsSync(filePath)) {
-                const downloadStream = got.stream(`${process.env.XTREAM_HOSTNAME!}/series/${username}/${password}/${stream.id.toString()}.${(<string[]>stream.target_container)[0]}`)
+        Promise.all(vod_streams.map(async stream => {
+            const filePath = path.join(process.cwd(), 'public', 'files', 'movie', stream.id.toString() + '.' + (<string[]>stream.target_container)[0])
+            if (!existsSync(filePath) || (existsSync(filePath) && statSync(filePath).size === 0)) {
+                const downloadStream = got.stream(`${process.env.XTREAM_HOSTNAME!}/movie/${username}/${password}/${stream.id.toString()}.${(<string[]>stream.target_container)[0]}`)
                 const fileWriterStream = createWriteStream(filePath)
-                pipeline(downloadStream, fileWriterStream)
+                await pipeline(downloadStream, fileWriterStream)
             }
-        })
+        }))
 
         res.status(200).json(vod_streams)
     } catch (error) {
