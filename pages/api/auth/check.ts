@@ -11,7 +11,9 @@ export default async function handler(
     res: NextApiResponse<{ data: InferAttributes<User> } | { error: string }>
 ) {
     try {
-        const decrypted = decryptPayload(req.cookies.user!)
+        if (!req.cookies.user) return res.status(401).json({ error: "Not authorized!" })
+
+        const decrypted = decryptPayload(req.cookies.user)
         if (!decrypted) return res.status(401).json({ error: "Not authorized!" })
 
         const { id } = decrypted
