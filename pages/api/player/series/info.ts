@@ -21,29 +21,29 @@ export default async function handler(
         const series_episodes = await SeriesEpisode.findAll({ where: { series_id } })
         const streams = await Stream.findAll({ where: { id: { [Op.in]: series_episodes.map(episode => episode.stream_id) } } })
 
-        const pipeline = promisify(stream.pipeline)
-
-        const decrypted = decryptPayload(req.cookies.user!)
-        if (!decrypted) return res.status(401).json({ error: "Not authorized!" })
-
-        const user = await User.findByPk(decrypted.id)
-        if (!user) return res.status(401).json({ error: "Invalid user!" })
-
-        const { username, password } = user
-
         const episodes = streams.map(stream => {
             const episode = series_episodes.find(episode => episode.stream_id === stream.id)!
             return { stream, ...episode.get() }
         })
 
-        Promise.all(episodes.map(episode => {
-            const filePath = path.join(process.cwd(), 'public', 'files', 'series', episode.stream.id.toString() + '.' + (<string[]>episode.stream.target_container)[0])
-            if (!existsSync(filePath) || (existsSync(filePath) && statSync(filePath).size === 0)) {
-                const downloadStream = got.stream(`${process.env.XTREAM_HOSTNAME!}/series/${username}/${password}/${episode.stream.id.toString()}.${(<string[]>episode.stream.target_container)[0]}`)
-                const fileWriterStream = createWriteStream(filePath)
-                pipeline(downloadStream, fileWriterStream)
-            }
-        }))
+        // const pipeline = promisify(stream.pipeline)
+
+        // const decrypted = decryptPayload(req.cookies.user!)
+        // if (!decrypted) return res.status(401).json({ error: "Not authorized!" })
+
+        // const user = await User.findByPk(decrypted.id)
+        // if (!user) return res.status(401).json({ error: "Invalid user!" })
+
+        // const { username, password } = user
+
+        // Promise.all(episodes.map(episode => {
+        //     const filePath = path.join(process.cwd(), 'public', 'files', 'series', episode.stream.id.toString() + '.' + (<string[]>episode.stream.target_container)[0])
+        //     if (!existsSync(filePath) || (existsSync(filePath) && statSync(filePath).size === 0)) {
+        //         const downloadStream = got.stream(`${process.env.XTREAM_HOSTNAME!}/series/${username}/${password}/${episode.stream.id.toString()}.${(<string[]>episode.stream.target_container)[0]}`)
+        //         const fileWriterStream = createWriteStream(filePath)
+        //         pipeline(downloadStream, fileWriterStream)
+        //     }
+        // }))
 
         res.status(200).json(episodes)
     } catch (error) {
