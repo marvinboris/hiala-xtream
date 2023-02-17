@@ -15,6 +15,7 @@ export async function middleware(request: NextRequest) {
     try {
         const decoded = await verify(token, process.env.JWT_SECRET!)
         response.cookies.set('user', decoded.user)
+        console.log('middleware->decoded.user', decoded.user)
 
         return response
     } catch (error) {
