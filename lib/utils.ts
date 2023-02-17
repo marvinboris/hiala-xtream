@@ -3,7 +3,7 @@ import path from "path"
 import { promisify } from "util"
 
 import got from "got"
-import { NextApiResponse } from "next"
+import { NextApiRequest, NextApiResponse } from "next"
 import stream from 'stream'
 
 const send = (res: NextApiResponse) => {
@@ -15,10 +15,11 @@ const send = (res: NextApiResponse) => {
 
 type AssetsParams = {
     src: string | undefined
+    req: NextApiRequest
     res: NextApiResponse
 }
 
-export const assets = async ({ src, res }: AssetsParams) => {
+export const assets = async ({ src, req, res }: AssetsParams) => {
     if (!src) return send(res)
 
     const pipeline = promisify(stream.pipeline)
@@ -33,7 +34,9 @@ export const assets = async ({ src, res }: AssetsParams) => {
     if (!existsSync(directory)) mkdirSync(directory)
 
     if (!existsSync(filePath)) {
-        const downloadStream = got.stream(src)
+        const downloadStream = got.stream(src, {
+            headers: req.headers,
+        })
         const fileWriterStream = createWriteStream(filePath)
         await pipeline(downloadStream, fileWriterStream)
 

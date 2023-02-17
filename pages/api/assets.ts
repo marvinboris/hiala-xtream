@@ -10,7 +10,7 @@ export default async function handler(
 ) {
     try {
         const src = req.query.src as string | undefined
-        return await assets({ src, res })
+        return await assets({ src, req, res })
     } catch (error) {
         handleError(res, error)
     }

@@ -30,7 +30,7 @@ export default async function handler(
         const movie = await Stream.findByPk(+id)
 
         const src = `${process.env.XTREAM_HOSTNAME!}/movie/${username}/${password}/${id}.${movie!.target_container[0]}`
-        return await assets({ src, res })
+        return await assets({ src, req, res })
 
         // const parsedSrc = src.split('/')
 
