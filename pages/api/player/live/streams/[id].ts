@@ -10,8 +10,8 @@ export default async function handler(
     res: NextApiResponse<unknown | { error: string }>
 ) {
     try {
-        if (!req.cookies.user) return { error: 'Unauthorized' }
-        
+        if (!req.cookies.user) return res.status(401).json({ error: 'Unauthorized' })
+
         const decrypted = decryptPayload(req.cookies.user!)
         if (!decrypted) return res.status(401).json({ error: "Not authorized!" })
 
