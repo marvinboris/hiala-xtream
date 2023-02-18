@@ -65,10 +65,10 @@ const SeriesEpisodeStreamPage: NextPageWithLayout = () => {
         <Head {...params} />
         {status === Status.LOADING ? <PageLoader /> : status === Status.FAILED ? <PageError /> : (info !== null && category !== null && data !== null) ? <Video category={category} info={info} onEnded={() => {
             const episode = data.find(episode => episode.sort === info.sort + 1 && episode.season_num === info.season_num)
-            if (episode) push(`/series/${categorySlug}/${seriesSlug}/${episode.stream.slug}`)
+            if (episode) push(`/series/${categorySlug}/${seriesSlug}/${episode.stream.slug}`, undefined, { shallow: true })
             else {
                 const episode = data.find(episode => episode.sort === 1 && episode.season_num === info.season_num + 1)
-                if (episode) push(`/series/${categorySlug}/${seriesSlug}/${episode.stream.slug}`)
+                if (episode) push(`/series/${categorySlug}/${seriesSlug}/${episode.stream.slug}`, undefined, { shallow: true })
             }
         }}>
             <SerieView />
