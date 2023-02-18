@@ -22,7 +22,7 @@ import { seriesInfo, selectPlayer, seriesStreams } from "../../../../features/pl
 
 const SeriesEpisodeStreamPage: NextPageWithLayout = () => {
     const { seriesCategories: categories } = useCategoriesContext()
-    const { query: { category: categorySlug, series: seriesSlug, slug: episodeSlug } } = useRouter()
+    const { query: { category: categorySlug, series: seriesSlug, slug: episodeSlug }, push } = useRouter()
 
     const [category, setCategory] = useState<StreamCategoryType | null>(null)
     const [series, setSeries] = useState<SeriesStreamType | null>(null)
@@ -65,8 +65,11 @@ const SeriesEpisodeStreamPage: NextPageWithLayout = () => {
         <Head {...params} />
         {status === Status.LOADING ? <PageLoader /> : status === Status.FAILED ? <PageError /> : (info !== null && category !== null && data !== null) ? <Video category={category} info={info} onEnded={() => {
             const episode = data.find(episode => episode.sort === info.sort + 1 && episode.season_num === info.season_num)
-            if (episode) setInfo(episode)
-            else { }
+            if (episode) push(`/series/${categorySlug}/${seriesSlug}/${episode.stream.slug}`)
+            else {
+                const episode = data.find(episode => episode.sort === 1 && episode.season_num === info.season_num + 1)
+                if (episode) push(`/series/${categorySlug}/${seriesSlug}/${episode.stream.slug}`)
+            }
         }}>
             <SerieView />
         </Video> : null}
