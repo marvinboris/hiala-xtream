@@ -22,8 +22,8 @@ class ErrorBoundary extends Component<{ FallbackComponent: ExoticComponent, chil
                     <button type="button" onClick={() => this.setState({ hasError: false })}>
                         Try again?
                     </button>
-                    {this.state.error ? <p>Error: {this.state.error}</p> : null}
-                    {/* {this.state.errorInfo ? <p>Error info: {this.state.errorInfo}</p> : null} */}
+                    {/* {this.state.error ? <p>Error: {this.state.error}</p> : null} */}
+                    {this.state.errorInfo ? <p>Error info: {this.state.errorInfo}</p> : null}
                 </div>
             )
         }
