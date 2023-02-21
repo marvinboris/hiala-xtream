@@ -23,7 +23,7 @@ class ErrorBoundary extends Component<{ FallbackComponent: ExoticComponent, chil
                         Try again?
                     </button>
                     {this.state.error ? <p>Error: {this.state.error}</p> : null}
-                    {this.state.errorInfo ? <p>Error info: {this.state.errorInfo}</p> : null}
+                    {/* {this.state.errorInfo ? <p>Error info: {this.state.errorInfo}</p> : null} */}
                 </div>
             )
         }
