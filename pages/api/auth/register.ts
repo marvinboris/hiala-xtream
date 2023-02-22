@@ -34,7 +34,8 @@ export default async function handler(
             username, password,
             admin_notes: JSON.stringify({ first_name, last_name, email, phone }),
             bouquet: JSON.stringify(test_bouquet ? [test_bouquet.id] : []),
-            exp_date: new Date().getTime() / 1000 + 7 * 24 * 60 * 60,
+            exp_date: new Date().getTime() / 1000 + 3 * 24 * 60 * 60,
+            created_at: new Date().getTime() / 1000,
         })
 
         sendMail({
