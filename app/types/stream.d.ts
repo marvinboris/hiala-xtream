@@ -11,6 +11,7 @@ export default interface StreamType {
     transcode_attributes: string
     custom_ffmpeg: string
     movie_propeties: {
+        actors: string
         cover_big: string
         genre: string
         releasedate: string

@@ -3,7 +3,7 @@ html {
 }
 
 body {
-    @apply bg-white dark:bg-secondary-900 text-secondary-500 dark:text-secondary-400;
+    @apply bg-white dark:bg-secondary-700 text-secondary-500 dark:text-secondary-400;
 }
 
 header, footer, main, section {
@@ -16,10 +16,10 @@ header, footer, main, section {
 
 main.page-main{
     &>header {
-        @apply relative flex flex-col justify-end z-10 h-[314px] md:h-[330px] pb-6 after:absolute after:inset-0 after:bg-gradient-to-t after:from-primary-600 after:to-transparent after:-z-10;
+        @apply relative flex flex-col justify-end z-10 h-[314px] md:h-[330px] pb-6 after:absolute after:inset-0 after:bg-gradient-to-t after:from-primary-800 after:to-transparent after:-z-10;
 
         .bg-img {
-            @apply absolute inset-0 z-0 after:absolute after:inset-0 after:bg-gradient-to-t after:from-primary-600 after:to-transparent;
+            @apply absolute inset-0 z-0 after:absolute after:inset-0 after:bg-gradient-to-t after:from-primary-800 after:to-transparent;
         }
     }
 
@@ -33,7 +33,7 @@ main.page-main{
 }
 
 .container {
-    @apply mx-auto px-4 sm:px-6 lg:px-8 max-w-none !important;
+    @apply mx-auto px-4 sm:px-6 lg:px-8;
 }
 
 .page-title {
@@ -58,11 +58,11 @@ main.page-main{
 }
 
 .carousel {
-    @apply no-scrollbar px-3 sm:px-5 lg:px-7 whitespace-nowrap overflow-x-visible overflow-y-hidden mt-5 pb-5;
+    @apply no-scrollbar px-3 sm:px-5 lg:px-7 whitespace-nowrap overflow-x-visible overflow-y-hidden mt-5 pb-16;
 }
 
 .landing-layer {
-    @apply mt-8 md:mt-10 xl:mt-12 pb-32;
+    @apply mt-8 md:mt-10 xl:mt-[122px] pb-32;
 }
 
 .container {
@@ -99,7 +99,7 @@ main.page-main{
     }
     
     &.btn-primary {
-        @apply bg-primary-600 text-white hover:text-secondary-100 hover:bg-primary-500 active:bg-primary-800 active:text-primary-100 focus-visible:outline-primary-600;
+        @apply bg-primary-800 text-white hover:text-secondary-100 hover:bg-primary-500 active:bg-primary-800 active:text-primary-100 focus-visible:outline-primary-800;
     }
     
     &.btn-secondary {
@@ -115,34 +115,6 @@ main.page-main{
     }
 
     input {
-        @apply block w-full appearance-none rounded-md border border-secondary-200 bg-secondary-50 px-3 py-2 text-secondary-900 placeholder-secondary-400 focus:border-primary-600 focus:bg-white focus:outline-none focus:ring-primary-600 sm:text-sm;
+        @apply block w-full appearance-none rounded-md border border-secondary-200 bg-secondary-50 px-3 py-2 text-secondary-900 placeholder-secondary-400 focus:border-primary-800 focus:bg-white focus:outline-none focus:ring-primary-800 sm:text-sm;
     }
-}
-
-.ratio {
-    @apply w-full relative before:block;
-}
-
-.ratio-1by1 {
-    @apply ratio before:pt-[100%];
-}
-
-.ratio-4by3 {
-    @apply ratio before:pt-[75%];
-}
-
-.ratio-16by9 {
-    @apply ratio before:pt-[56.25%];
-}
-
-.ratio-3by4 {
-    @apply ratio before:pt-[133.33%];
-}
-
-.ratio-5by7 {
-    @apply ratio before:pt-[140%];
-}
-
-.ratio-9by16 {
-    @apply ratio before:pt-[177.77%];
 }

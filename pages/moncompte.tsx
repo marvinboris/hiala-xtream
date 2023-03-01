@@ -91,7 +91,7 @@ const MonComptePage: NextPageWithLayout = () => {
 
                                     <div>
                                         <Link href='/bouquets'>
-                                            <a className='cursor-pointer bg-primary-600 text-white rounded-full w-8 h-8 flex items-center justify-center'>
+                                            <a className='cursor-pointer bg-primary-800 text-white rounded-full w-8 h-8 flex items-center justify-center'>
                                                 <PlusIcon className='w-4' />
                                             </a>
                                         </Link>

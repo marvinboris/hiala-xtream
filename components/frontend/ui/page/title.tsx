@@ -39,7 +39,7 @@ export default function PageTitle({ title, subtitle, icon: Icon, search, setSear
                     </div>
 
                     {categories && selectCategory ? <div className="relative group z-20">
-                        <div className='w-[54px] h-[54px] cursor-pointer shadow-md rounded-full flex items-center justify-center bg-primary-600 text-white group-hover:bg-primary-800 transition-all duration-200'>
+                        <div className='w-[54px] h-[54px] cursor-pointer shadow-md rounded-full flex items-center justify-center bg-primary-800 text-white group-hover:bg-primary-800 transition-all duration-200'>
                             <FunnelIcon className='w-6' />
                         </div>
 

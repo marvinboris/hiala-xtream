@@ -14,6 +14,6 @@ export default function Subscribe({ type, id }: SubscribeProps) {
     const condition = account === null || !account.bouquet || !account.bouquet.find(bouquet => (type === 'stream' && bouquet.bouquet_channels.find(stream => stream === id)) || (type === 'serie' && bouquet.bouquet_series.find(serie => serie === id)))
 
     return condition ? <div>
-        <span className="absolute py-0.5 px-2.5 top-[5px] right-[5px] bg-primary-600 rounded-[20px] text-white text-xs z-10">S'abonner</span>
+        <span className="absolute py-0.5 px-2.5 top-[5px] right-[5px] bg-primary-800 rounded-[20px] text-white text-xs z-10">S'abonner</span>
     </div> : null
 }

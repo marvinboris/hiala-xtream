@@ -15,10 +15,11 @@ import { liveCategories, selectPlayer, seriesCategories, vodCategories } from '.
 
 interface LayoutProps {
     videoPage?: boolean
+    white?: boolean
     children: ReactNode
 }
 
-export default function Layout({ videoPage, children }: LayoutProps) {
+export default function Layout({ videoPage, white, children }: LayoutProps) {
     const router = useRouter()
 
     const dispatch = useAppDispatch()
@@ -35,13 +36,13 @@ export default function Layout({ videoPage, children }: LayoutProps) {
 
     return loading ? <LayoutLoader /> : failed ? <LayoutError /> : (live.categories.data && series.categories.data && vod.categories.data) ? <CategoriesContext.Provider value={{ liveCategories: live.categories.data, seriesCategories: series.categories.data, vodCategories: vod.categories.data }}>
         {videoPage ? children : <div className='min-h-screen flex flex-col'>
-            <Toolbar />
+            <Toolbar white={white} />
 
             <div className="main-wrapper">
                 {children}
             </div>
 
-            {/* <Footer liveCategories={live.categories.data || []} seriesCategories={series.categories.data || []} /> */}
+            <Footer />
         </div>}
     </CategoriesContext.Provider> : null
 }

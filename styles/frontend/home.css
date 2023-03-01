@@ -1,0 +1,35 @@
+.home-media-carousel { 
+    .owl-dots {
+        @apply hidden;
+    }
+
+    .owl-stage-outer {
+        @apply overflow-y-visible pt-4 pb-6;
+        
+        .owl-item {
+            &.center {
+                @apply scale-105 shadow-lg z-10;
+            }
+            
+            &:not(.center) {
+                @apply scale-95 relative after:absolute after:inset-0 after:bg-black/20;
+            }
+        }
+    }
+    
+    &.films .owl-stage-outer {
+        @apply md:pb-0;
+        
+        .owl-item {
+            @apply md:origin-bottom;
+
+            &.active:not(.center):nth-child(2n+1) {
+                @apply md:scale-105 md:z-10 md:after:bg-transparent;
+            }
+        }
+}
+
+    &:not(.films) .owl-item.active:not(.center) {
+        @apply md:scale-100;
+    }
+}

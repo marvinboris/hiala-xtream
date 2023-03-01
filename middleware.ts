@@ -8,9 +8,13 @@ export async function middleware(request: NextRequest) {
     const token = request.headers.get('x-auth-token'); // Will output `referer` header value
 
     const response = NextResponse.next();
-    
+
     // Validate token
-    if (!token) return response
+    if (!token) {
+        if (response.cookies.has('user')) response.cookies.delete('user')
+
+        return response
+    }
 
     try {
         const decoded = await verify(token, process.env.JWT_SECRET!)

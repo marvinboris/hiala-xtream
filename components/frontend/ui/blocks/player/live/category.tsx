@@ -20,7 +20,7 @@ export default function LiveCategory({ id, category_name, slug }: StreamCategory
 
     return <div className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 xl:w-[14.285714%] px-[2.5px] md:px-[5px] inline-block">
         <Link href={`/chaines/${slug}`}>
-            <a className={`block transition-all duration-200 hover:shadow-md ratio-4by3`}>
+            <a className={`block transition-all duration-200 hover:shadow-md aspect-[4/3]`}>
                 <img src={`/images/live-categories/${photo}`} alt={category_name} className="image-cover absolute inset-0 z-0" />
                 <div className="text-xs md:text-sm xl:text-base absolute inset-0 z-10 text-secondary-200 bg-secondary-900/50 font-extrabold flex items-center justify-center">{category_name}</div>
             </a>

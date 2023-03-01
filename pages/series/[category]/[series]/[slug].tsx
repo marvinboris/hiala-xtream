@@ -19,6 +19,7 @@ import PageError from "../../../../components/frontend/ui/page/error";
 import PageLoader from "../../../../components/frontend/ui/page/loader";
 
 import { seriesInfo, selectPlayer, seriesStreams } from "../../../../features/player/playerSlice";
+import { VideoJsPlayerPluginOptions } from "video.js";
 
 const SeriesEpisodeStreamPage: NextPageWithLayout = () => {
     const { seriesCategories: categories } = useCategoriesContext()
@@ -27,6 +28,7 @@ const SeriesEpisodeStreamPage: NextPageWithLayout = () => {
     const [category, setCategory] = useState<StreamCategoryType | null>(null)
     const [series, setSeries] = useState<SeriesStreamType | null>(null)
     const [info, setInfo] = useState<SeriesEpisodeType | null>(null)
+    const [options, setOptions] = useState<VideoJsPlayerPluginOptions | null>(null)
 
     const dispatch = useAppDispatch()
     const { series: { streams, info: { data, status } } } = useAppSelector(selectPlayer)
@@ -58,12 +60,23 @@ const SeriesEpisodeStreamPage: NextPageWithLayout = () => {
         if (data !== null) {
             const info = data.find(episode => episode.stream.slug === episodeSlug)!
             setInfo(info)
+
+            const sources = info.stream.stream_source.map(src => ({ src, type: 'video/webm' }))
+
+            const options: VideoJsPlayerPluginOptions = {
+                autoplay: true,
+                controls: true,
+                responsive: true,
+                fluid: true,
+                sources
+            }
+            setOptions(options)
         }
     }, [data, episodeSlug])
 
     return <>
         <Head {...params} />
-        {status === Status.LOADING ? <PageLoader /> : status === Status.FAILED ? <PageError /> : (info !== null && category !== null && data !== null) ? <Video category={category} info={info} onEnded={() => {
+        {status === Status.LOADING ? <PageLoader /> : status === Status.FAILED ? <PageError /> : (info !== null && category !== null && data !== null && options !== null) ? <Video category={category} info={info} options={options} onEnded={() => {
             const episode = data.find(episode => episode.sort === info.sort + 1 && episode.season_num === info.season_num)
             if (episode) push(`/series/${categorySlug}/${seriesSlug}/${episode.stream.slug}`, undefined, { shallow: true })
             else {
@@ -71,7 +84,7 @@ const SeriesEpisodeStreamPage: NextPageWithLayout = () => {
                 if (episode) push(`/series/${categorySlug}/${seriesSlug}/${episode.stream.slug}`, undefined, { shallow: true })
             }
         }}>
-            <SerieView />
+            <SerieView info={info} />
         </Video> : null}
     </>
 }

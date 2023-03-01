@@ -1,10 +1,11 @@
-import { ArrowLeftIcon, HeartIcon } from '@heroicons/react/24/outline'
+import { ArrowLeftIcon, Bars3Icon, HeartIcon } from '@heroicons/react/24/outline'
 import { capitalize } from 'lodash'
 import { useRouter } from "next/router"
-import { ReactNode, useEffect, useRef } from 'react'
+import { ReactNode, useEffect, useRef, useState } from 'react'
 import videojs, { VideoJsPlayer, VideoJsPlayerPluginOptions } from 'video.js'
+import 'video.js/dist/video-js.css';
 
-import { assets } from '../../../../../../app/helpers/utils'
+import { assets, classNames } from '../../../../../../app/helpers/utils'
 import { useAppSelector } from '../../../../../../app/hooks'
 import SeriesEpisodeType from '../../../../../../app/types/series/episode'
 import StreamType from '../../../../../../app/types/stream'
@@ -12,20 +13,20 @@ import StreamCategoryType from '../../../../../../app/types/stream_category'
 
 import { selectAuth } from '../../../../../../features/auth/authSlice'
 
-import 'video.js/dist/video-js.css';
-
 type VideoProps = {
     live?: boolean
     info: StreamType | SeriesEpisodeType
     category: StreamCategoryType
     onEnded?: () => void
+    options: VideoJsPlayerPluginOptions
     children?: ReactNode
 }
 
-export default function Video({ live, info, category, onEnded, children }: VideoProps) {
+export default function Video({ live, info, category, onEnded, options, children }: VideoProps) {
     const { back, push } = useRouter()
 
     const { data: account } = useAppSelector(selectAuth)
+    const [addon, setAddon] = useState(false)
 
     const type = 'stream_source' in info ? 'stream' : 'serie'
     const condition = account === null || !account.bouquet || !account.bouquet.find(bouquet => (type === 'stream' && bouquet.bouquet_channels.find(stream => stream === (info as StreamType).id)) || (type === 'serie' && bouquet.bouquet_series.find(serie => serie === (info as SeriesEpisodeType).series_id)))
@@ -37,25 +38,10 @@ export default function Video({ live, info, category, onEnded, children }: Video
     const videoRef = useRef<HTMLDivElement | null>(null);
     const playerRef = useRef<VideoJsPlayer & {
         landscapeFullscreen?: ({ }) => void
+        rewindFastForward?: (player: VideoJsPlayer, rewind?: boolean) => void
     } | null>(null);
 
     const name = capitalize(category.category_name.toLocaleLowerCase())
-    const sources = ('stream_source' in info ? info : info.stream).stream_source.map(src => ({ src, type: live ? 'application/x-mpegURL' : 'video/webm' }))
-
-    const options: VideoJsPlayerPluginOptions = {
-        autoplay: true,
-        controls: true,
-        responsive: true,
-        fluid: true,
-        sources
-    }
-    if (live) options.mpegtsjs = {
-        mediaDataSource: {
-            isLive: true,
-            cors: false,
-            withCredentials: false,
-        },
-    }
 
     useEffect(() => {
         // Make sure Video.js player is only initialized once
@@ -73,6 +59,9 @@ export default function Video({ live, info, category, onEnded, children }: Video
         } else {
             const player = playerRef.current;
 
+            require('@video-js-plugins/videojs-rewind-fast-forward')
+            player.rewindFastForward!(player, true)
+
             require('videojs-landscape-fullscreen')
             player.landscapeFullscreen!({
                 fullscreen: {
@@ -82,6 +71,7 @@ export default function Video({ live, info, category, onEnded, children }: Video
                     iOS: true
                 }
             })
+
             player.autoplay(options.autoplay);
             player.controls(options.controls);
             player.responsive(options.responsive);
@@ -105,25 +95,33 @@ export default function Video({ live, info, category, onEnded, children }: Video
 
     return (
         <main>
-            <div className="h-screen flex flex-col">
-                <header className="container flex items-center h-20 lg:h-[133px]">
-                    <div className="mr-6 md:mr-12"><div onClick={back} className="cursor-pointer w-12 h-12 rounded-full flex items-center justify-center bg-white/30 text-white"><ArrowLeftIcon className="w-6" /></div></div>
-                    {live ? <img src={assets(('stream_source' in info ? info : info.stream).stream_icon)} alt="Stream Icon" className="h-12 object-center mr-3" /> : null}
-                    <div className='flex-1 truncate mr-6'>
-                        <div className="text-xl font-bold text-white truncate" title={('stream_source' in info ? info : info.stream).stream_display_name}>
-                            {('stream_source' in info ? info : info.stream).stream_display_name}
-                        </div>
-                        <div className="text-sm">{name}</div>
+            <div className="min-h-screen flex flex-wrap bg-secondary-900">
+                <div className="flex-none w-full lg:flex-1 flex flex-col overflow-x-hidden">
+                    <div>
+                        <header className="container flex items-center h-[100px] lg:h-[133px]">
+                            <div className="mr-3 md:mr-10"><div onClick={back} className="cursor-pointer w-11 h-11 rounded-full flex items-center justify-center bg-white/30 text-white"><ArrowLeftIcon className="w-6" /></div></div>
+                            {live ? <img src={assets(('stream_source' in info ? info : info.stream).stream_icon)} alt="Stream Icon" className="h-12 object-center mr-4" /> : null}
+                            <div className='flex-1 truncate mr-6'>
+                                <div className="text-xl font-bold text-white truncate capitalize" title={('stream_source' in info ? info : info.stream).stream_display_name}>
+                                    {('stream_source' in info ? info : info.stream).stream_display_name}
+                                </div>
+                                <div className="text-xs md:text-sm">{name}</div>
+                            </div>
+                            <div className='ml-auto'>{<div className='flex items-center'>
+                                <HeartIcon className="w-6 text-white mr-0 lg:mr-14 cursor-pointer" />
+
+                                <Bars3Icon className='w-6 text-white/60 hidden lg:block cursor-pointer' onClick={() => setAddon(a => !a)} />
+                            </div>}</div>
+                        </header>
                     </div>
-                    <div className='ml-auto'>{live ? children : <div className='flex items-center'>
-                        <HeartIcon className="w-10 text-white mr-3" />
 
-                        {children}
-                    </div>}</div>
-                </header>
+                    <div data-vjs-player className="flex-none lg:flex-1 h-[350px] lg:h-auto">
+                        <div ref={videoRef} className="h-full flex flex-col" />
+                    </div>
+                </div>
 
-                <div data-vjs-player className="flex-1">
-                    <div ref={videoRef} className="h-full flex flex-col" />
+                <div className={classNames('transition-all duration-200 w-full scale-x-100 opacity-100 absolute lg:static top-[450px] text-secondary-600 bg-white lg:h-screen lg:overflow-auto', addon ? "lg:w-80 lg:scale-x-100 lg:opacity-100" : "lg:w-0 lg:scale-x-0 lg:opacity-0")}>
+                    {children}
                 </div>
             </div>
         </main>

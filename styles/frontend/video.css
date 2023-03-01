@@ -2,12 +2,16 @@
     @apply p-0 flex-1 flex flex-col bg-secondary-900 !important;
 
     &:not(.vjs-fullscreen) {
-        video, .vjs-text-track-display, .vjs-modal-dialog {
-            @apply max-h-[calc(100vh_-_160px)] lg:max-h-[calc(100vh_-_291px)] !important;
+        video, .vjs-poster, .vjs-text-track-display, .vjs-modal-dialog {
+            @apply h-[calc(100%_-_80px)] lg:h-[calc(100%_-_136px)] !important;
         }
 
-        .vjs-big-play-button, .vjs-loading-spinner {
-            @apply lg:-translate-y-[79px];
+        .vjs-loading-spinner, .vjs-big-play-button {
+            @apply -translate-y-10 lg:-translate-y-[68px] !important;
+        }
+
+        .vjs-control-bar {
+            @apply opacity-100 bottom-0 !important;
         }
     }
 
@@ -16,18 +20,57 @@
     }
 
     .vjs-control-bar {
-        @apply relative px-4 sm:px-6 lg:px-8 mx-auto h-20 lg:h-[158px] space-x-4 lg:space-x-[30px] bg-secondary-900 border-0 mt-auto items-center z-0 after:fixed after:bg-secondary-900 after:inset-x-0 after:h-20 after:lg:h-[158px] after:bottom-0 after:-z-10 !important;
-    }
+        @apply container h-20 lg:h-[136px] space-x-1 lg:space-x-5 border-0 items-center z-0 after:absolute after:bg-secondary-900 after:w-screen after:left-1/2 after:-translate-x-1/2 after:inset-y-0 after:-z-10 !important;
 
-    .vjs-volume-panel {
-        @apply items-center
+        .vjs-play-control {
+            @apply order-first;
+        }
+
+        .vjs-volume-panel {
+            @apply items-center order-first lg:order-none;
+        }
+
+        .vjs-live-control {
+            @apply order-first;
+
+            .vjs-live-display {
+            @apply text-xs font-bold;
+        }}
+
+        .vjs-progress-control {
+            @apply order-first;
+
+            .vjs-progress-holder {
+                @apply h-[3px] lg:h-[4.71px] rounded-full;
+
+                .vjs-load-progress {
+                    @apply rounded-l-full;
+                }
+
+                .vjs-play-progress {
+                    @apply rounded-l-full after:absolute after:z-10 after:w-1 after:h-1 lg:after:w-3.5 lg:after:h-3.5 after:rounded-full after:bg-white after:right-0 after:translate-x-1/2 after:-top-0 lg:after:-top-[5px];
+
+                    &::before {
+                        @apply text-[10px] lg:text-2xl text-secondary-400 leading-none right-0 translate-x-1/2 -top-[3px] lg:-top-3.5;
+                    }
+            }
+            }
+        }
+
+        .vjs-remaining-time {
+            @apply order-first text-xs font-bold font-sans;
+        }
     }
 
     .vjs-control {
         @apply h-auto !important;
 
         &.vjs-button.vjs-play-control {
-            @apply border-solid border-4 lg:border-[9.13px] border-white/30 w-10 lg:w-[84px] h-10 lg:h-[84px] rounded-full inline-flex items-center justify-center !important;
+            @apply border-solid border-4 lg:border-[9.13px] border-white/20 w-10 lg:w-[84px] h-10 lg:h-[84px] rounded-full inline-flex items-center justify-center before:absolute before:z-0 before:inset-0 before:rounded-full before:bg-black/[.65] !important;
+
+            .vjs-icon-placeholder {
+                @apply relative z-10;
+            }
         }
     }
 

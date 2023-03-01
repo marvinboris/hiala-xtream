@@ -1,38 +1,99 @@
 import Link from "next/link"
+import { ReactNode } from 'react'
 
-import StreamCategoryType from "../../../app/types/stream_category"
+import Logo from "../../ui/logo"
 
-interface FooterProps {
-    liveCategories: StreamCategoryType[]
-    seriesCategories: StreamCategoryType[]
+type BlockProps = {
+    title: string
+    className?: string
+    children?: ReactNode
 }
 
-export default function Footer({ liveCategories = [], seriesCategories = [] }: FooterProps) {
-    return <footer className="border-t border-secondary-100 dark:border-secondary-200/20 text-sm bg-secondary-50 dark:bg-black">
-        <div className="container py-4 md:py-8 grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-            <div className="mb-8 xl:mb-0">
-                <div className="font-semibold text-black dark:text-white pb-2 border-b border-secondary-100 dark:border-secondary-200/20 mb-4">Programmes</div>
-                <div className="grid gap-2 grid-cols-2">
-                    {liveCategories.map(category => <div key={`footer-live-categories-${category.id}`} className="text-xs">
-                        <Link href={`/chaines/${category.slug}`}>
-                            <a className="capitalize">{category.category_name}</a>
-                        </Link>
-                    </div>)}
-                </div>
-            </div>
+type ButtonProps = {
+    href: string
+    name: string
+    os: string
+}
 
-            <div className="mb-8 xl:mb-0">
-                <div className="font-semibold text-black dark:text-white pb-2 border-b border-secondary-100 dark:border-secondary-200/20 mb-4">Séries</div>
-                <div className="grid gap-2 grid-cols-2">
-                    {seriesCategories.map(category => <div key={`footer-series-categories-${category.id}`} className="text-xs">
-                        <Link href={`/series/${category.slug}`}>
-                            <a className="capitalize">{category.category_name}</a>
-                        </Link>
-                    </div>)}
-                </div>
-            </div>
+type NavLinkProps = {
+    href: string
+    children?: ReactNode
+}
 
-            <div>© {new Date().getFullYear()} Copyright - <span className="font-semibold">Hiala TV</span></div>
+type SocialLinkProps = {
+    href: string
+    icon: string
+}
+
+const Block = ({ title, className, children }: BlockProps) => <div className={className}>
+    <div className="text-[25px] font-bold mb-[18px]">{title}</div>
+
+    <div>
+        {children}
+    </div>
+</div>
+
+const Button = ({ href, name, os }: ButtonProps) => <a href={href} className="rounded bg-white text-secondary-700 shadow-sm py-4 px-8 flex flex-col items-center justify-center space-y-1">
+    <div className="text-xl font-extrabold text-primary-800">{name}</div>
+    <div className="text-sm">{os}</div>
+</a>
+
+const NavLink = ({ href, children }: NavLinkProps) => <div className="mt-2 flex items-center space-x-2">
+    <div className="h-0.5 w-2.5 bg-white rounded-full" /><Link href={href}><a>{children}</a></Link>
+</div>
+
+const SocialLink = ({ href, icon }: SocialLinkProps) => <a href={href} target="_blank" className="w-11 h-11 rounded-full bg-white/10 text-white flex items-center justify-center">
+    <img src={`/images/social-networks/${icon}.svg`} alt={icon.toUpperCase()} className="w-5" />
+</a>
+
+export default function Footer() {
+    const socialNetworks = <>
+        <SocialLink href="#" icon="facebook" />
+        <SocialLink href="#" icon="linkedin" />
+        <SocialLink href="#" icon="twitter" />
+        <SocialLink href="#" icon="instagram" />
+        <SocialLink href="#" icon="youtube" />
+    </>
+
+    return <footer className="text-white bg-secondary-800 min-h-[625px] md:min-h-[425px] relative overflow-hidden z-0">
+        <div className="hidden md:block w-[540px] h-[540px] -z-10 rounded-full bg-gradient-to-b from-green/10 to-transparent absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 p-[50px]">
+            <div className="rounded-full w-full h-full bg-secondary-800" />
+        </div>
+
+        <div className="container pt-14 md:pt-16 pb-14 grid gap-x-4 gap-y-9 grid-cols-2 md:grid-cols-5 xl:grid-cols-7">
+            <div className="col-span-2 md:col-span-5 xl:col-span-2 order-1"><Logo reset /></div>
+
+            <Block title="Liens utiles" className="order-2">
+                <NavLink href="/chaines">Chaines TV</NavLink>
+                <NavLink href="/films">Films</NavLink>
+                <NavLink href="/series">Séries</NavLink>
+                <NavLink href="/bouquets">Nos formules</NavLink>
+            </Block>
+
+            <Block title="Télécharger nos applis" className="col-span-2 sm:col-span-1 lg:col-span-2 order-3 md:order-4">
+                <div className="grid grid-cols-2 gap-2 relative z-10">
+                    {[
+                        { name: 'Hiala C', os: 'Android', href: '/files/hiala-c.apk' },
+                        { name: 'Hiala P', os: 'Android', href: '/files/hiala-p.apk' },
+                        { name: 'Hiala C', os: 'iOS', href: '/files/hiala-c.app' },
+                        { name: 'Hiala P', os: 'iOS', href: '/files/hiala-p.app' },
+                    ].map(item => <Button key={JSON.stringify(item)} {...item} />)}
+                </div>
+            </Block>
+
+            <Block title="Nous acceptons" className="col-span-2 sm:col-span-1 lg:col-span-2 order-3 md:order-4">
+                <img src="/images/payment-methods/card.png" alt="Payment methods - card" className="h-8 w-auto" />
+            </Block>
+
+            <div className="flex md:hidden col-span-2 sm:col-span-1 space-x-2.5 order-5">{socialNetworks}</div>
+        </div>
+
+        <div className="border-t h-[88px] flex items-center border-white/50">
+            <div className="container flex items-center">
+                <div className="flex-1">Copyright {new Date().getFullYear()}. Tous droits réservés. <span className="font-bold text-green">Hiala TV</span></div>
+
+                <div className="hidden md:flex space-x-2.5">{socialNetworks}</div>
+            </div>
         </div>
     </footer>
 }

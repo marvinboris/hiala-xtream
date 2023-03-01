@@ -1,7 +1,14 @@
 import { TvIcon } from "@heroicons/react/24/outline"
-import { classNames } from "../../app/helpers/utils"
 
-export default function Logo({ className = '', reset = false }) {
-    return <span className={classNames("font-bold text-3xl flex items-center space-x-1", reset ? "" : "text-white")}><span>HIALA</span><TvIcon className="w-8" /></span>
-    return <img className={`h-4 w-auto ${className}`} src="/images/logo.png" alt="Logo" />
+import { classNames } from "../../app/helpers/utils"
+import { useWindowSize } from "../../app/hooks"
+
+export default function Logo({ reset = false }) {
+    const { width } = useWindowSize()
+    const mobile = width !== undefined && width < 1024
+
+    return <span className={classNames("font-bold leading-none flex items-center space-x-2.5 text-transparent bg-clip-text bg-gradient-to-r", reset ? "from-primary-800 to-teal" : " from-white to-[#DFE9EC]", mobile ? "text-[26px]" : "text-[35px]")}>
+        <span>HIALA TV</span>
+        <TvIcon className={classNames(reset ? "text-teal" : "text-white", mobile ? "w-6" : "w-8")} />
+    </span>
 }

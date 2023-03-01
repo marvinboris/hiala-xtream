@@ -15,16 +15,16 @@ module.exports = {
       },
       colors: {
         primary: {
-          50: '#eef8e8',
-          100: '#d5edc5',
-          200: '#b9e19f',
-          300: '#9dd578',
-          400: '#86cc59',
-          500: '#70c33a',
-          600: '#62B332',
-          700: '#4c9f28',
-          800: '#378b1e',
-          900: '#006909',
+          50: "#e3f6ff",
+          100: "#b8e8ff",
+          200: "#8adafe",
+          300: "#5dccf9",
+          400: "#41c1f4",
+          500: "#37b7ec",
+          600: "#2ea8d8",
+          700: "#1f93bd",
+          800: "#0e80a3",
+          900: "#005f76"
         },
         secondary: {
           50: '#fafafa',
@@ -34,12 +34,19 @@ module.exports = {
           400: '#a3a3a3',
           500: '#737373',
           600: '#525252',
-          700: '#404040',
-          800: '#262626',
-          900: '#171717',
+          700: '#2C2C2C',
+          800: '#242424',
+          900: '#111314',
         },
+        green: "#61AD32",
+        teal: "#03C859"
       }
     },
+    linearBorderGradients: theme => ({
+      colors: theme('colors'),
+    }),
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss-border-gradients')(),
+  ],
 }

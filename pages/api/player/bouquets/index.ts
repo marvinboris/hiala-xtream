@@ -12,8 +12,8 @@ export default async function handler(
 ) {
     try {
         let bouquets
-        if (req.cookies.user) {
-            const decrypted = decryptPayload(req.cookies.user)
+        if (req.headers["x-auth-token"]) {
+            const decrypted = decryptPayload(req.cookies.user!)
             if (!decrypted) return res.status(401).json({ error: "Not authorized!" })
 
             const user = await User.findByPk(decrypted.id)

@@ -4,12 +4,10 @@ import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 
 import store from '../app/store'
+import ErrorBoundary from '../components/error-boundary'
+import Wrapper from '../hoc/wrapper'
 
 import '../styles/globals.css'
-
-import ErrorBoundary from '../components/error-boundary'
-
-import Wrapper from '../hoc/wrapper'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode

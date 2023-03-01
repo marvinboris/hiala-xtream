@@ -29,7 +29,7 @@ const EpisodePlot = ({ episodes, info, category }: Plot) => <div className='spac
     {episodes.map(episode => <Link key={`series-info-episode-${episode.id}`} href={`/series/${category.slug}/${info.slug}/${episode.stream.slug}`}>
         <a className='flex'>
             <div className='mr-2 w-1/4 hidden md:block'>
-                <div className="ratio-16by9 bg-secondary-800">
+                <div className="aspect-video bg-secondary-800">
                     <img src={assets(episode.stream.movie_propeties.movie_image || info.cover)} alt={episode.stream.stream_display_name} className="image-cover absolute inset-0" />
                 </div>
             </div>
@@ -50,7 +50,7 @@ const EpisodePlot = ({ episodes, info, category }: Plot) => <div className='spac
 const NoEpisodePlot = ({ episodes, info, category }: Plot) => <div className='grid gap-x-2 gap-y-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
     {episodes.map(episode => <Link key={`series-info-episode-${episode.id}`} href={`/series/${category.slug}/${info.slug}/${episode.stream.slug}`}>
         <a className="block">
-            <div className="ratio-16by9 bg-secondary-800">
+            <div className="aspect-video bg-secondary-800">
                 <img src={assets(episode.stream.movie_propeties.movie_image || info.cover)} alt={episode.stream.stream_display_name} className="image-cover absolute inset-0" />
             </div>
 
@@ -86,7 +86,7 @@ export default function ViewSeries({ series: info, category }: ViewSeriesProps) 
     }, [season, seasons])
 
 
-    const seasonsContent = !!seasons && seasons.map((s, index) => <div key={`series-info-season-${index}`} onClick={() => setSeason(s)} className={classNames("h-10 w-[56px] flex items-center justify-center text-white cursor-pointer", s === season ? 'bg-primary-600' : 'bg-secondary-700')}>{s}</div>)
+    const seasonsContent = !!seasons && seasons.map((s, index) => <div key={`series-info-season-${index}`} onClick={() => setSeason(s)} className={classNames("h-10 w-[56px] flex items-center justify-center text-white cursor-pointer", s === season ? 'bg-primary-800' : 'bg-secondary-700')}>{s}</div>)
 
     return <>
         <div className="mb-12 md:mb-5">
@@ -112,7 +112,7 @@ export default function ViewSeries({ series: info, category }: ViewSeriesProps) 
                 <div className="text-2xl">Épisodes</div>
 
                 <div className='flex items-center space-x-4'>
-                    <span className="text-primary-600">Résumés des épisodes</span>
+                    <span className="text-primary-800">Résumés des épisodes</span>
 
                     <div>
                         <Switch checked={episodePlot} toggle={() => setEpisodePlot(!episodePlot)} />

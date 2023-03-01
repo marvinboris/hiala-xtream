@@ -21,7 +21,7 @@ export default function Methods({ methods }: MethodsProps) {
           <RadioGroup.Label className="sr-only">Méthode de paiement</RadioGroup.Label>
           <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
             {methods && methods.map((method) => (
-              <RadioGroup.Option key={method.name} value={method} className={({ active, checked }) => `${active ? 'ring-2 ring-white ring-opacity-60 ring-offset-2 ring-offset-primary-300' : ''} ${checked ? 'bg-primary-600/90 text-white' : 'bg-secondary-50'} relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none`}>
+              <RadioGroup.Option key={method.name} value={method} className={({ active, checked }) => `${active ? 'ring-2 ring-white ring-opacity-60 ring-offset-2 ring-offset-primary-300' : ''} ${checked ? 'bg-primary-800/90 text-white' : 'bg-secondary-50'} relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none`}>
                 {({ active, checked }) => <>
                   <div className="flex w-full items-center justify-between">
                     <div className="flex items-center">

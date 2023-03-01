@@ -1,6 +1,8 @@
 import { capitalize } from "lodash";
 import { useRouter } from "next/router";
 import { ReactElement, useEffect, useState } from "react";
+import { VideoJsPlayerPluginOptions } from "video.js";
+import 'video.js/dist/video-js.css';
 
 import { NextPageWithLayout } from "../../_app";
 
@@ -18,8 +20,6 @@ import PageLoader from "../../../components/frontend/ui/page/loader";
 
 import { liveStreams as streams, selectPlayer } from "../../../features/player/playerSlice";
 
-import 'video.js/dist/video-js.css';
-
 const LiveStreamPage: NextPageWithLayout = () => {
     const dispatch = useAppDispatch()
     const { live: { streams: { data, status } } } = useAppSelector(selectPlayer)
@@ -28,6 +28,7 @@ const LiveStreamPage: NextPageWithLayout = () => {
 
     const [category, setCategory] = useState<StreamCategoryType | null>(null)
     const [info, setInfo] = useState<StreamType | null>(null)
+    const [options, setOptions] = useState<VideoJsPlayerPluginOptions | null>(null)
 
     const params = {
         link: `/chaines/${categorySlug}/${slug}`,
@@ -48,13 +49,32 @@ const LiveStreamPage: NextPageWithLayout = () => {
         if (data !== null) {
             const info = data.find(stream => stream.slug === slug)!
             setInfo(info)
+
+            const sources = info.stream_source.map(src => ({ src, type: 'application/x-mpegURL' }))
+
+            const options: VideoJsPlayerPluginOptions = {
+                autoplay: true,
+                controls: true,
+                responsive: true,
+                fluid: true,
+                sources,
+                mpegtsjs: {
+                    mediaDataSource: {
+                        isLive: true,
+                        cors: false,
+                        withCredentials: false,
+                    },
+                }
+            }
+
+            setOptions(options)
         }
     }, [data, slug])
 
     return <>
         <Head {...params} />
-        {status === Status.LOADING ? <PageLoader /> : status === Status.FAILED ? <PageError /> : (info !== null && category !== null) ? <Video live category={category} info={info}>
-            <LiveView />
+        {status === Status.LOADING ? <PageLoader /> : status === Status.FAILED ? <PageError /> : (info !== null && category !== null && options !== null) ? <Video live category={category} options={options} info={info}>
+            <LiveView category={category} info={info} />
         </Video> : null}
     </>
 }

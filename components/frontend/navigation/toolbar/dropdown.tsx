@@ -40,7 +40,7 @@ interface DropdownProps {
 
 const renderItem = (item: Item, close: () => void) => <Link key={item.name} href={item.href}>
     <a onClick={close} className="-m-3 flex items-start rounded-lg p-3 hover:bg-secondary-50 dark:hover:bg-secondary-800">
-        {item.icon && <item.icon className="h-6 w-6 flex-shrink-0 text-primary-600" aria-hidden="true" />}
+        {item.icon && <item.icon className="h-6 w-6 flex-shrink-0 text-primary-800" aria-hidden="true" />}
         {item.photo && <div className='h-6 w-6 flex-shrink-0'><img src={item.photo} alt={item.name} className="image-cover rounded" /></div>}
         <div className="ml-4">
             <p className="text-base font-medium text-secondary-900 dark:text-white">{item.name}</p>
@@ -72,7 +72,7 @@ const renderListItem = (item: ListItem) => (
 export default function Dropdown({ title, items, actions, list }: DropdownProps) {
     return <Popover>
         {({ open, close }) => <>
-            <Popover.Button className={classNames(open ? 'text-primary-600 dark:text-primary-600' : 'text-secondary-700 dark:text-secondary-200', 'group inline-flex items-center font-semibold text-sm leading-6 hover:text-primary-600 dark:hover:text-primary-600 focus:outline-none transition-all duration-200')}>
+            <Popover.Button className={classNames(open ? 'text-primary-800 dark:text-primary-800' : 'text-secondary-700 dark:text-secondary-200', 'group inline-flex items-center font-semibold text-sm leading-6 hover:text-primary-800 dark:hover:text-primary-800 focus:outline-none transition-all duration-200')}>
                 <span>{title}</span>
                 <ChevronDownIcon className={classNames(open ? 'rotate-180' : '', 'ml-2 h-5 w-5 transition-all duration-200')} aria-hidden="true" />
             </Popover.Button>
@@ -99,7 +99,7 @@ export default function Dropdown({ title, items, actions, list }: DropdownProps)
                                     </ul>
                                 </div>
                                 {list.view && <div className="mt-5 text-sm">
-                                    <a href={list.view.href} className="font-medium text-primary-600 hover:text-primary-500">
+                                    <a href={list.view.href} className="font-medium text-primary-800 hover:text-primary-500">
                                         {list.view.name}
                                         <span aria-hidden="true"> &rarr;</span>
                                     </a>

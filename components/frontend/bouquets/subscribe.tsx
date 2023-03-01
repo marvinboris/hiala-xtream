@@ -103,7 +103,7 @@ export default function BouquetSubscribe({ amount, name, id }: BouquetSubscribeP
                     </div>
 
                     <div className="mt-4">
-                        {paymentStatus === 'SUCCESSFULL' ? <CheckCircleIcon className='text-primary-600 w-20' /> :
+                        {paymentStatus === 'SUCCESSFULL' ? <CheckCircleIcon className='text-primary-800 w-20' /> :
                             paymentStatus === 'CANCELLED' ? <ExclamationCircleIcon className='text-red-600 w-20' /> :
                                 <div className='border-[5px] border-t-transparent border-sky-600 rounded-full animate-spin w-20 h-20' />}
                     </div>
@@ -166,7 +166,7 @@ export default function BouquetSubscribe({ amount, name, id }: BouquetSubscribeP
 
                 {selected.ref === 'om' ? <div className='mt-4 space-y-2'>
                     {message && <Alert color='danger'>{message}</Alert>}
-                    <input placeholder='Orange phone number. Ex: 690909090' type='tel' disabled={loading} className={classNames('rounded-lg bg-secondary-100 py-3 px-4 text-sm block w-full', phone === '' ? 'outline-none' : phoneValid ? 'outline-primary-600' : 'outline-red-600')} onChange={e => setPhone(e.target.value)} value={phone} />
+                    <input placeholder='Orange phone number. Ex: 690909090' type='tel' disabled={loading} className={classNames('rounded-lg bg-secondary-100 py-3 px-4 text-sm block w-full', phone === '' ? 'outline-none' : phoneValid ? 'outline-primary-800' : 'outline-red-600')} onChange={e => setPhone(e.target.value)} value={phone} />
                 </div> : null}
 
                 <div className={classNames(paymentUrl ? "opacity-100 scale-100" : "opacity-0 scale-0", "fixed inset-0 z-50 items-center justify-center flex flex-col transition-all duration-200")}>

@@ -9,7 +9,7 @@ type ButtonProps = {
 }
 
 const Button = ({ href, name, os }: ButtonProps) => <a href={href} className="rounded bg-white shadow-sm py-4 px-8 flex flex-col items-center justify-center space-y-1">
-    <div className="text-xl font-extrabold text-primary-600">{name}</div>
+    <div className="text-xl font-extrabold text-primary-800">{name}</div>
     <div className="text-sm">{os}</div>
 </a>
 
