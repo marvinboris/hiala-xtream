@@ -40,9 +40,9 @@ export default function Account({ navItems }: AccountProps) {
 
     const navItemsContent = navItems.map(item => <Link key={'account-nav-item' + item.href} href={item.href}>
         <a className="bg-transparent hover:bg-white/10 transition-all duration-200 flex items-center px-4 py-2">
-            <div className="w-6 h-6 rounded-sm flex items-center justify-center mr-2">
+            {item.icon ? <div className="w-6 h-6 rounded-sm flex items-center justify-center mr-2">
                 <item.icon className="w-6 text-primary-800" />
-            </div>
+            </div> : null}
 
             <div className="text-lg">{item.children}</div>
         </a>
