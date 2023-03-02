@@ -1,88 +1,35 @@
-import { PlayIcon } from '@heroicons/react/20/solid'
 import { ArrowRightIcon, FilmIcon, PlayCircleIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { ReactElement, useEffect } from 'react'
 
 import { NextPageWithLayout } from './_app'
 
-import { useCategoriesContext } from '../app/contexts/categories'
-import { assets, classNames } from '../app/helpers/utils'
+import { assets } from '../app/helpers/utils'
 import { useAppDispatch, useAppSelector } from '../app/hooks'
+import BouquetType from '../app/types/bouquet'
 import SeriesStreamType from '../app/types/series/stream'
 import Status from '../app/types/status'
 import StreamType from '../app/types/stream'
 
 import Layout, { Head } from '../components/frontend/navigation/layout'
+import Bouquet from '../components/frontend/ui/blocks/player/bouquets/bouquet'
+import LiveStream from '../components/frontend/ui/blocks/player/live/stream'
 import SeriesStream from '../components/frontend/ui/blocks/player/series/stream'
 import VodStream from '../components/frontend/ui/blocks/player/vod/stream'
-import View from '../components/frontend/ui/blocks/player/ui/view'
 import PageError from '../components/frontend/ui/page/error'
 import PageLoader from '../components/frontend/ui/page/loader'
-import LiveStream from '../components/frontend/ui/blocks/player/live/stream'
+import Button from '../components/frontend/ui/button'
+import ViewAll from '../components/frontend/ui/view-all'
+import OwlCarousel from '../components/ui/owl-carousel'
 
 import { selectAuth } from '../features/auth/authSlice'
 import { bouquets as fetchBouquets, liveStreams, selectPlayer, seriesInfo, seriesStreams, vodStreams } from '../features/player/playerSlice'
-import Button from '../components/frontend/ui/button'
-import OwlCarousel from '../components/ui/owl-carousel'
-import ViewAll from '../components/frontend/ui/view-all'
-import BouquetType from '../app/types/bouquet'
-import Bouquet from '../components/frontend/ui/blocks/player/bouquets/bouquet'
 
 const params = {
   link: '/',
   title: "Hiala TV",
   description: "Hiala TV: TV, sports, séries, films en streaming en direct live | Hiala TV Cameroun."
 }
-
-interface OfflineSectionProps {
-  title?: string
-  subtitle: string
-  description: string
-  more?: string
-  href?: string
-  data?: StreamType[] | SeriesStreamType[]
-  children?: React.ReactElement
-}
-
-const BorderedSection = ({ title, subtitle, description, more, href, data }: OfflineSectionProps) => {
-  const dataContent = data?.map((item, index) => <div key={`section-${title}-stream-${item.id}`} className={index % 2 === 0 ? classNames('row-span-2', index === 0 ? 'order-2 md:order-4' : index === 2 ? "order-4 md:order-5" : index === 4 ? "order-6 md:order-8" : index === 6 ? "order-8 md:order-9" : "") : classNames(index === 1 ? "order-3 md:order-2" : index === 3 ? "order-5 md:order-3" : index === 5 ? "order-7 md:order-6" : index === 7 ? "order-9 md:order-7" : "")}>
-    <div className={classNames(index % 2 === 0 ? "aspect-[3/4]" : "aspect-video", 'rounded relative overflow-hidden cursor-pointer')}>
-      <View stream={item} action={<>
-        <img src={assets("cover" in item ? item.cover : item.movie_propeties.cover_big)} alt="Stream image" className="image-cover absolute inset-0" />
-      </>} />
-    </div>
-  </div>)
-
-  return <section className='my-12'>
-    <div className="container grid grid-cols-2 gap-[9px] md:grid-cols-4 md:grid-flow-col md:gap-3 md:grid-rows-[3fr_4fr_3fr]">
-      <header className="bg-secondary-800 rounded px-5 md:px-3 py-8 md:py-5 col-span-2 md:col-span-1 md:row-span-2 order-1">
-        <div className="text-primary-800 font-bold mb-1.5">{title}</div>
-
-        <div className="text-white text-xl font-semibold mb-3">{subtitle}</div>
-
-        <div className="text-sm mb-4">{description}</div>
-
-        <Link href={href!}>
-          <a className='btn btn-secondary'>{more}</a>
-        </Link>
-      </header>
-
-      {dataContent}
-    </div>
-  </section>
-}
-
-const BorderlessSection = ({ subtitle, description, children }: OfflineSectionProps) => <section className='my-12'>
-  <div className="container">
-    <header>
-      <div className="text-white text-xl font-semibold mb-3">{subtitle}</div>
-
-      <div className="text-sm mb-4">{description}</div>
-    </header>
-
-    {children}
-  </div>
-</section>
 
 interface OnlineSectionProps {
   title: React.ReactNode
@@ -92,7 +39,7 @@ interface OnlineSectionProps {
 }
 
 const Section = ({ title, content, wrapped, href }: OnlineSectionProps) => <section className={wrapped ? '' : "py-5"}>
-  <div className="container flex items-center">
+  <div className="container-fluid flex items-center">
     <div className='relative pr-2.5 mr-2.5'>
       <FilmIcon className='w-5 lg:w-7 text-primary-800' />
       <div className="bg-white/20 w-1 lg:w-1.5 h-1 lg:h-1.5 rounded-full absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2" />
@@ -117,57 +64,41 @@ const Section = ({ title, content, wrapped, href }: OnlineSectionProps) => <sect
 </section>
 
 const HomePage: NextPageWithLayout = () => {
-  const { liveCategories } = useCategoriesContext()
-
   const dispatch = useAppDispatch()
   const { data: account } = useAppSelector(selectAuth)
   const { bouquets, live, series, vod } = useAppSelector(selectPlayer)
 
   useEffect(() => {
-    dispatch(fetchBouquets())
+    if (account === null) dispatch(fetchBouquets())
     dispatch(liveStreams())
     dispatch(seriesStreams())
     dispatch(vodStreams())
-  }, [])
+  }, [account])
 
   useEffect(() => {
     if (series.streams.data !== null) {
       const lastSeries = series.streams.data ? [...series.streams.data].sort((a, b) => +a.releaseDate - +b.releaseDate)[0] : null
-      if (series.info.status === Status.IDLE && lastSeries !== null) dispatch(seriesInfo(lastSeries.id))
+      if (account === null && series.info.status === Status.IDLE && lastSeries !== null) dispatch(seriesInfo(lastSeries.id))
     }
   }, [series.streams.data])
 
 
-  const loading = bouquets.status === Status.LOADING || series.info.status === Status.LOADING || series.streams.status === Status.LOADING || vod.streams.status === Status.LOADING
-  const failed = bouquets.status === Status.FAILED || series.info.status === Status.FAILED || series.streams.status === Status.FAILED || vod.streams.status === Status.FAILED
+  const loading = bouquets.status === Status.LOADING || (account === null && series.info.status === Status.LOADING) || series.streams.status === Status.LOADING || vod.streams.status === Status.LOADING
+  const failed = bouquets.status === Status.FAILED || (account === null && series.info.status === Status.FAILED) || series.streams.status === Status.FAILED || vod.streams.status === Status.FAILED
 
   let content
   if (account) {
-    // const renderVodStreamHeader = (vodStream: StreamType, index: number) => <VodStreamHeader key={`vod-stream-header-${vodStream.added}-${index}`} {...vodStream} />
-    // const renderLiveCategory = (liveCategory: StreamCategoryType, index: number) => <LiveCategory key={`liveCategory-${liveCategory.id}-${index}`} {...liveCategory} />
     const renderLiveStream = (liveStream: StreamType, index: number) => <div key={`live-stream-${liveStream.added}-${index}`} className='inline-block w-1/3 sm:w-1/4 md:w-1/5 lg:1/6 xl:w-[12.5%] px-1 lg:px-2'><LiveStream {...liveStream} /></div>
     const renderVodStream = (vodStream: StreamType, index: number) => <VodStream key={`vod-stream-${vodStream.added}-${index}`} {...vodStream} />
     const renderSeriesStream = (seriesStream: SeriesStreamType, index: number) => <SeriesStream key={`series-stream-${seriesStream.id}-${index}`} {...seriesStream} />
 
-    // const liveCategoriesContent = liveCategories !== null && liveCategories.map(renderLiveCategory)
     const liveStreamsContent = live.streams.data !== null && live.streams.data.map(renderLiveStream)
     const seriesStreamsContent = series.streams.data !== null && series.streams.data.map(renderSeriesStream)
     const vodStreamsContent = vod.streams.data !== null && vod.streams.data.map(renderVodStream)
-    // const vodStreamsHeaderContent = vod.streams.data !== null && vod.streams.data.map(renderVodStreamHeader)
 
     content = <>
-      {/* <header className="carousel">
-        {vodStreamsHeaderContent}
-      </header>
-
-      <section id="live-categories" aria-label="Live categories" className='app-section'>
-        <div className="carousel">
-          {liveCategoriesContent}
-        </div>
-      </section> */}
-
       <Section title="Activités récentes" content={vodStreamsContent} href='/films' />
-      <div className="container py-5">
+      <div className="container-fluid py-5">
         <div className="rounded-[25px] bg-secondary-800 py-6">
           <Section wrapped title="Chaînes populaires" content={liveStreamsContent} href='/chaines' />
         </div>
@@ -192,25 +123,6 @@ const HomePage: NextPageWithLayout = () => {
     })
 
     content = lastSeries ? <>
-      {/* <header className="h-[500px] relative bg-secondary-800 flex flex-col justify-end">
-        {series.streams.data && <img src={assets(series.streams.data[0].cover)} alt="BG Home" className='image-cover absolute inset-0' />}
-        <div className="container z-20 after:absolute after:inset-0 after:bg-gradient-to-t after:from-black after:to-transparent after:-z-10">
-          <h2 className="mb-1 text-2xl text-white font-bold">Ne cherchez pas, vous ne trouverez pas + ailleurs</h2>
-
-          <p>Regardez le meilleur des séries, des films et du sport en streaming et en illimité.</p>
-
-          <div className="pt-4 pb-8 flex items-center justify-between">
-            <div className="relative">
-              <Link href='/bouquets'>
-                <a className='btn btn-primary'>Découvrir nos bouquets</a>
-              </Link>
-            </div>
-
-            <div className="rounded w-12 h-12 bg-secondary-900/50 text-white flex items-center justify-center"><PlayIcon className='w-8' /></div>
-          </div>
-        </div>
-      </header> */}
-
       <div className="min-h-[calc(100vh_-_112px)] md:min-h-[calc(100vh_-_120px)] md:flex items-center relative overflow-hidden">
         <img src={assets(lastSeries.cover_big)} alt="BG Home" className='image-cover absolute inset-0 -z-30' />
 
@@ -251,7 +163,7 @@ const HomePage: NextPageWithLayout = () => {
             <div className="text-[25px] md:text-[45px] font-bold">Emportez vos films préférés</div>
 
             <div className='mt-4'>
-              Nous mettons a votre disposition une sélection de film HD pour une expérience au dessus de vos attentes
+              Nous mettons à votre disposition une sélection de films HD pour une expérience au-dessus de vos attentes.
             </div>
           </div>
 
@@ -300,7 +212,7 @@ const HomePage: NextPageWithLayout = () => {
           <div className="hidden md:block ml-auto"><ViewAll href="/series">Voir notre sélection</ViewAll></div>
         </div>
         <div className="mt-14">
-          <OwlCarousel className="home-media-carousel" center loop responsive={{ 0: { items: 2 }, 640: { items: 3 }, 768: { items: 4 }, 1024: { items: 5 } }}>{[...(series.streams.data || [])].sort((a, b) => +a.releaseDate - +b.releaseDate).map(v => <img key={`series-img-${v.id}`} src={assets(v.cover_big)} alt={v.title} className="aspect-[260/285] object-cover bg-white" />)}</OwlCarousel>
+          <OwlCarousel className="home-media-carousel" center loop responsive={{ 0: { items: 2 }, 640: { items: 3 }, 768: { items: 4 }, 1024: { items: 5 } }}>{[...(series.streams.data || [])].sort((a, b) => +a.releaseDate - +b.releaseDate).map(v => <img key={`series-img-${v.id}`} src={assets(v.cover)} alt={v.title} className="aspect-[260/285] object-cover bg-white" />)}</OwlCarousel>
         </div>
         <div className="mt-4 text-center md:hidden"><ViewAll href="/series">Voir notre sélection</ViewAll></div>
       </section>
@@ -330,7 +242,7 @@ const HomePage: NextPageWithLayout = () => {
             Nous vous proposons un service de qualité à un prix défiant toute concurrence.
           </div>
         </div>
-        <div className="md:hidden carousel space-x-5">{bouquetsContent}</div>
+        <div className="md:hidden carousel bouquets space-x-5">{bouquetsContent}</div>
         <div className="container hidden mt-[92px] md:grid gap-6 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">{bouquetsContent}</div>
         <div className="text-center md:hidden"><ViewAll href="/bouquets" green>Voir nos bouquets</ViewAll></div>
       </section>

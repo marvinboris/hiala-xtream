@@ -57,10 +57,9 @@ export default function Layout({ title, text, children }: LayoutProps) {
                     <div className="ml-auto w-auto lg:w-1/2 relative group">
                         <Squares2X2Icon className='w-8 text-white lg:hidden' />
 
-                        <div className='lg:flex items-center justify-center lg:space-x-5 absolute lg:static top-full right-0 mt-1 bg-white lg:bg-transparent py-2 rounded-lg scale-0 group-hover:scale-100 origin-top-right transition-all duration-200'>
-                            <NavLink href="/chaines">Programmes TV</NavLink>
+                        <div className='lg:flex items-center justify-center lg:space-x-5 absolute lg:static top-full right-0 mt-1 bg-white shadow lg:shadow-none lg:bg-transparent py-2 rounded-lg scale-0 group-hover:scale-100 lg:scale-100 origin-top-right transition-all duration-200'>
                             <NavLink href="/bouquets">Nos formules</NavLink>
-                            <NavLink href="/films">Films & Séries</NavLink>
+                            <NavLink href="/films-series">Films & Séries</NavLink>
                         </div>
                     </div>
                 </header>

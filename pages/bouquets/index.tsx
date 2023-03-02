@@ -1,16 +1,17 @@
 import { ReactElement, useEffect } from 'react'
 
 import { NextPageWithLayout } from '../_app'
+
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import BouquetType from '../../app/types/bouquet'
+import Status from '../../app/types/status'
+
 import Layout, { Head } from '../../components/frontend/navigation/layout'
 import PageError from '../../components/frontend/ui/page/error'
 import PageLoader from '../../components/frontend/ui/page/loader'
 import Bouquet from '../../components/frontend/ui/blocks/player/bouquets/bouquet'
 
-import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { selectPlayer, bouquets, resetBouquets } from '../../features/player/playerSlice'
-import Status from '../../app/types/status'
-import BouquetType from '../../app/types/bouquet'
-import OwlCarousel from '../../components/ui/owl-carousel'
 
 const params = {
   link: '/bouquets',
@@ -51,10 +52,7 @@ const BouquetsPage: NextPageWithLayout = () => {
         <div className="rounded-full w-full h-full bg-secondary-700" />
       </div>
       {status === Status.FAILED ? <PageError /> : <section id="bouquets" aria-label='Bouquets' className='landing-layer'>
-        {/* <OwlCarousel center loop responsive={{
-          0: { items: 2, margin: 20 },
-        }}>{bouquetsContent}</OwlCarousel> */}
-        <div className="md:hidden carousel space-x-5">{bouquetsContent}</div>
+        <div className="md:hidden carousel bouquets space-x-5">{bouquetsContent}</div>
         <div className="container hidden md:grid gap-6 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">{bouquetsContent}</div>
       </section>}
     </main>}

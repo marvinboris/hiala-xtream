@@ -29,7 +29,7 @@ const EpisodePlot = ({ episodes, info, category }: Plot) => <div className='spac
     {episodes.map(episode => <Link key={`series-info-episode-${episode.id}`} href={`/series/${category.slug}/${info.slug}/${episode.stream.slug}`}>
         <a className='flex'>
             <div className='mr-2 w-1/4 hidden md:block'>
-                <div className="aspect-video bg-secondary-800">
+                <div className="relative aspect-video bg-secondary-800">
                     <img src={assets(episode.stream.movie_propeties.movie_image || info.cover)} alt={episode.stream.stream_display_name} className="image-cover absolute inset-0" />
                 </div>
             </div>
@@ -50,7 +50,7 @@ const EpisodePlot = ({ episodes, info, category }: Plot) => <div className='spac
 const NoEpisodePlot = ({ episodes, info, category }: Plot) => <div className='grid gap-x-2 gap-y-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
     {episodes.map(episode => <Link key={`series-info-episode-${episode.id}`} href={`/series/${category.slug}/${info.slug}/${episode.stream.slug}`}>
         <a className="block">
-            <div className="aspect-video bg-secondary-800">
+            <div className="relative aspect-video bg-secondary-800">
                 <img src={assets(episode.stream.movie_propeties.movie_image || info.cover)} alt={episode.stream.stream_display_name} className="image-cover absolute inset-0" />
             </div>
 

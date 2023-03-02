@@ -30,15 +30,6 @@ const NavLink = ({ href, children }: NavLinkProps) => <Link href={href}>
     </a>
 </Link>
 
-const navItems: NavItemType[] = [
-    { icon: TvIcon, href: '/chaines', children: "Chaînes TV" },
-    { href: '/bouquets', children: "Nos formules" },
-    { href: '/films', children: "Films" },
-    { href: '/series', children: "Séries" },
-]
-
-const navItemsContent = navItems.map(item => <NavItem key={`nav-item-${item.href}`} {...item} />)
-
 export default function Toolbar({ white = false }) {
     const { setTheme } = useThemeContext()
     const { data: account } = useAppSelector(selectAuth)
@@ -53,6 +44,17 @@ export default function Toolbar({ white = false }) {
             localStorage.setItem('dark', 'enabled');
         }
     }
+
+    const navItems: NavItemType[] = account !== null ? [
+        { icon: TvIcon, href: '/chaines', children: "Chaînes TV" },
+        { href: '/films', children: "Films" },
+        { href: '/series', children: "Séries" },
+    ] : [
+        { href: '/bouquets', children: "Nos formules" },
+        { href: '/films-series', children: "Films & Séries" },
+    ]
+
+    const navItemsContent = navItems.map(item => <NavItem key={`nav-item-${item.href}`} {...item} />)
 
     return (
         <Popover className={classNames("sticky w-full top-0 z-30 border-b border-secondary-500/50", white ? "bg-white text-secondary-600" : "bg-secondary-700 text-white")}>
@@ -76,7 +78,7 @@ export default function Toolbar({ white = false }) {
                             </div>
 
                             <div className="ml-auto flex items-center space-x-14">
-                                <Popover.Group as="nav" className="hidden space-x-[22px] xl:flex">
+                                <Popover.Group as="nav" className="hidden space-x-[22px] md:flex">
                                     {navItemsContent}
                                 </Popover.Group>
 
@@ -88,60 +90,16 @@ export default function Toolbar({ white = false }) {
                                 </Link> : null}
                             </div>
 
-                            <div className='flex items-center space-x-4 lg:space-x-[54px]'>
-                                {/* {(((account !== null) && !account.bouquet) || (account === null)) && <div>
-                                    <Link href="/bouquets">
-                                        <a className="group inline-flex items-center justify-center rounded-full py-2 px-4 text-sm font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 bg-primary-800 text-white hover:text-secondary-100 hover:bg-primary-500 active:bg-primary-900 active:text-primary-100 focus-visible:outline-primary-800">
-                                            S'abonner
-                                        </a>
-                                    </Link>
-                                </div>} */}
+                            <div className='flex items-center space-x-4 ml-14'>
+                                {account !== null ? <Account navItems={navItems} /> : null}
 
-                                {/* {account ? <>
-                                    <div className='flex items-center space-x-3'>
-                                        <div className="cursor-pointer relative z-0 group after:block after:absolute after:w-[12.72px] after:h-[12.72px] after:rounded-full after:bg-primary-800 after:top-0 after:right-0">
-                                            <HeartIcon className="w-[31px]" />
+                                <div className="relative group md:hidden">
+                                    <Squares2X2Icon className={classNames('w-8', white ? "text-teal" : "")} />
 
-                                            <div className="absolute scale-0 group-hover:scale-100 opacity-0 group-hover:opacity-100 pt-1 top-full right-0 origin-top-right transition-all duration-200">
-                                                <div className="bg-white shadow-sm rounded-[14px] p-3 text-xs truncate">
-                                                    <div className="space-y-2.5">
-                                                        <div className="flex cursor-pointer items-center space-x-1.5">
-                                                            <span><HeartIcon className="w-3 text-primary-800" /></span><span>Ceci devrait vous plaire...</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="cursor-pointer relative z-0 group after:block after:absolute after:w-[12.72px] after:h-[12.72px] after:rounded-full after:bg-primary-800 after:top-0 after:right-0">
-                                            <BellIcon className="w-[31px]" />
-
-                                            <div className="absolute scale-0 group-hover:scale-100 opacity-0 group-hover:opacity-100 pt-1 top-full right-0 origin-top-right transition-all duration-200">
-                                                <div className="bg-white shadow-sm rounded-[14px] p-3 text-xs truncate">
-                                                    <div className="space-y-2.5">
-                                                        <div className="flex cursor-pointer items-center space-x-1.5">
-                                                            <span><BellIcon className="w-3 text-primary-800" /></span><span>Nouvel abonnement</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </> : null} */}
-
-                                {/* <Download /> */}
-
-                                <div className='flex items-center space-x-2 ml-2 md:ml-0'>
-                                    {account !== null ? <Account navItems={[]} /> : null}
-
-                                    <div className="relative group lg:hidden">
-                                        <Squares2X2Icon className={classNames('w-8 lg:hidden', white ? "text-teal" : "")} />
-
-                                        <div className='lg:flex items-center justify-center lg:space-x-5 absolute lg:static top-full right-0 mt-1 bg-white lg:bg-transparent py-2 rounded-lg scale-0 group-hover:scale-100 origin-top-right transition-all duration-200'>
-                                            <NavLink href="/chaines">Programmes TV</NavLink>
-                                            <NavLink href="/bouquets">Nos formules</NavLink>
-                                            <NavLink href="/films">Films & Séries</NavLink>
-                                        </div>
+                                    <div className='lg:flex items-center justify-center lg:space-x-5 absolute lg:static top-full right-0 mt-1 bg-white lg:bg-transparent py-2 rounded-lg scale-0 group-hover:scale-100 origin-top-right transition-all duration-200'>
+                                        <NavLink href="/bouquets">Nos formules</NavLink>
+                                        <NavLink href="/films-series">Films & Séries</NavLink>
+                                        {account === null ? <NavLink href="/auth/login">Se connecter</NavLink> : null}
                                     </div>
                                 </div>
                             </div>

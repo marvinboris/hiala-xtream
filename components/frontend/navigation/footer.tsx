@@ -55,13 +55,13 @@ export default function Footer() {
         <SocialLink href="#" icon="youtube" />
     </>
 
-    return <footer className="text-white bg-secondary-800 min-h-[625px] md:min-h-[425px] relative overflow-hidden z-0">
-        <div className="hidden md:block w-[540px] h-[540px] -z-10 rounded-full bg-gradient-to-b from-green/10 to-transparent absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 p-[50px]">
+    return <footer className="text-white bg-secondary-800 min-h-[625px] lg:min-h-[425px] relative overflow-hidden z-0">
+        <div className="hidden lg:block w-[540px] h-[540px] -z-10 rounded-full bg-gradient-to-b from-green/10 to-transparent absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 p-[50px]">
             <div className="rounded-full w-full h-full bg-secondary-800" />
         </div>
 
-        <div className="container pt-14 md:pt-16 pb-14 grid gap-x-4 gap-y-9 grid-cols-2 md:grid-cols-5 xl:grid-cols-7">
-            <div className="col-span-2 md:col-span-5 xl:col-span-2 order-1"><Logo reset /></div>
+        <div className="container pt-14 lg:pt-16 pb-14 grid gap-x-4 gap-y-9 grid-cols-2 lg:grid-cols-5 xl:grid-cols-7">
+            <div className="col-span-2 lg:col-span-5 xl:col-span-2 order-1"><Logo reset /></div>
 
             <Block title="Liens utiles" className="order-2">
                 <NavLink href="/chaines">Chaines TV</NavLink>
@@ -70,7 +70,7 @@ export default function Footer() {
                 <NavLink href="/bouquets">Nos formules</NavLink>
             </Block>
 
-            <Block title="Télécharger nos applis" className="col-span-2 sm:col-span-1 lg:col-span-2 order-3 md:order-4">
+            <Block title="Télécharger nos applis" className="col-span-2 sm:col-span-1 lg:col-span-2 order-3 lg:order-4">
                 <div className="grid grid-cols-2 gap-2 relative z-10">
                     {[
                         { name: 'Hiala C', os: 'Android', href: '/files/hiala-c.apk' },
@@ -81,18 +81,18 @@ export default function Footer() {
                 </div>
             </Block>
 
-            <Block title="Nous acceptons" className="col-span-2 sm:col-span-1 lg:col-span-2 order-3 md:order-4">
+            <Block title="Nous acceptons" className="col-span-2 sm:col-span-1 lg:col-span-2 order-3 lg:order-4">
                 <img src="/images/payment-methods/card.png" alt="Payment methods - card" className="h-8 w-auto" />
             </Block>
 
-            <div className="flex md:hidden col-span-2 sm:col-span-1 space-x-2.5 order-5">{socialNetworks}</div>
+            <div className="flex lg:hidden col-span-2 sm:col-span-1 space-x-2.5 order-5">{socialNetworks}</div>
         </div>
 
         <div className="border-t h-[88px] flex items-center border-white/50">
             <div className="container flex items-center">
                 <div className="flex-1">Copyright {new Date().getFullYear()}. Tous droits réservés. <span className="font-bold text-green">Hiala TV</span></div>
 
-                <div className="hidden md:flex space-x-2.5">{socialNetworks}</div>
+                <div className="hidden lg:flex space-x-2.5">{socialNetworks}</div>
             </div>
         </div>
     </footer>

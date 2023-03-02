@@ -51,7 +51,7 @@ export default function View({ stream, action }: ViewProps) {
                                 <XMarkIcon onClick={() => setIsOpen(false)} className='cursor-pointer w-9 md:w-11 ml-auto text-white hover:text-white/50 transition-all duration-200' />
                             </nav>
                             <Dialog.Panel className="mx-auto max-w-5xl w-full relative bg-secondary-900">
-                                <div className="aspect-video bg-secondary-800">
+                                <div className="relative aspect-video bg-secondary-800">
                                     <img src={assets("cover" in stream ? stream.cover : stream.movie_propeties.cover_big)} alt={name} className="image-cover absolute inset-0 z-0" />
 
                                     <div className="absolute inset-0 flex items-center justify-center flex-col z-10 px-5 lg:px-10 text-center bg-secondary-900/50 text-secondary-100">
