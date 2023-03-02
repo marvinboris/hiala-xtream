@@ -71,10 +71,6 @@ export default function Toolbar({ white = false }) {
                                         </a>
                                     </Link>
                                 </div>
-
-                                {/* <div className='hidden md:block ml-8'>
-                                    <Input icon={MagnifyingGlassIcon} placeholder='Rechercher des films, séries et chaînes de télévision...' />
-                                </div> */}
                             </div>
 
                             <div className="ml-auto flex items-center space-x-14">
@@ -90,18 +86,17 @@ export default function Toolbar({ white = false }) {
                                 </Link> : null}
                             </div>
 
-                            <div className='flex items-center space-x-4 ml-14'>
-                                {account !== null ? <Account navItems={navItems} /> : null}
+                            <div className={account === null ? '' : 'ml-8 lg:ml-14'}>
+                                {account !== null ? <Account navItems={navItems} /> :
+                                    <div className="relative group md:hidden">
+                                        <Squares2X2Icon className={classNames('w-8', white ? "text-teal" : "")} />
 
-                                <div className="relative group md:hidden">
-                                    <Squares2X2Icon className={classNames('w-8', white ? "text-teal" : "")} />
-
-                                    <div className='lg:flex items-center justify-center lg:space-x-5 absolute lg:static top-full right-0 mt-1 bg-white lg:bg-transparent py-2 rounded-lg scale-0 group-hover:scale-100 origin-top-right transition-all duration-200'>
-                                        <NavLink href="/bouquets">Nos formules</NavLink>
-                                        <NavLink href="/films-series">Films & Séries</NavLink>
-                                        {account === null ? <NavLink href="/auth/login">Se connecter</NavLink> : null}
-                                    </div>
-                                </div>
+                                        <div className='lg:flex items-center justify-center lg:space-x-5 absolute lg:static top-full right-0 mt-1 bg-white lg:bg-transparent py-2 rounded-lg scale-0 group-hover:scale-100 origin-top-right transition-all duration-200'>
+                                            <NavLink href="/bouquets">Nos formules</NavLink>
+                                            <NavLink href="/films-series">Films & Séries</NavLink>
+                                            {account === null ? <NavLink href="/auth/login">Se connecter</NavLink> : null}
+                                        </div>
+                                    </div>}
                             </div>
                         </div>
                     </div>

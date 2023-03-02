@@ -72,6 +72,14 @@
                 @apply relative z-10;
             }
         }
+
+        &.vjs-live-control {
+            @apply relative pr-3 flex items-center before:hidden before:lg:block before:w-full before:h-[5px] before:bg-red-600 before:rounded-full;
+
+            .vjs-live-display {
+                @apply lg:absolute right-0 top-5 before:hidden before:lg:block before:absolute before:-top-[18px] before:bg-secondary-300 before:w-[26px] before:h-[26px] before:rounded-full before:-translate-y-1/2 before:left-0 after:hidden after:lg:block after:absolute after:-top-[18px] after:bg-red-600 after:w-3.5 after:h-3.5 after:rounded-full after:-translate-y-1/2 after:left-1.5;
+            }
+        }
     }
 
     .vjs-button .vjs-icon-placeholder::before {

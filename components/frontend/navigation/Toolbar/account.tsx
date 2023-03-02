@@ -10,8 +10,6 @@ import { logout, selectAuth } from "../../../../features/auth/authSlice"
 type AccountProps = { navItems: NavItemType[] }
 
 export default function Account({ navItems }: AccountProps) {
-    const { width } = useWindowSize()
-
     const dispatch = useAppDispatch()
     const { data: account } = useAppSelector(selectAuth)
 
@@ -62,9 +60,9 @@ export default function Account({ navItems }: AccountProps) {
                         <Link href='/auth/login'>
                             <a className="btn btn-primary btn-block mt-2">Se connecter</a>
                         </Link>
-                    </div> : (width && width < 1280) ? <div className="py-4 text-white">
+                    </div> : <div className="py-4 md:hidden text-white">
                         {navItemsContent}
-                    </div> : null}
+                    </div>}
 
                     <div className="py-4">
                         {menuContent}

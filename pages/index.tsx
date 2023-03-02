@@ -82,7 +82,6 @@ const HomePage: NextPageWithLayout = () => {
     }
   }, [series.streams.data])
 
-
   const loading = bouquets.status === Status.LOADING || (account === null && series.info.status === Status.LOADING) || series.streams.status === Status.LOADING || vod.streams.status === Status.LOADING
   const failed = bouquets.status === Status.FAILED || (account === null && series.info.status === Status.FAILED) || series.streams.status === Status.FAILED || vod.streams.status === Status.FAILED
 
@@ -127,9 +126,6 @@ const HomePage: NextPageWithLayout = () => {
         <img src={assets(lastSeries.cover_big)} alt="BG Home" className='image-cover absolute inset-0 -z-30' />
 
         <div className="bg-black/40 absolute inset-0 -z-20" />
-
-        <div className="hidden md:block w-[900px] h-[900px] -z-10 rounded-full absolute bottom-0 left-0 -translate-x-1/2 translate-y-1/2 border-[50px] border-gradient-b-white">
-        </div>
 
         <img src="/images/Mac Studio.png" alt="Mac Studio" className='hidden md:block absolute -bottom-7 -right-7 -z-10' />
 
