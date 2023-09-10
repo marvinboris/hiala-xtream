@@ -1,8 +1,9 @@
-import Serie from "./serie"
-import SeriesEpisode from "./series_episode"
-import Stream from "./stream"
-import StreamsType from "./streams_type"
-import StreamCategory from "./stream_category"
+import Serie from "./serie";
+import SeriesEpisode from "./series_episode";
+import Stream from "./stream";
+import StreamCategory from "./stream_category";
+import StreamsSys from "./streams_sys";
+import StreamsType from "./streams_type";
 
 // SeriesEpisode.belongsTo(Serie)
 // Serie.hasMany(SeriesEpisode, { foreignKey: 'series_id' })
@@ -16,4 +17,11 @@ import StreamCategory from "./stream_category"
 // Stream.belongsTo(StreamsType)
 // StreamsType.hasMany(Stream, { foreignKey: 'type' })
 
-export { Serie, SeriesEpisode, Stream, StreamCategory, StreamsType }
+export {
+  Serie,
+  SeriesEpisode,
+  Stream,
+  StreamCategory,
+  StreamsSys,
+  StreamsType,
+};

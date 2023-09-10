@@ -49,4 +49,5 @@ export default interface StreamType {
     external_push: string
     delay_minutes: number
     slug: string
+    encoding?: string
 }
