@@ -18,7 +18,7 @@ const params = {
 
 const LoginPage = () => {
     const [formData, setFormData] = useState({
-        username: '',
+        login: '',
         password: '',
     })
     const [passwordVisible, setPasswordVisible] = useState(false)
@@ -42,7 +42,7 @@ const LoginPage = () => {
         <Head {...params} />
 
         <div className="grid grid-cols-1 gap-y-2.5">
-            <Input label="Nom d'utilisateur" id="username" name="username" onChange={onChange} value={formData.username} required />
+            <Input label="Nom d'utilisateur ou adresse mail" id="login" name="login" onChange={onChange} value={formData.login} required />
             <Input label="Mot de passe" id="password" name="password" type={passwordVisible ? 'text' : 'password'} onChange={onChange} value={formData.password} required addon={<div className="cursor-pointer" onClick={() => setPasswordVisible(p => !p)}>
                 {!passwordVisible ? <EyeIcon className="w-6" /> : <EyeSlashIcon className="w-6" />}
             </div>} />

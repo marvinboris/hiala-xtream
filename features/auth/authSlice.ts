@@ -20,7 +20,7 @@ const initialState: AuthState = {
 }
 
 // Lives
-export const login = createAsyncThunk('auth/login', async (data: { username: string, password: string }) => await postLogin(data))
+export const login = createAsyncThunk('auth/login', async (data: { login: string, password: string }) => await postLogin(data))
 export const check = createAsyncThunk('auth/check', async () => {
     const token = localStorage.getItem('token')
     if (token) {

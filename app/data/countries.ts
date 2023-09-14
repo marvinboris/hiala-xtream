@@ -33,3 +33,10 @@ export const getCountries = async () => {
 
   return countries;
 };
+
+export const getCountryFromIP = async (ip: string) => {
+  const response = await fetch(`http://ip-api.com/json/${ip}`);
+  const data = await response.json();
+  console.log(data);
+  return data.country as string;
+};

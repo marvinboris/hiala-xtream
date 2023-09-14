@@ -1,10 +1,11 @@
+import geoip from "geoip-country";
 import Head from "next/head";
 import { ReactNode, useEffect, useState } from "react";
 
-import { defaultCountry } from "../app/config";
 import CountriesContext from "../app/contexts/countries";
 import ThemeContext from "../app/contexts/theme";
-import { getCountries } from "../app/data/countries";
+import { getCountries, getCountryFromIP } from "../app/data/countries";
+import { getIPAddress } from "../app/data/ip";
 import { setAuthToken } from "../app/helpers/utils";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import CountryType from "../app/types/country";
@@ -38,12 +39,17 @@ export default function Wrapper({ children }: WrapperProps) {
 
   useEffect(() => {
     if (countries === null)
-      getCountries().then((countries) => {
-        setCountries(countries);
-        const defaultCode =
-          countries.find((c) => c.country === defaultCountry?.toUpperCase())
-            ?.code || "";
-        setDefaultCode(defaultCode);
+      getIPAddress().then((ip) => {
+        if (!ip) return;
+        console.log(ip)
+        getCountryFromIP(ip.ip!).then((country) => {
+          getCountries().then((countries) => {
+            setCountries(countries);
+            const defaultCode =
+              countries.find((c) => c.country === country)?.code || "";
+            setDefaultCode(defaultCode);
+          });
+        });
       });
   }, [countries]);
 

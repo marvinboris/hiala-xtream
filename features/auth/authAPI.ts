@@ -1,7 +1,7 @@
 import axios from "axios"
 
 // Login
-export const postLogin = async (data: { username: string, password: string }) => {
+export const postLogin = async (data: { login: string, password: string }) => {
     const res = await axios.post<{ token: string, data: any }>('/api/auth/login', data)
     return res.data
 }
