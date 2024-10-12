@@ -40,8 +40,8 @@ export default async function handler(
       liveStreams.map((stream) => {
         const index = sys.findIndex((item) => item.stream_id === stream.id)!;
 
-        const str = sys[index].stream_info;
-        const isJSON = isJSONString(str);
+        const str = sys.at(index)?.stream_info;
+        const isJSON = str && isJSONString(str);
 
         const stream_info = isJSON && JSON.parse(str);
         const encoding = isJSON
