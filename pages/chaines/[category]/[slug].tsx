@@ -65,7 +65,7 @@ const LiveStreamPage: NextPageWithLayout = () => {
   }, [categorySlug]);
 
   useEffect(() => {
-    if (data !== null) {
+    if (data) {
       const info = data.find((stream) => stream.slug === slug)!;
       setInfo(info);
 
@@ -100,7 +100,7 @@ const LiveStreamPage: NextPageWithLayout = () => {
         <PageLoader />
       ) : status === Status.FAILED ? (
         <PageError />
-      ) : info !== null && category !== null && options !== null ? (
+      ) : info && category && options ? (
         <Video live category={category} options={options} info={info}>
           <LiveView category={category} info={info} />
         </Video>

@@ -1,83 +1,86 @@
-import { ChangeEvent, useState } from 'react'
-import { useEffect, useRef } from 'react'
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import videojs, { VideoJsPlayer, VideoJsPlayerOptions } from 'video.js'
+import { ChangeEvent, useState } from "react";
+import { useEffect, useRef } from "react";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import videojs, { VideoJsPlayer, VideoJsPlayerOptions } from "video.js";
 
-import type { AppDispatch, AppState } from './store'
+import type { AppDispatch, AppState } from "./store";
 
 export const useForm =
   <TContent>(defaultValues: TContent) =>
-    (handler: (content: TContent) => void) =>
-      async (event: ChangeEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        event.persist()
+  (handler: (content: TContent) => void) =>
+  async (event: ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    event.persist();
 
-        const form = event.target as HTMLFormElement
-        const elements = Array.from(form.elements) as HTMLInputElement[]
-        const data = elements
-          .filter((element) => element.hasAttribute('name'))
-          .reduce(
-            (object, element) => ({
-              ...object,
-              [`${element.getAttribute('name')}`]: element.value,
-            }),
-            defaultValues
-          )
-        await handler(data)
-        form.reset()
-      }
+    const form = event.target as HTMLFormElement;
+    const elements = Array.from(form.elements) as HTMLInputElement[];
+    const data = elements
+      .filter((element) => element.hasAttribute("name"))
+      .reduce(
+        (object, element) => ({
+          ...object,
+          [`${element.getAttribute("name")}`]: element.value,
+        }),
+        defaultValues
+      );
+    await handler(data);
+    form.reset();
+  };
 
 // https://overreacted.io/making-setinterval-declarative-with-react-hooks/
 export const useInterval = (callback: Function, delay: number) => {
-  const savedCallback = useRef<Function>()
+  const savedCallback = useRef<Function>();
   useEffect(() => {
-    savedCallback.current = callback
-  }, [callback])
+    savedCallback.current = callback;
+  }, [callback]);
   useEffect(() => {
-    const handler = (...args: any) => savedCallback.current?.(...args)
+    const handler = (...args: any) => savedCallback.current?.(...args);
 
-    if (delay !== null) {
-      const id = setInterval(handler, delay)
-      return () => clearInterval(id)
+    if (delay) {
+      const id = setInterval(handler, delay);
+      return () => clearInterval(id);
     }
-  }, [delay])
-}
+  }, [delay]);
+};
 
 export const usePlayer = (options: VideoJsPlayerOptions) => {
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [player, setPlayer] = useState<VideoJsPlayer & {
-    landscapeFullscreen?: ({ }) => void
-  } | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [player, setPlayer] = useState<
+    | (VideoJsPlayer & {
+        landscapeFullscreen?: ({}) => void;
+      })
+    | null
+  >(null);
 
   useEffect(() => {
     const vjsPlayer = videojs(videoRef.current!, options);
     setPlayer(vjsPlayer);
 
     return () => {
-      console.log('Disposing')
-      if (player !== null) {
+      console.log("Disposing");
+      if (player) {
         player.dispose();
-        player.pause()
-        player.reset()
+        player.pause();
+        player.reset();
       }
     };
   }, []);
   useEffect(() => {
-    if (player !== null) {
-      require('videojs-landscape-fullscreen')
+    if (player) {
+      require("videojs-landscape-fullscreen");
       player.landscapeFullscreen!({
         fullscreen: {
           enterOnRotate: true,
           exitOnRotate: true,
           alwaysInLandscapeMode: true,
-          iOS: true
-        }
-      })
-      player.autoplay(options.autoplay!)
-      player.controls(options.controls!)
-      player.fluid(options.fluid!)
-      player.responsive(options.responsive!)
-      player.src(options.sources!)
+          iOS: true,
+        },
+      });
+      player.autoplay(options.autoplay!);
+      player.controls(options.controls!);
+      player.fluid(options.fluid!);
+      player.responsive(options.responsive!);
+      player.src(options.sources!);
     }
   }, [options.src]);
 
@@ -87,7 +90,10 @@ export const usePlayer = (options: VideoJsPlayerOptions) => {
 export const useWindowSize = () => {
   // Initialize state with undefined width/height so server and client renders match
   // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
-  const [windowSize, setWindowSize] = useState<{ width: number | undefined, height: number | undefined }>({
+  const [windowSize, setWindowSize] = useState<{
+    width: number | undefined;
+    height: number | undefined;
+  }>({
     width: undefined,
     height: undefined,
   });
@@ -99,12 +105,11 @@ export const useWindowSize = () => {
       width: window.innerWidth,
       height: window.innerHeight,
     });
-  }
+  };
 
   useEffect(() => {
     // only execute all the code below in client side
-    if (typeof window !== 'undefined') {
-
+    if (typeof window !== "undefined") {
       // Add event listener
       window.addEventListener("resize", handleResize);
 
@@ -116,9 +121,9 @@ export const useWindowSize = () => {
     }
   }, []); // Empty array ensures that effect is only run on mount
   return windowSize;
-}
+};
 
 // Use throughout your app instead of plain `useDispatch` and `useSelector`
-export const useAppDispatch = () => useDispatch<AppDispatch>()
+export const useAppDispatch = () => useDispatch<AppDispatch>();
 
-export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector
+export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector;

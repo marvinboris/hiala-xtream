@@ -2,7 +2,6 @@ import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import Button from '../../../ui/button'
 import { classNames } from '../../../../app/helpers/utils'
 
 interface NavItemProps {

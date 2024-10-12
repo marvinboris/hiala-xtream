@@ -28,17 +28,12 @@ export default function LiveView({ category, info }: LiveViewProps) {
 
   const [page, setPage] = useState(0);
 
-  const available =
-    data !== null
-      ? data.filter(
-          (s) =>
-            account !== null &&
-            account.bouquet !== null &&
-            account.bouquet.find((b) => b.bouquet_channels.includes(s.id))
-        )
-      : [];
-  const similar =
-    info !== null ? available.filter((s) => s.id !== info.id) : [];
+  const available = data
+    ? data.filter((s) =>
+        account?.bouquet?.find((b) => b.bouquet_channels.includes(s.id))
+      )
+    : [];
+  const similar = info ? available.filter((s) => s.id !== info.id) : [];
 
   return (
     <>
@@ -51,7 +46,7 @@ export default function LiveView({ category, info }: LiveViewProps) {
             <div className="text-sm">
               Bouquet(s) :{" "}
               <span className="text-green font-bold capitalize">
-                {account !== null && account.bouquet !== null
+                {account?.bouquet
                   ? account.bouquet
                       .map((b) => b.bouquet_name.toLowerCase())
                       .join(", ")

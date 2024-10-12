@@ -2,7 +2,7 @@ import { createContext, useContext } from "react";
 
 import CountryType from "../types/country";
 
-type Type = CountryType[] | null;
+type Type = CountryType[] | null | undefined;
 
 const CountriesContext = createContext<{
   defaultCode: string;

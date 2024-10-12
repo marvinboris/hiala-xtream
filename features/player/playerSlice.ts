@@ -26,39 +26,39 @@ import {
 export interface PlayerState {
   live: {
     categories: {
-      data: StreamCategoryType[] | null;
+      data: StreamCategoryType[] | null | undefined;
       status: Status;
     };
     streams: {
-      data: StreamType[] | null;
+      data: StreamType[] | null | undefined;
       status: Status;
     };
   };
   series: {
     categories: {
-      data: StreamCategoryType[] | null;
+      data: StreamCategoryType[] | null | undefined;
       status: Status;
     };
     streams: {
-      data: SeriesStreamType[] | null;
+      data: SeriesStreamType[] | null | undefined;
       status: Status;
     };
     info: {
-      data: SeriesEpisodeType[] | null;
+      data: SeriesEpisodeType[] | null | undefined;
       status: Status;
     };
   };
   vod: {
     categories: {
-      data: StreamCategoryType[] | null;
+      data: StreamCategoryType[] | null | undefined;
       status: Status;
     };
     streams: {
-      data: StreamType[] | null;
+      data: StreamType[] | null | undefined;
       status: Status;
     };
     info: {
-      data: VodInfoType | null;
+      data: VodInfoType | null | undefined;
       status: Status;
     };
   };
@@ -66,7 +66,8 @@ export interface PlayerState {
     data:
       | BouquetType[]
       | (BouquetType & { channels: StreamType[]; series: SeriesStreamType[] })
-      | null;
+      | null
+      | undefined;
     status: Status;
   };
 }
