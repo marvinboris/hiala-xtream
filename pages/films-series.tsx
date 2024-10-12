@@ -26,9 +26,9 @@ import ViewAll from "../components/frontend/ui/view-all";
 
 const params = {
   link: "/films-series",
-  title: "Films et séries | Hiala TV",
+  title: "Films et séries | Net TV",
   description:
-    "Hiala TV: TV, sports, séries, films en streaming en direct live | Hiala TV Cameroun.",
+    "Net TV: TV, sports, séries, films en streaming en direct live | Net TV Cameroun.",
 };
 
 interface SectionProps {

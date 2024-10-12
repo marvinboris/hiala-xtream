@@ -57,9 +57,9 @@ const SeriesEpisodeStreamPage: NextPageWithLayout = () => {
       category
         ? `${capitalize(category.category_name.toLocaleLowerCase())} |`
         : ""
-    } | Hiala TV`,
+    } | Net TV`,
     description:
-      "Hiala TV: TV, sports, séries, films en streaming en direct live | Hiala TV Cameroun.",
+      "Net TV: TV, sports, séries, films en streaming en direct live | Net TV Cameroun.",
   };
 
   useEffect(() => {

@@ -18,9 +18,9 @@ import { useCategoriesContext } from "../../app/contexts/categories";
 
 const params = {
   link: "/chaines",
-  title: "Chaînes | Hiala TV",
+  title: "Chaînes | Net TV",
   description:
-    "Hiala TV: TV, sports, séries, films en streaming en direct live | Hiala TV Cameroun.",
+    "Net TV: TV, sports, séries, films en streaming en direct live | Net TV Cameroun.",
 };
 
 const renderLiveStream = (liveStream: StreamType, index: number) => (

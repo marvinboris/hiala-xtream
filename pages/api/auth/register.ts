@@ -67,7 +67,7 @@ export default async function handler(
 
     sendMail({
       to: email,
-      subject: "Bienvenue chez Hiala",
+      subject: "Bienvenue chez Net TV",
       html: `
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xz/fonts@1/serve/plus-jakarta-display.min.css" />
                 <main style="font-family: 'Plus Jakarta Display', sans-serif; color: #5A657D;">

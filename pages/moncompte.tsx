@@ -16,8 +16,8 @@ import { logout, selectAuth } from '../features/auth/authSlice'
 
 const params = {
     link: '/moncompte',
-    title: "Mon compte | Hiala TV",
-    description: "Hiala TV: TV, sports, séries, films en streaming en direct live | Hiala TV Cameroun."
+    title: "Mon compte | Net TV",
+    description: "Net TV: TV, sports, séries, films en streaming en direct live | Net TV Cameroun."
 }
 
 interface SectionProps {

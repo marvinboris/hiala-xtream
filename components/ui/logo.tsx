@@ -10,7 +10,7 @@ export default function Logo({ reset = false }) {
   return (
     <img
       src={reset ? "/images/logo.png" : "/images/logo-white.png"}
-      className={mobile ? "h-[26px]" : "h-[35px]"}
+      className={mobile ? "h-8" : "h-10"}
     />
   );
 

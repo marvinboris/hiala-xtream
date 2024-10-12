@@ -8,7 +8,7 @@ export default function LayoutError() {
     const router = useRouter()
 
     return <div className="bg-gradient-to-tr from-primary-800/50 to-transparent">
-        <Head title="500 - Erreur système" description="Hiala TV - Page d'erreur" link="/500" />
+        <Head title="500 - Erreur système" description="Net TV - Page d'erreur" link="/500" />
 
         <div className="min-h-screen mx-auto max-w-xl text-center flex flex-col items-center justify-center">
             <div className="mb-5">

@@ -25,10 +25,10 @@ export default function Download() {
                         <Popover.Overlay onClick={close} className="fixed inset-0 z-0 w-screen h-screen bg-black/20" />
                         <div className="grid grid-cols-2 gap-2 relative z-10">
                             {[
-                                { name: 'Hiala C', os: 'Android', href: '/files/hiala-c.apk' },
-                                { name: 'Hiala P', os: 'Android', href: '/files/hiala-p.apk' },
-                                { name: 'Hiala C', os: 'iOS', href: '/files/hiala-c.app' },
-                                { name: 'Hiala P', os: 'iOS', href: '/files/hiala-p.app' },
+                                { name: 'Net TV C', os: 'Android', href: '/files/hiala-c.apk' },
+                                { name: 'Net TV P', os: 'Android', href: '/files/hiala-p.apk' },
+                                { name: 'Net TV C', os: 'iOS', href: '/files/hiala-c.app' },
+                                { name: 'Net TV P', os: 'iOS', href: '/files/hiala-p.app' },
                             ].map(item => <Button key={JSON.stringify(item)} {...item} />)}
                         </div>
                     </Popover.Panel>

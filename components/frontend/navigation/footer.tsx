@@ -85,7 +85,7 @@ export default function Footer() {
 
       <div className="container pt-14 lg:pt-16 pb-14 grid gap-x-4 gap-y-9 grid-cols-2 lg:grid-cols-5 xl:grid-cols-7">
         <div className="col-span-2 lg:col-span-5 xl:col-span-2 order-1">
-          <Logo reset />
+          <Logo />
         </div>
 
         <Block title="Liens utiles" className="order-2">
@@ -101,10 +101,10 @@ export default function Footer() {
         >
           <div className="grid grid-cols-2 gap-2 relative z-10">
             {[
-              { name: "Hiala C", os: "Android", href: "https://play.google.com/store/apps/details?id=com.hailatv.hailatviptvbox" },
-              { name: "Hiala P", os: "Android", href: "https://play.google.com/store/apps/details?id=com.hialatv.hialatviptvbox" },
-              { name: "Hiala C", os: "iOS", href: "/files/hiala-c.app" },
-              { name: "Hiala P", os: "iOS", href: "/files/hiala-p.app" },
+              { name: "Net TV C", os: "Android", href: "https://play.google.com/store/apps/details?id=com.hailatv.hailatviptvbox" },
+              { name: "Net TV P", os: "Android", href: "https://play.google.com/store/apps/details?id=com.hialatv.hialatviptvbox" },
+              { name: "Net TV C", os: "iOS", href: "/files/hiala-c.app" },
+              { name: "Net TV P", os: "iOS", href: "/files/hiala-p.app" },
             ].map((item) => (
               <Button key={JSON.stringify(item)} {...item} />
             ))}
@@ -143,7 +143,7 @@ export default function Footer() {
         <div className="container flex items-center">
           <div className="flex-1">
             Copyright {new Date().getFullYear()}. Tous droits réservés.{" "}
-            <span className="font-bold text-green">Hiala TV</span>
+            <span className="font-bold text-green">Net TV</span>
           </div>
 
           <div className="hidden lg:flex space-x-2.5">{socialNetworks}</div>

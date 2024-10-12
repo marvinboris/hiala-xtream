@@ -38,9 +38,9 @@ import {
 
 const params = {
   link: "/",
-  title: "Hiala TV",
+  title: "Net TV",
   description:
-    "Hiala TV: TV, sports, séries, films en streaming en direct live | Hiala TV Cameroun.",
+    "Net TV: TV, sports, séries, films en streaming en direct live | Net TV Cameroun.",
 };
 
 interface OnlineSectionProps {
@@ -350,7 +350,7 @@ const HomePage: NextPageWithLayout = () => {
 
               <div className="mt-4">
                 Vous avez déjà voulu visionner de partout sans interruption ?{" "}
-                <strong>Hiala TV</strong> est votre destination finale.
+                <strong>Net TV</strong> est votre destination finale.
                 Disponible pour mobiles, tablettes, PC, nous nous assurons de
                 vous offrir la meilleure expérience surpassant vos attentes.
               </div>

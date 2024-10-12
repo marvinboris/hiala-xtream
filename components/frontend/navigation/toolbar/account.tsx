@@ -79,7 +79,7 @@ export default function Account({ navItems }: AccountProps) {
           <div className="rounded-xl shadow-xl bg-secondary-800 divide-y divide-secondary-100/20">
             {account ? (
               <div className="p-4 text-white">
-                <div className="text-xl font-bold mb-1">Compte Hiala TV</div>
+                <div className="text-xl font-bold mb-1">Compte Net TV</div>
 
                 <div className="text-lg">
                   Connectez-vous pour accéder à vos programmes et services

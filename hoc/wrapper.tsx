@@ -75,8 +75,8 @@ export default function Wrapper({ children }: WrapperProps) {
 
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-          <meta name="apple-mobile-web-app-title" content="Hiala TV" />
-          <meta name="application-name" content="Hiala TV" />
+          <meta name="apple-mobile-web-app-title" content="Net TV" />
+          <meta name="application-name" content="Net TV" />
 
           <link rel="manifest" href="/manifest.json" />
           <link
@@ -140,7 +140,7 @@ export default function Wrapper({ children }: WrapperProps) {
 
           <meta property="og:locale" content="fr_FR" />
           <meta property="og:type" content="article" />
-          <meta property="og:site_name" content="Hiala TV" />
+          <meta property="og:site_name" content="Net TV" />
 
           <meta name="twitter:card" content="summary" />
         </Head>

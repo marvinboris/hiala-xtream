@@ -19,9 +19,9 @@ import {
 
 const params = {
   link: "/bouquets",
-  title: "Bouquets | Hiala TV",
+  title: "Bouquets | Net TV",
   description:
-    "Hiala TV: TV, sports, séries, films en streaming en direct live | Hiala TV Cameroun.",
+    "Net TV: TV, sports, séries, films en streaming en direct live | Net TV Cameroun.",
 };
 
 const BouquetsPage: NextPageWithLayout = () => {

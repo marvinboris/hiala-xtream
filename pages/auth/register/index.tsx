@@ -14,8 +14,8 @@ import CountrySelect from "../../../components/ui/country-select";
 
 const params = {
   link: "/auth/register",
-  title: "S'inscrire | Hiala TV",
-  description: "S'inscrire à Hiala TV",
+  title: "S'inscrire | Net TV",
+  description: "S'inscrire à Net TV",
 };
 
 const RegisterPage = () => {

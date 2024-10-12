@@ -12,8 +12,8 @@ import { login, selectAuth } from "../../../features/auth/authSlice";
 
 const params = {
     link: '/auth/login',
-    title: "Se connecter | Hiala TV",
-    description: "Se connecter à Hiala TV"
+    title: "Se connecter | Net TV",
+    description: "Se connecter à Net TV"
 }
 
 const LoginPage = () => {
