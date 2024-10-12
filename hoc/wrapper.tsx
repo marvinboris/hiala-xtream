@@ -17,7 +17,7 @@ interface WrapperProps {
 }
 
 export default function Wrapper({ children }: WrapperProps) {
-  const [countries, setCountries] = useState<CountryType[] | null>(null);
+  const [countries, setCountries] = useState<CountryType[] | null | undefined>(null);
   const [defaultCode, setDefaultCode] = useState("");
   const [theme, setTheme] = useState<Theme | null>(Theme.DARK);
 
@@ -37,7 +37,7 @@ export default function Wrapper({ children }: WrapperProps) {
   }, [theme]);
 
   useEffect(() => {
-    if (countries === null)
+    if (!countries)
       getCountries().then((countries) => {
         setCountries(countries);
         const defaultCode =
